@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Tiếng Anh Tương Tác - Thì Hiện Tại Đơn (Present Simple)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    </svg>
+                </div>
+                <h2>Easy English</h2>
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="nav-item active" id="btn-tab-learn" onclick="switchTab('learn')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    </svg>
+                    <span>Lý thuyết</span>
+                </button>
+                <button class="nav-item" id="btn-tab-practice" onclick="switchTab('practice')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l8.904-4.474M18 10.5c0 2.8-2.2 5.2-5 5.2s-5-2.4-5-5.2s2.2-5.3 5-5.3s5 2.5 5 5.3Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 21v-2.25m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591" />
+                    </svg>
+                    <span>Luyện tập</span>
+                </button>
+                <button class="nav-item" id="btn-tab-progress" onclick="switchTab('progress')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v16.5c0 .621.504 1.125 1.125 1.125H21m-16.5-15L9.75 12l4.5-4.5 4.5 4.5" />
+                    </svg>
+                    <span>Tiến trình</span>
+                </button>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar">U</div>
+                <div class="user-info">
+                    <span class="user-name">Người học</span>
+                    <span class="user-status">Cấp độ: Người mới</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1>Thì Hiện Tại Đơn <span class="badge">Present Simple</span></h1>
+                <div class="header-right">
+                    <span class="date-display" id="date-display">25 Tháng 5, 2026</span>
+                </div>
+            </header>
+
+            <!-- TAB 1: LEARN (LÝ THUYẾT) -->
+            <section id="tab-learn" class="tab-content active">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Làm chủ Thì Hiện Tại Đơn hôm nay! 🚀</h2>
+                        <p>Thì hiện tại đơn là nền tảng quan trọng nhất trong tiếng Anh, dùng để diễn tả các thói quen, sự thật hiển nhiên hoặc lịch trình cố định. Hãy bắt đầu học công thức và cách sử dụng bên dưới.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#hero-grad)" fill-opacity="0.15"/>
+                            <path d="M70 120L100 90L130 120" stroke="url(#hero-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M100 60V130" stroke="url(#hero-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="hero-grad" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#6366F1"/>
+                                    <stop offset="1" stop-color="#A855F7"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <h3>1. Công Thức (Formulas)</h3>
+                    <p>Thì hiện tại đơn có hai nhóm động từ riêng biệt: <strong>Động từ TO BE</strong> và <strong>Động từ THƯỜNG</strong>.</p>
+                </div>
+
+                <div class="grid-layout">
+                    <!-- TO BE CARD -->
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag tag-purple">Nhóm 1</span>
+                            <h4>Động từ TO BE (am/is/are)</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item">
+                                <span class="sign positive">+</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + am / is / are + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>I <strong>am</strong> a student.</span>
+                                        <button class="btn-tts" onclick="speakText('I am a student.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                    <div class="formula-example">
+                                        <span>He <strong>is</strong> happy.</span>
+                                        <button class="btn-tts" onclick="speakText('He is happy.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign negative">-</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + am / is / are + not + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>They <strong>are not</strong> (aren't) at home.</span>
+                                        <button class="btn-tts" onclick="speakText('They are not at home.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign question">?</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>Am / Is / Are + S + O?</strong></div>
+                                    <div class="formula-example">
+                                        <span><strong>Is</strong> she your teacher?</span>
+                                        <button class="btn-tts" onclick="speakText('Is she your teacher?')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <p>💡 <strong>Ghi nhớ:</strong> <em>I + am</em> | <em>He/She/It/Danh từ số ít + is</em> | <em>You/We/They/Danh từ số nhiều + are</em></p>
+                        </div>
+                    </div>
+
+                    <!-- ACTION VERBS CARD -->
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag tag-blue">Nhóm 2</span>
+                            <h4>Động từ THƯỜNG (Action Verbs)</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item">
+                                <span class="sign positive">+</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + V(s/es) + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>I <strong>work</strong> every day.</span>
+                                        <button class="btn-tts" onclick="speakText('I work every day.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                    <div class="formula-example">
+                                        <span>She <strong>works</strong> every day.</span>
+                                        <button class="btn-tts" onclick="speakText('She works every day.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign negative">-</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + do / does + not + V_nguyên_mẫu + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>We <strong>don't like</strong> coffee.</span>
+                                        <button class="btn-tts" onclick="speakText('We do not like coffee.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                    <div class="formula-example">
+                                        <span>He <strong>doesn't like</strong> coffee.</span>
+                                        <button class="btn-tts" onclick="speakText('He does not like coffee.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign question">?</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>Do / Does + S + V_nguyên_mẫu + O?</strong></div>
+                                    <div class="formula-example">
+                                        <span><strong>Do</strong> you play soccer?</span>
+                                        <button class="btn-tts" onclick="speakText('Do you play soccer?')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                    <div class="formula-example">
+                                        <span><strong>Does</strong> he play soccer?</span>
+                                        <button class="btn-tts" onclick="speakText('Does he play soccer?')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <p>💡 <strong>Ghi nhớ:</strong> <em>I/You/We/They + Do/V_nguyên_mẫu</em> | <em>He/She/It + Does/V(s/es)</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <h3>2. Quy Tắc Thêm S / ES và Phát Âm ✍️</h3>
+                    <p>Khi chủ ngữ là ngôi thứ ba số ít (He, She, It, Danh từ số ít), ta phải thêm <strong>s</strong> hoặc <strong>es</strong> vào sau động từ thường ở thể khẳng định.</p>
+                </div>
+
+                <div class="grid-layout cols-3">
+                    <div class="card info-card">
+                        <h5>1. Hầu hết động từ</h5>
+                        <p class="rule-desc">Thêm <strong>-s</strong> vào sau động từ.</p>
+                        <div class="example-box">
+                            <span class="ex-item">run ➔ run<strong>s</strong></span>
+                            <span class="ex-item">speak ➔ speak<strong>s</strong></span>
+                        </div>
+                    </div>
+                    <div class="card info-card">
+                        <h5>2. Đuôi ch, sh, s, x, o, z</h5>
+                        <p class="rule-desc">Thêm <strong>-es</strong> vào sau động từ (Mẹo nhớ: <b>Ô</b>ng <b>S</b>áu <b>C</b>hạy <b>X</b>e <b>S</b>h <b>Z</b>ởm).</p>
+                        <div class="example-box">
+                            <span class="ex-item">watch ➔ watch<strong>es</strong></span>
+                            <span class="ex-item">go ➔ go<strong>es</strong></span>
+                            <span class="ex-item">wash ➔ wash<strong>es</strong></span>
+                        </div>
+                    </div>
+                    <div class="card info-card">
+                        <h5>3. Kết thúc bằng phụ âm + Y</h5>
+                        <p class="rule-desc">Đổi <strong>-y</strong> thành <strong>-i</strong> rồi thêm <strong>-es</strong>.</p>
+                        <div class="example-box">
+                            <span class="ex-item">study ➔ stud<strong>ies</strong></span>
+                            <span class="ex-item">fly ➔ fl<strong>ies</strong></span>
+                            <span class="ex-item"><i>(Nhưng: play ➔ play<b>s</b> vì 'a' là nguyên âm)</i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <h3>3. Cách Sử Dụng & Dấu Hiệu Nhận Biết 🔍</h3>
+                </div>
+
+                <div class="tab-sub-container">
+                    <div class="tabs-sub-buttons">
+                        <button class="tab-sub-btn active" onclick="switchSubTab(event, 'use-cases')">Cách dùng</button>
+                        <button class="tab-sub-btn" onclick="switchSubTab(event, 'time-signals')">Dấu hiệu nhận biết</button>
+                    </div>
+                    
+                    <div id="use-cases" class="tab-sub-content active">
+                        <ul class="styled-list">
+                            <li>
+                                <div class="list-title">Thói quen hàng ngày (Habits / Routines)</div>
+                                <p>Diễn tả hành động lặp đi lặp lại nhiều lần.</p>
+                                <div class="list-example">I usually wake up at 6 AM. <button class="btn-tts" onclick="speakText('I usually wake up at six A M.')">🔊</button></div>
+                            </li>
+                            <li>
+                                <div class="list-title">Sự thật hiển nhiên, chân lý (General Truths / Facts)</div>
+                                <p>Diễn tả một thực tế luôn luôn đúng trong tự nhiên hoặc cuộc sống.</p>
+                                <div class="list-example">The sun rises in the East. <button class="btn-tts" onclick="speakText('The sun rises in the East.')">🔊</button></div>
+                            </li>
+                            <li>
+                                <div class="list-title">Lịch trình, thời gian biểu (Timetables / Schedules)</div>
+                                <p>Lịch trình tàu xe, máy bay, lịch học, chiếu phim... cố định.</p>
+                                <div class="list-example">Our train leaves at 9:00 PM tonight. <button class="btn-tts" onclick="speakText('Our train leaves at nine P M tonight.')">🔊</button></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="time-signals" class="tab-sub-content">
+                        <p class="intro-p">Thì hiện tại đơn thường đi kèm các trạng từ chỉ tần suất hoặc cụm từ chỉ thời gian lặp lại:</p>
+                        <div class="signals-grid">
+                            <div class="signal-item">
+                                <span class="sig-title">Trạng từ chỉ tần suất (Adverbs of Frequency):</span>
+                                <p><em>always (luôn luôn), usually (thường xuyên), often (thường), sometimes (thỉnh thoảng), rarely (hiếm khi), never (không bao giờ).</em></p>
+                                <div class="position-note">📍 <strong>Vị trí:</strong> Đứng TRƯỚC động từ thường, SAU động từ TO BE.</div>
+                            </div>
+                            <div class="signal-item">
+                                <span class="sig-title">Các cụm từ chỉ tần suất khác:</span>
+                                <p><em>every day / week / month / year (mỗi ngày/tuần/tháng/năm).</em></p>
+                                <p><em>once / twice / three times a week (một lần / hai lần / ba lần một tuần).</em></p>
+                                <div class="position-note">📍 <strong>Vị trí:</strong> Thường đứng ở CUỐI câu.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="next-step-box">
+                    <p>Bạn đã nắm được lý thuyết chưa? Hãy chuyển sang Tab Luyện Tập để thử thách bản thân với các bài tập tương tác nhé!</p>
+                    <button class="btn btn-primary" onclick="switchTab('practice')">Đi đến Luyện tập 🚀</button>
+                </div>
+            </section>
+
+            <!-- TAB 2: PRACTICE (LUYỆN TẬP) -->
+            <section id="tab-practice" class="tab-content">
+                <div class="practice-header">
+                    <div class="practice-info">
+                        <h3>Bài Tập Trực Quan & Tương Tác</h3>
+                        <p>Luyện tập ngữ pháp thông qua 3 dạng bài tập khác nhau. Đạt điểm cao để nâng cấp huy hiệu!</p>
+                    </div>
+                    <div class="score-board">
+                        <div class="score-item">
+                            <span class="score-label">Điểm số</span>
+                            <span class="score-value" id="current-score">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-label">Đúng/Tổng</span>
+                            <span class="score-value" id="answered-ratio">0/0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="practice-progress" style="width: 0%"></div>
+                </div>
+
+                <!-- Exercise Card Area -->
+                <div class="quiz-container card" id="quiz-card">
+                    <div class="quiz-type-badge" id="quiz-type-badge">Trắc nghiệm</div>
+                    
+                    <div class="question-text" id="question-text">
+                        Đang tải câu hỏi...
+                    </div>
+
+                    <!-- Layout for Multiple Choice -->
+                    <div class="options-container" id="options-container">
+                        <!-- Options generated dynamically -->
+                    </div>
+
+                    <!-- Layout for Fill-in-the-blank -->
+                    <div class="input-container hidden" id="input-container">
+                        <input type="text" id="blank-input" placeholder="Nhập câu trả lời của bạn..." autocomplete="off">
+                        <button class="btn btn-primary" id="btn-submit-blank" onclick="checkBlankAnswer()">Nộp bài</button>
+                    </div>
+
+                    <!-- Layout for Word Ordering -->
+                    <div class="word-order-container hidden" id="word-order-container">
+                        <p class="info-small">Nhấp vào các từ bên dưới theo đúng thứ tự để tạo câu hoàn chỉnh:</p>
+                        <div class="selected-words-zone" id="selected-words-zone">
+                            <!-- Selected words appear here -->
+                        </div>
+                        <div class="shuffled-words-zone" id="shuffled-words-zone">
+                            <!-- Words to select -->
+                        </div>
+                        <div class="word-order-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="resetWordOrder()">Làm lại</button>
+                            <button class="btn btn-primary btn-sm" onclick="checkWordOrderAnswer()">Kiểm tra</button>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Box -->
+                    <div class="feedback-box hidden" id="feedback-box">
+                        <div class="feedback-status" id="feedback-status"></div>
+                        <div class="feedback-message" id="feedback-message"></div>
+                        <div class="feedback-explanation" id="feedback-explanation"></div>
+                        <button class="btn btn-primary btn-next" id="btn-next-question" onclick="nextQuestion()">Tiếp tục ➔</button>
+                    </div>
+                </div>
+
+                <div class="quiz-controls">
+                    <button class="btn btn-secondary" onclick="resetQuiz()">Làm lại từ đầu</button>
+                </div>
+            </section>
+
+            <!-- TAB 3: PROGRESS (TIẾN TRÌNH) -->
+            <section id="tab-progress" class="tab-content">
+                <div class="grid-layout">
+                    <!-- PROGRESS STATS -->
+                    <div class="card stats-card">
+                        <h4>Thống Kê Học Tập 📊</h4>
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <span class="stat-num" id="stat-completed">0</span>
+                                <span class="stat-lbl">Câu đã làm</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-num text-success" id="stat-correct">0</span>
+                                <span class="stat-lbl">Trả lời đúng</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-num text-purple" id="stat-accuracy">0%</span>
+                                <span class="stat-lbl">Tỷ lệ chính xác</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BADGES CARD -->
+                    <div class="card badge-card">
+                        <h4>Huy Hiệu Đạt Được 🏆</h4>
+                        <div class="badges-container">
+                            <div class="badge-item locked" id="badge-starter">
+                                <div class="badge-icon">🌱</div>
+                                <div class="badge-info">
+                                    <h5>Người Khởi Đầu</h5>
+                                    <p>Trả lời đúng câu hỏi đầu tiên</p>
+                                </div>
+                            </div>
+                            <div class="badge-item locked" id="badge-scholar">
+                                <div class="badge-icon">📖</div>
+                                <div class="badge-info">
+                                    <h5>Học Giả Hiện Tại</h5>
+                                    <p>Hoàn thành 5 câu đúng liên tiếp</p>
+                                </div>
+                            </div>
+                            <div class="badge-item locked" id="badge-master">
+                                <div class="badge-icon">⚡</div>
+                                <div class="badge-info">
+                                    <h5>Bậc Thầy Thì Hiện Tại</h5>
+                                    <p>Đạt 100% độ chính xác sau 10 câu</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card error-review-card">
+                    <h4>Các câu hỏi cần lưu ý 📋</h4>
+                    <p class="info-small">Những câu bạn trả lời chưa chính xác sẽ xuất hiện ở đây để ôn tập lại:</p>
+                    <div class="review-list" id="review-list">
+                        <div class="empty-state">Tuyệt vời! Bạn chưa trả lời sai câu nào.</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
