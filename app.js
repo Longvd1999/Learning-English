@@ -2095,6 +2095,14 @@ function loadQuestion() {
     const topicQuestions = questionsDatabase[currentPracticeTopic] || [];
     if (topicQuestions.length === 0) return;
 
+    if (currentPracticeTopic && currentPracticeTopic.startsWith('lesson')) {
+        const qIndexEl = document.getElementById('lesson-q-index');
+        if (qIndexEl) qIndexEl.textContent = `Câu ${currentQuestionIndex + 1}/10`;
+        
+        const progBar = document.getElementById('practice-progress');
+        if (progBar) progBar.style.width = `${(currentQuestionIndex / 10) * 100}%`;
+    }
+
     const q = topicQuestions[currentQuestionIndex];
     const typeBadge = document.getElementById('quiz-type-badge');
     const questionText = document.getElementById('question-text');
@@ -3116,7 +3124,8 @@ function saveProgressToStorage() {
         streak,
         currentQuestionIndex,
         userAnswers,
-        savedVocabList
+        savedVocabList,
+        lessonScores
     };
     localStorage.setItem('english_present_simple_progress', JSON.stringify(data));
 }
@@ -3134,6 +3143,7 @@ function loadProgressFromStorage() {
             currentQuestionIndex = data.currentQuestionIndex || 0;
             userAnswers = data.userAnswers || [];
             savedVocabList = data.savedVocabList || [];
+            lessonScores = data.lessonScores || {};
         } catch (e) {
             console.error('Lỗi khi nạp dữ liệu tiến trình học tập:', e);
         }
