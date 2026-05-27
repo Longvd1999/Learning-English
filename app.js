@@ -3341,44 +3341,77 @@ async function handleDictSearch() {
             // Translate using MyMemory AND check grammar using LanguageTool API in parallel!
             let viSentence = 'Không tìm thấy bản dịch.';
             let grammarMatches = [];
-            
-            try {
-                // Prepare parallel API calls
-                const translatePromise = fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(query)}&langpair=en|vi`)
-                    .then(async res => {
-                        if (res.ok) {
-                            const td = await res.json();
-                            const raw = td.responseData.translatedText || '';
-                            viSentence = new DOMParser().parseFromString(raw, 'text/html').body.textContent;
-                        }
-                    }).catch(e => console.warn('Lỗi dịch MyMemory:', e));
+            let isLocalTrans = false;
 
-                const params = new URLSearchParams();
-                params.append("text", query);
-                params.append("language", "en-US");
-                params.append("enabledOnly", "false");
+            const cleanQuery = query.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim().replace(/\s+/g, " ");
+            const localTrans = getLocalTranslation(cleanQuery);
 
-                const grammarPromise = fetch("https://api.languagetool.org/v2/check", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                        "Accept": "application/json"
-                    },
-                    body: params
-                }).then(async res => {
-                    if (res.ok) {
-                        const dataGrammar = await res.json();
+            if (localTrans) {
+                viSentence = localTrans;
+                isLocalTrans = true;
+
+                // Still check grammar for learning suggestions!
+                try {
+                    const params = new URLSearchParams();
+                    params.append("text", query);
+                    params.append("language", "en-US");
+                    params.append("enabledOnly", "false");
+
+                    const resGrammar = await fetch("https://api.languagetool.org/v2/check", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "Accept": "application/json"
+                        },
+                        body: params
+                    });
+                    if (resGrammar.ok) {
+                        const dataGrammar = await resGrammar.json();
                         grammarMatches = dataGrammar.matches || [];
                     }
-                }).catch(e => console.warn('Lỗi kiểm tra ngữ pháp LanguageTool:', e));
+                } catch (e) {
+                    console.warn('Lỗi kiểm tra ngữ pháp câu cục bộ:', e);
+                }
+            } else {
+                // Call MyMemory & LanguageTool in parallel
+                try {
+                    // Prepare parallel API calls
+                    const translatePromise = fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(query)}&langpair=en|vi`)
+                        .then(async res => {
+                            if (res.ok) {
+                                const td = await res.json();
+                                const raw = td.responseData.translatedText || '';
+                                viSentence = new DOMParser().parseFromString(raw, 'text/html').body.textContent;
+                            }
+                        }).catch(e => console.warn('Lỗi dịch MyMemory:', e));
 
-                // Wait for both to complete
-                await Promise.all([translatePromise, grammarPromise]);
-            } catch (parallelErr) {
-                console.error('Error during parallel fetch:', parallelErr);
+                    const params = new URLSearchParams();
+                    params.append("text", query);
+                    params.append("language", "en-US");
+                    params.append("enabledOnly", "false");
+
+                    const grammarPromise = fetch("https://api.languagetool.org/v2/check", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "Accept": "application/json"
+                        },
+                        body: params
+                    }).then(async res => {
+                        if (res.ok) {
+                            const dataGrammar = await res.json();
+                            grammarMatches = dataGrammar.matches || [];
+                        }
+                    }).catch(e => console.warn('Lỗi kiểm tra ngữ pháp LanguageTool:', e));
+
+                    // Wait for both to complete
+                    await Promise.all([translatePromise, grammarPromise]);
+                } catch (parallelErr) {
+                    console.error('Error during parallel fetch:', parallelErr);
+                }
             }
             
-            renderDictSentence(query, viSentence, grammarMatches);
+            renderDictSentence(query, viSentence, grammarMatches, isLocalTrans);
         }
     } catch (err) {
         console.error('Dict tab error:', err);
@@ -3435,9 +3468,15 @@ function renderDictFallback(word, viMeaning) {
     setTimeout(() => speakText(word, 'uk'), 500);
 }
 
-function renderDictSentence(sentence, viTranslation, grammarMatches = []) {
+function renderDictSentence(sentence, viTranslation, grammarMatches = [], isLocalTrans = false) {
     document.getElementById('dict-sentence-original').textContent = sentence;
-    document.getElementById('dict-sentence-translation').textContent = viTranslation;
+    
+    const transEl = document.getElementById('dict-sentence-translation');
+    if (isLocalTrans) {
+        transEl.innerHTML = `<span style="font-size:0.75rem; background:rgba(56, 189, 248, 0.15); color:#38bdf8; padding:0.2rem 0.5rem; border-radius:4px; font-weight:600; margin-bottom:0.5rem; display:inline-block;">✨ Bản dịch chuẩn Easy English</span><br>${viTranslation}`;
+    } else {
+        transEl.textContent = viTranslation;
+    }
     
     // Process grammar suggestions
     const grammarContainer = document.getElementById('dict-grammar-analysis');
@@ -3738,4 +3777,66 @@ function translateWordClick(word) {
     const input = document.getElementById('dict-main-input');
     if (input) input.value = cleanWord;
     setTimeout(() => handleDictSearch(), 350);
+}
+
+function getLocalTranslation(cleanQuery) {
+    const commonTranslations = {
+        "i am going to school": "Tôi đang đi học / Tôi đang đi đến trường.",
+        "im going to school": "Tôi đang đi học / Tôi đang đi đến trường.",
+        "i go to school": "Tôi đi học / Tôi đi đến trường.",
+        "i am eating": "Tôi đang ăn.",
+        "im eating": "Tôi đang ăn.",
+        "i am eating an apple": "Tôi đang ăn một quả táo.",
+        "im eating an apple": "Tôi đang ăn một quả táo.",
+        "i have a book": "Tôi có một cuốn sách.",
+        "this is an apple": "Đây là một quả táo.",
+        "this is a book": "Đây là một cuốn sách.",
+        "she is beautiful": "Cô ấy thật xinh đẹp.",
+        "i love you": "Tôi yêu bạn / Tôi yêu em.",
+        "what is your name": "Tên của bạn là gì?",
+        "how are you": "Bạn khỏe không?",
+        "he is a doctor": "Anh ấy là một bác sĩ.",
+        "i have a dog": "Tôi có một con chó.",
+        "they are students": "Họ là học sinh / sinh viên.",
+        "theyre students": "Họ là học sinh / sinh viên.",
+        "we are learning english": "Chúng tôi đang học tiếng Anh.",
+        "im learning english": "Tôi đang học tiếng Anh.",
+        "were learning english": "Chúng tôi đang học tiếng Anh.",
+        "it is raining": "Trời đang mưa.",
+        "the book is on the table": "Cuốn sách ở trên bàn.",
+        "i am a student": "Tôi là học sinh.",
+        "im a student": "Tôi là học sinh.",
+        "he is happy": "Anh ấy hạnh phúc.",
+        "they are not at home": "Họ không có ở nhà.",
+        "is she your teacher": "Cô ấy có phải là giáo viên của bạn không?",
+        "i work every day": "Tôi làm việc mỗi ngày.",
+        "she works every day": "Cô ấy làm việc mỗi ngày.",
+        "we dont like coffee": "Chúng tôi không thích cà phê.",
+        "we do not like coffee": "Chúng tôi không thích cà phê.",
+        "he doesnt like coffee": "Anh ấy không thích cà phê.",
+        "he does not like coffee": "Anh ấy không thích cà phê.",
+        "do you play soccer": "Bạn có chơi bóng đá không?",
+        "does he play soccer": "Anh ấy có chơi bóng đá không?",
+        "i was tired yesterday": "Hôm qua tôi đã mệt mỏi.",
+        "they were at school": "Họ đã ở trường học.",
+        "she wasnt happy": "Cô ấy đã không hạnh phúc.",
+        "she was not happy": "Cô ấy đã không hạnh phúc.",
+        "were you at home last night": "Tối qua bạn có ở nhà không?",
+        "she studied last night": "Tối qua cô ấy đã học bài.",
+        "he went to school": "Anh ấy đã đi học / đã đến trường.",
+        "i didnt go to the party": "Tôi đã không đi đến bữa tiệc.",
+        "i did not go to the party": "Tôi đã không đi đến bữa tiệc.",
+        "did you call me yesterday": "Hôm qua bạn có gọi cho tôi không?",
+        "i will help you": "Tôi sẽ giúp bạn.",
+        "she will call you tomorrow": "Cô ấy sẽ gọi cho bạn vào ngày mai.",
+        "he wont be late": "Anh ấy sẽ không đi trễ đâu.",
+        "he will not be late": "Anh ấy sẽ không đi trễ đâu.",
+        "will you come to the party": "Bạn sẽ đến bữa tiệc chứ?",
+        "i am going to study tonight": "Tối nay tôi sẽ học bài.",
+        "they are going to travel next month": "Tháng sau họ sẽ đi du lịch.",
+        "she isnt going to join us": "Cô ấy sẽ không tham gia cùng chúng ta.",
+        "she is not going to join us": "Cô ấy sẽ không tham gia cùng chúng ta."
+    };
+    
+    return commonTranslations[cleanQuery] || null;
 }
