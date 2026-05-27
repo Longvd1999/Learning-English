@@ -1663,9 +1663,10 @@ body {
 
 .topic-buttons {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 0.75rem;
 }
+
 
 .topic-btn {
     background-color: rgba(255, 255, 255, 0.02);
@@ -2216,8 +2217,9 @@ body {
         grid-template-columns: 1fr;
     }
     .topic-buttons {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
+
     .floating-translator-container {
         bottom: 1rem;
         right: 1rem;
@@ -2240,14 +2242,555 @@ body {
 }
 
 @keyframes confetti-fall {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.9); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1);   }
+}
+
+/* Bucket button correct/incorrect highlight for game */
+.bucket-btn.correct {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border-color: #10b981 !important;
+    color: #34d399 !important;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.4) !important;
+}
+
+.bucket-btn.incorrect {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: #ef4444 !important;
+    color: #f87171 !important;
+}
+
+
+/* ======================================================
+   DICTIONARY TAB STYLES
+   ====================================================== */
+
+/* Hero card variant for dict tab */
+.dict-hero .hero-text h2 {
+    background: linear-gradient(135deg, #10B981, #3B82F6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Search area */
+.dict-search-area {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.dict-search-bar {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.dict-search-input-wrap {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dict-search-icon {
+    position: absolute;
+    left: 1rem;
+    font-size: 1.1rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#dict-main-input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 2.8rem;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    transition: var(--transition);
+    outline: none;
+}
+
+#dict-main-input:focus {
+    border-color: var(--success);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+#dict-main-input::placeholder {
+    color: var(--text-muted);
+}
+
+.dict-quick-chips {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.chip-label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.dict-chip {
+    padding: 0.3rem 0.75rem;
+    background: var(--success-glow);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 20px;
+    color: var(--success-light);
+    font-size: 0.8rem;
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.dict-chip:hover {
+    background: rgba(16, 185, 129, 0.25);
+    border-color: var(--success);
+    transform: translateY(-1px);
+}
+
+/* Loading spinner */
+.dict-loading {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.loading-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--success);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Result wrapper: 2 column layout */
+.dict-result-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 1.5rem;
+    align-items: start;
+    margin-bottom: 1.5rem;
+}
+
+.dict-result-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Word card */
+.dict-word-card {
+    padding: 1.5rem;
+}
+
+.dict-word-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+}
+
+.dict-word-main {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+}
+
+.dict-word-type {
+    font-size: 0.85rem;
+    color: var(--success-light);
+    font-style: italic;
+    margin-top: 0.2rem;
+}
+
+.dict-star-btn {
+    font-size: 1.3rem;
+    background: none;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    flex-shrink: 0;
+    color: var(--text-muted);
+}
+
+.dict-star-btn:hover, .dict-star-btn.saved {
+    border-color: var(--warning);
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+    transform: scale(1.1);
+}
+
+/* Phonetics grid UK/US */
+.dict-phonetics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.dict-phonetic-card {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.dict-phonetic-card.uk {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+.dict-phonetic-card.us {
+    background: rgba(59, 130, 246, 0.06);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.phonetic-accent-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+}
+
+.phonetic-ipa-text {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--primary-light);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+    font-family: 'Courier New', monospace;
+}
+
+.dict-phonetic-card.us .phonetic-ipa-text {
+    color: #60a5fa;
+}
+
+.btn-play-accent {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+}
+
+.dict-phonetic-card.uk .btn-play-accent {
+    background: var(--primary-glow);
+    color: var(--primary-light);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.dict-phonetic-card.us .btn-play-accent {
+    background: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.btn-play-accent:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+.play-icon {
+    font-size: 0.7rem;
+}
+
+/* Vietnamese translation box */
+.dict-translation-box {
+    background: rgba(16, 185, 129, 0.06);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.dict-translation-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--success-light);
+    margin-bottom: 0.4rem;
+}
+
+.dict-translation-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+/* Definitions */
+.dict-def-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.dict-def-item:last-child { border-bottom: none; }
+
+.dict-def-pos {
+    font-weight: 700;
+    color: var(--warning);
+    font-style: italic;
+    margin-right: 0.35rem;
+}
+
+/* IPA breakdown card */
+.dict-ipa-breakdown-card {
+    padding: 1.5rem;
+}
+
+.breakdown-header {
+    margin-bottom: 1.25rem;
+}
+
+.breakdown-header h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+/* Full IPA display */
+.ipa-full-word-label {
+    font-size: 1.5rem;
+    font-family: 'Courier New', monospace;
+    color: var(--primary-light);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: 1px;
+    padding: 0.5rem 0.75rem;
+    background: var(--primary-glow);
+    border-radius: var(--radius-sm);
+    display: inline-block;
+}
+
+/* IPA sound chips row */
+.ipa-chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.dict-ipa-chip {
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    min-width: 44px;
+    text-align: center;
+}
+
+.dict-ipa-chip.sound-type-long-vowel { border-color: rgba(99, 102, 241, 0.4); color: #818cf8; }
+.dict-ipa-chip.sound-type-short-vowel { border-color: rgba(139, 92, 246, 0.4); color: #a78bfa; }
+.dict-ipa-chip.sound-type-diphthong { border-color: rgba(236, 72, 153, 0.4); color: #f472b6; }
+.dict-ipa-chip.sound-type-voiced { border-color: rgba(16, 185, 129, 0.4); color: #34d399; }
+.dict-ipa-chip.sound-type-voiceless { border-color: rgba(245, 158, 11, 0.4); color: #fbbf24; }
+
+.dict-ipa-chip:hover:not(.unmatched) {
+    transform: translateY(-3px) scale(1.08);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    filter: brightness(1.2);
+}
+
+.dict-ipa-chip.active {
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(99,102,241,0.3);
+    background: var(--primary-glow);
+    border-color: var(--primary);
+    color: white;
+}
+
+.dict-ipa-chip.unmatched {
+    opacity: 0.4;
+    cursor: default;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.6rem;
+    color: var(--text-muted);
+    border-color: transparent;
+}
+
+.chips-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+/* IPA detail panel (right side) */
+.dict-ipa-panel {
+    position: sticky;
+    top: 1rem;
+    padding: 1.5rem;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.dict-panel-empty {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-muted);
+}
+
+.dict-panel-empty .panel-empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.dict-panel-empty h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.dict-panel-examples {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.dict-panel-examples h5 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Sentence translation result */
+.dict-sentence-result {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.dict-sentence-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.dict-sentence-original {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+}
+
+.dict-sentence-translation {
+    font-size: 1.05rem;
+    color: var(--success-light);
+    font-weight: 500;
+    line-height: 1.6;
+    padding: 0.75rem;
+    background: var(--success-glow);
+    border-radius: var(--radius-sm);
+}
+
+/* Floating quick access button to dict tab */
+.dict-float-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10B981, #3B82F6);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
+    transition: var(--transition);
+}
+
+.dict-float-btn:hover {
+    transform: scale(1.12) rotate(-8deg);
+    box-shadow: 0 8px 28px rgba(16, 185, 129, 0.55);
+}
+
+/* Responsive */
+@media (max-width: 1050px) {
+    .dict-result-wrapper {
+        grid-template-columns: 1fr;
     }
-    100% {
-        transform: translateY(105vh) rotate(720deg);
-        opacity: 0;
+    .dict-ipa-panel {
+        position: static;
+        max-height: none;
     }
 }
+
+@media (max-width: 700px) {
+    .dict-phonetics-grid {
+        grid-template-columns: 1fr;
+    }
+    .dict-word-main {
+        font-size: 1.5rem;
+    }
+    .dict-search-bar {
+        flex-wrap: wrap;
+    }
+    #dict-main-input {
+        font-size: 0.9rem;
+    }
+}
+
 
 

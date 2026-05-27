@@ -35,6 +35,20 @@
                     <span class="nav-icon">📖</span>
                     <span>Thì Hiện Tại Đơn</span>
                 </button>
+                <button class="nav-item" id="btn-tab-past" onclick="switchTab('past')">
+                    <span class="nav-icon">⏮️</span>
+                    <span>Thì Quá Khứ Đơn</span>
+                </button>
+                <button class="nav-item" id="btn-tab-future" onclick="switchTab('future')">
+                    <span class="nav-icon">⏭️</span>
+                    <span>Thì Tương Lai Đơn</span>
+                </button>
+
+                <div class="nav-group-title">Từ điển & Dịch thuật</div>
+                <button class="nav-item" id="btn-tab-dict" onclick="switchTab('dict')">
+                    <span class="nav-icon">📚</span>
+                    <span>Tra từ & Phát âm</span>
+                </button>
 
                 <div class="nav-group-title">Luyện tập & Tiến trình</div>
                 <button class="nav-item" id="btn-tab-practice" onclick="switchTab('practice')">
@@ -159,6 +173,160 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- TAB: TỪ ĐIỂN & DỊCH THUẬT CHÍNH -->
+            <section id="tab-dict" class="tab-content">
+                <div class="hero-card dict-hero">
+                    <div class="hero-text">
+                        <h2>Từ Điển & Tra Phát Âm Anh-Việt 📚</h2>
+                        <p>Gõ bất kỳ từ hoặc câu tiếng Anh để xem ngay nghĩa tiếng Việt, phiên âm IPA chuẩn của giọng <strong>Anh-Anh (🇬🇧 UK)</strong> và <strong>Anh-Mỹ (🇺🇸 US)</strong>, nghe phát âm tự động và xem hướng dẫn khẩu hình miệng chi tiết cho từng âm trong từ.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#dict-grad)" fill-opacity="0.15"/>
+                            <rect x="50" y="50" width="100" height="110" rx="10" fill="none" stroke="url(#dict-grad)" stroke-width="6"/>
+                            <path d="M65 80 H135 M65 100 H120 M65 120 H110" stroke="url(#dict-grad)" stroke-width="5" stroke-linecap="round"/>
+                            <circle cx="145" cy="145" r="18" fill="none" stroke="url(#dict-grad)" stroke-width="5"/>
+                            <path d="M157 157 L170 170" stroke="url(#dict-grad)" stroke-width="5" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="dict-grad" x1="50" y1="50" x2="150" y2="160" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#10B981"/>
+                                    <stop offset="1" stop-color="#3B82F6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- SEARCH INPUT AREA -->
+                <div class="dict-search-area card">
+                    <div class="dict-search-bar">
+                        <div class="dict-search-input-wrap">
+                            <span class="dict-search-icon">🔍</span>
+                            <input type="text" id="dict-main-input"
+                                placeholder="Gõ từ hoặc câu tiếng Anh cần tra cứu..."
+                                autocomplete="off"
+                                onkeydown="if(event.key==='Enter') handleDictSearch()"/>
+                        </div>
+                        <button class="btn btn-primary" id="btn-dict-search" onclick="handleDictSearch()">
+                            Tra ngay 🔍
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearDictSearch()" title="Xóa">✕</button>
+                    </div>
+                    <div class="dict-quick-chips">
+                        <span class="chip-label">Thử ngay:</span>
+                        <button class="dict-chip" onclick="quickSearch('beautiful')">beautiful</button>
+                        <button class="dict-chip" onclick="quickSearch('education')">education</button>
+                        <button class="dict-chip" onclick="quickSearch('pronunciation')">pronunciation</button>
+                        <button class="dict-chip" onclick="quickSearch('work')">work</button>
+                        <button class="dict-chip" onclick="quickSearch('love')">love</button>
+                    </div>
+                </div>
+
+                <!-- LOADING STATE -->
+                <div class="dict-loading hidden" id="dict-loading">
+                    <div class="loading-spinner"></div>
+                    <span>Đang tra cứu phát âm và dịch nghĩa...</span>
+                </div>
+
+                <!-- MAIN RESULT AREA -->
+                <div class="dict-result-wrapper hidden" id="dict-result-wrapper">
+
+                    <!-- LEFT: Word info + Translation -->
+                    <div class="dict-result-left">
+
+                        <!-- Word Title Bar -->
+                        <div class="card dict-word-card">
+                            <div class="dict-word-title-row">
+                                <div>
+                                    <div class="dict-word-main" id="dict-word-main">word</div>
+                                    <div class="dict-word-type" id="dict-word-type">danh từ</div>
+                                </div>
+                                <button class="btn-star-vocab dict-star-btn" id="dict-save-btn" onclick="saveDictWordToVocab()" title="Lưu vào sổ tay">⭐</button>
+                            </div>
+
+                            <!-- UK/US Phonetics -->
+                            <div class="dict-phonetics-grid">
+                                <div class="dict-phonetic-card uk">
+                                    <div class="phonetic-accent-label">🇬🇧 Anh-Anh (UK)</div>
+                                    <div class="phonetic-ipa-text" id="dict-ipa-uk">/wɜːrd/</div>
+                                    <button class="btn-play-accent" id="dict-play-uk" onclick="playDictAudio('uk')">
+                                        <span class="play-icon">▶</span> Nghe UK
+                                    </button>
+                                </div>
+                                <div class="dict-phonetic-card us">
+                                    <div class="phonetic-accent-label">🇺🇸 Anh-Mỹ (US)</div>
+                                    <div class="phonetic-ipa-text" id="dict-ipa-us">/wɜːrd/</div>
+                                    <button class="btn-play-accent" id="dict-play-us" onclick="playDictAudio('us')">
+                                        <span class="play-icon">▶</span> Nghe US
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Vietnamese Translation -->
+                            <div class="dict-translation-box">
+                                <div class="dict-translation-label">🇻🇳 Nghĩa tiếng Việt</div>
+                                <div class="dict-translation-text" id="dict-translation-text">Từ, chữ</div>
+                            </div>
+
+                            <!-- Definitions list -->
+                            <div class="dict-definitions-area" id="dict-definitions-area">
+                                <!-- Dynamic definitions -->
+                            </div>
+                        </div>
+
+                        <!-- IPA BREAKDOWN: hướng dẫn từng âm trong từ -->
+                        <div class="card dict-ipa-breakdown-card" id="dict-ipa-breakdown-card">
+                            <div class="breakdown-header">
+                                <h4>📖 Phân tích phát âm từng âm trong từ</h4>
+                                <p class="info-small">Nhấp vào từng âm bên dưới để xem chi tiết khẩu hình và cách đặt miệng.</p>
+                            </div>
+                            <div class="dict-sound-chips" id="dict-sound-chips">
+                                <!-- Dynamic IPA sound chips -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: IPA Pronunciation Detail Panel -->
+                    <div class="dict-ipa-panel card" id="dict-ipa-panel">
+                        <div class="dict-panel-empty" id="dict-panel-empty">
+                            <div class="panel-empty-icon">👆</div>
+                            <h4>Chọn một âm</h4>
+                            <p>Nhấp vào một trong các âm IPA bên trái để xem hướng dẫn khẩu hình chi tiết tại đây.</p>
+                        </div>
+                        <div class="dict-panel-content hidden" id="dict-panel-content">
+                            <div class="panel-header-info">
+                                <div class="panel-sound-badge" id="dict-panel-type">Nguyên âm</div>
+                                <div class="panel-sound-symbol" id="dict-panel-symbol">/i:/</div>
+                                <div class="panel-sound-name" id="dict-panel-name">Long vowel</div>
+                            </div>
+                            <div class="mouth-visualizer">
+                                <svg viewBox="0 0 200 150" class="mouth-svg" id="dict-mouth-svg"></svg>
+                                <div class="voicing-status" id="dict-voicing-status">
+                                    <span class="voice-wave" id="dict-voice-wave"></span>
+                                    <span id="dict-voicing-text">Hữu thanh (Voiced)</span>
+                                </div>
+                            </div>
+                            <div class="mouth-instructions">
+                                <h5>Cách đặt khẩu hình:</h5>
+                                <ul class="instruction-list" id="dict-instructions-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SENTENCE TRANSLATION RESULT -->
+                <div class="card dict-sentence-result hidden" id="dict-sentence-result">
+                    <div class="dict-sentence-header">
+                        <span class="result-label">📝 Câu tiếng Anh:</span>
+                        <button class="btn-tts" onclick="playSentenceAudio('dict-sentence-original', 'us')" title="Nghe giọng US">🇺🇸 US</button>
+                        <button class="btn-tts" onclick="playSentenceAudio('dict-sentence-original', 'uk')" title="Nghe giọng UK">🇬🇧 UK</button>
+                    </div>
+                    <div class="dict-sentence-original" id="dict-sentence-original">The sentence.</div>
+                    <div class="result-label" style="margin-top: 1rem;">🇻🇳 Bản dịch tiếng Việt:</div>
+                    <div class="dict-sentence-translation" id="dict-sentence-translation">Câu dịch.</div>
                 </div>
             </section>
 
@@ -416,6 +584,402 @@
                 </div>
             </section>
 
+            <!-- TAB: THÌ QUÁ KHỨ ĐƠN -->
+            <section id="tab-past" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì Quá Khứ Đơn <span class="badge">Past Simple</span></h2>
+                        <p>Thì quá khứ đơn dùng để diễn tả hành động đã xảy ra và kết thúc hoàn toàn trong quá khứ. Đây là thì cơ bản và quan trọng giúp bạn kể chuyện, mô tả sự kiện đã qua.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#past-grad)" fill-opacity="0.15"/>
+                            <circle cx="100" cy="100" r="35" stroke="url(#past-grad)" stroke-width="6"/>
+                            <path d="M100 70V100 L80 115" stroke="url(#past-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M60 55 L75 65" stroke="url(#past-grad)" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M140 55 L125 65" stroke="url(#past-grad)" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M55 100 L70 100" stroke="url(#past-grad)" stroke-width="4" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="past-grad" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#F59E0B"/>
+                                    <stop offset="1" stop-color="#EF4444"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <h3>1. Công Thức (Formulas)</h3>
+                    <p>Thì quá khứ đơn có hai nhóm: <strong>Động từ TO BE</strong> và <strong>Động từ THƯỜNG</strong> (chia thành động từ có quy tắc và bất quy tắc).</p>
+                </div>
+
+                <div class="grid-layout">
+                    <!-- TO BE PAST CARD -->
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag" style="background:rgba(245,158,11,0.15);color:#fbbf24;border-color:rgba(245,158,11,0.3)">Nhóm 1</span>
+                            <h4>Động từ TO BE (was / were)</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item">
+                                <span class="sign positive">+</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + was / were + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>I <span class="highlight-word" onclick="translateWordClick('was')">was</span> tired yesterday.</span>
+                                        <button class="btn-tts" onclick="speakText('I was tired yesterday.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                    <div class="formula-example">
+                                        <span>They <span class="highlight-word" onclick="translateWordClick('were')">were</span> at school.</span>
+                                        <button class="btn-tts" onclick="speakText('They were at school.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign negative">-</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + was / were + not + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>She <span class="highlight-word" onclick="translateWordClick('wasn\'t')">wasn't</span> happy.</span>
+                                        <button class="btn-tts" onclick="speakText('She was not happy.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign question">?</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>Was / Were + S + O?</strong></div>
+                                    <div class="formula-example">
+                                        <span><span class="highlight-word" onclick="translateWordClick('Were')">Were</span> you at home last night?</span>
+                                        <button class="btn-tts" onclick="speakText('Were you at home last night?')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <p>💡 <strong>Ghi nhớ:</strong> <em>I / He / She / It + was</em> | <em>You / We / They + were</em></p>
+                        </div>
+                    </div>
+
+                    <!-- ACTION VERBS PAST CARD -->
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag" style="background:rgba(239,68,68,0.15);color:#f87171;border-color:rgba(239,68,68,0.3)">Nhóm 2</span>
+                            <h4>Động từ THƯỜNG (Verb-ed / Irregular)</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item">
+                                <span class="sign positive">+</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + V-ed / V2 + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>She <span class="highlight-word" onclick="translateWordClick('studied')">studied</span> last night.</span>
+                                        <button class="btn-tts" onclick="speakText('She studied last night.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                    <div class="formula-example">
+                                        <span>He <span class="highlight-word" onclick="translateWordClick('went')">went</span> to school.</span>
+                                        <button class="btn-tts" onclick="speakText('He went to school.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign negative">-</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + did not (didn't) + V_nguyên_mẫu + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>I <span class="highlight-word" onclick="translateWordClick('didn\'t')">didn't</span> go to the party.</span>
+                                        <button class="btn-tts" onclick="speakText('I did not go to the party.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign question">?</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>Did + S + V_nguyên_mẫu + O?</strong></div>
+                                    <div class="formula-example">
+                                        <span><span class="highlight-word" onclick="translateWordClick('Did')">Did</span> you call me yesterday?</span>
+                                        <button class="btn-tts" onclick="speakText('Did you call me yesterday?')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <p>💡 <strong>Ghi nhớ:</strong> Phủ định & câu hỏi dùng <em>did / didn't</em> cho MỌI chủ ngữ, động từ quay về nguyên mẫu.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <h3>2. Quy Tắc Thêm -ED và Động Từ Bất Quy Tắc ✍️</h3>
+                    <p>Động từ có quy tắc thêm <strong>-ed</strong>. Động từ bất quy tắc (V2) phải học thuộc lòng.</p>
+                </div>
+
+                <div class="grid-layout cols-3">
+                    <div class="card info-card">
+                        <h5>1. Hầu hết động từ</h5>
+                        <p class="rule-desc">Thêm <strong>-ed</strong> vào sau động từ.</p>
+                        <div class="example-box">
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('work')">work</span> ➔ worked</span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('play')">play</span> ➔ played</span>
+                        </div>
+                    </div>
+                    <div class="card info-card">
+                        <h5>2. Kết thúc bằng -E</h5>
+                        <p class="rule-desc">Chỉ thêm <strong>-d</strong> (vì đã có e cuối).</p>
+                        <div class="example-box">
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('love')">love</span> ➔ loved</span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('live')">live</span> ➔ lived</span>
+                        </div>
+                    </div>
+                    <div class="card info-card">
+                        <h5>3. Phụ âm + Y cuối</h5>
+                        <p class="rule-desc">Đổi <strong>-y</strong> thành <strong>-i</strong> rồi thêm <strong>-ed</strong>.</p>
+                        <div class="example-box">
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('study')">study</span> ➔ studied</span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('carry')">carry</span> ➔ carried</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card info-card-full" style="margin-top:1.5rem">
+                    <h4>Một số động từ bất quy tắc phổ biến (Irregular Verbs) 📋</h4>
+                    <p class="intro-p">Các động từ này có dạng quá khứ riêng biệt, không theo quy tắc -ed:</p>
+                    <div class="signals-grid">
+                        <div class="signal-item">
+                            <span class="sig-title">Nhóm thông dụng nhất:</span>
+                            <p><em>go ➔ <strong>went</strong> | come ➔ <strong>came</strong> | have ➔ <strong>had</strong> | do ➔ <strong>did</strong></em></p>
+                            <p><em>see ➔ <strong>saw</strong> | say ➔ <strong>said</strong> | make ➔ <strong>made</strong> | take ➔ <strong>took</strong></em></p>
+                        </div>
+                        <div class="signal-item">
+                            <span class="sig-title">Nhóm hay gặp:</span>
+                            <p><em>eat ➔ <strong>ate</strong> | drink ➔ <strong>drank</strong> | buy ➔ <strong>bought</strong> | think ➔ <strong>thought</strong></em></p>
+                            <p><em>write ➔ <strong>wrote</strong> | read ➔ <strong>read</strong> | meet ➔ <strong>met</strong> | run ➔ <strong>ran</strong></em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <h3>3. Cách Dùng & Dấu Hiệu Nhận Biết 🔍</h3>
+                </div>
+
+                <div class="tab-sub-container">
+                    <div class="tabs-sub-buttons">
+                        <button class="tab-sub-btn active" onclick="switchSubTab(event, 'past-use-cases')">Cách dùng</button>
+                        <button class="tab-sub-btn" onclick="switchSubTab(event, 'past-time-signals')">Dấu hiệu nhận biết</button>
+                    </div>
+                    <div id="past-use-cases" class="tab-sub-content active">
+                        <ul class="styled-list">
+                            <li>
+                                <div class="list-title">Hành động đã xảy ra & kết thúc trong quá khứ</div>
+                                <p>Hành động có thời điểm cụ thể hoặc đã hoàn toàn kết thúc.</p>
+                                <div class="list-example">She <strong>visited</strong> Hanoi last summer. <button class="btn-tts" onclick="speakText('She visited Hanoi last summer.')">🔊</button></div>
+                            </li>
+                            <li>
+                                <div class="list-title">Chuỗi hành động nối tiếp nhau trong quá khứ</div>
+                                <p>Nhiều sự việc xảy ra lần lượt.</p>
+                                <div class="list-example">He <strong>woke up</strong>, <strong>had</strong> breakfast and <strong>went</strong> to work. <button class="btn-tts" onclick="speakText('He woke up, had breakfast and went to work.')">🔊</button></div>
+                            </li>
+                            <li>
+                                <div class="list-title">Thói quen trong quá khứ (đã không còn nữa)</div>
+                                <p>Thường dùng cùng "used to" để nhấn mạnh thói quen cũ.</p>
+                                <div class="list-example">I <strong>used to play</strong> football every day. <button class="btn-tts" onclick="speakText('I used to play football every day.')">🔊</button></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="past-time-signals" class="tab-sub-content">
+                        <p class="intro-p">Thì quá khứ đơn thường đi kèm các từ/cụm từ chỉ thời gian quá khứ:</p>
+                        <div class="signals-grid">
+                            <div class="signal-item">
+                                <span class="sig-title">Thời gian xác định:</span>
+                                <p><em>yesterday (hôm qua), last night/week/month/year (tối/tuần/tháng/năm ngoái)</em></p>
+                                <p><em>ago (cách đây): 2 days ago, a week ago...</em></p>
+                            </div>
+                            <div class="signal-item">
+                                <span class="sig-title">Thời gian cụ thể:</span>
+                                <p><em>in 2020, on Monday, at 8 o'clock, when I was young...</em></p>
+                                <div class="position-note">📍 <strong>Mẹo:</strong> Hễ thấy "yesterday", "ago", "last" → nghĩ ngay đến Quá Khứ Đơn!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="next-step-box">
+                    <p>Đã hiểu Quá Khứ Đơn rồi? Cùng luyện tập ngay!</p>
+                    <button class="btn btn-primary" onclick="switchPracticeTopic('pastSimple'); switchTab('practice')">Luyện tập Quá Khứ Đơn 🚀</button>
+                </div>
+            </section>
+
+            <!-- TAB: THÌ TƯƠNG LAI ĐƠN -->
+            <section id="tab-future" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì Tương Lai Đơn <span class="badge">Future Simple</span></h2>
+                        <p>Thì tương lai đơn dùng để diễn tả hành động sẽ xảy ra trong tương lai — thường là quyết định tức thời, dự đoán, lời hứa hay đề nghị.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#future-grad)" fill-opacity="0.15"/>
+                            <path d="M60 130 L100 60 L140 130" stroke="url(#future-grad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="100" cy="60" r="10" fill="url(#future-grad)" fill-opacity="0.6"/>
+                            <path d="M80 150 L120 150" stroke="url(#future-grad)" stroke-width="5" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="future-grad" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#06B6D4"/>
+                                    <stop offset="1" stop-color="#6366F1"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <h3>1. Công Thức (Formulas)</h3>
+                    <p>Thì tương lai đơn dùng trợ động từ <strong>will</strong> đứng trước động từ nguyên mẫu — không chia theo chủ ngữ.</p>
+                </div>
+
+                <div class="grid-layout">
+                    <!-- WILL CARD -->
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag" style="background:rgba(6,182,212,0.15);color:#22d3ee;border-color:rgba(6,182,212,0.3)">Dạng WILL</span>
+                            <h4>Dùng WILL (Quyết định, Dự đoán, Lời hứa)</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item">
+                                <span class="sign positive">+</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + will + V_nguyên_mẫu + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>I <span class="highlight-word" onclick="translateWordClick('will')">will</span> help you.</span>
+                                        <button class="btn-tts" onclick="speakText('I will help you.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                    <div class="formula-example">
+                                        <span>She <span class="highlight-word" onclick="translateWordClick('will')">will</span> call you tomorrow.</span>
+                                        <button class="btn-tts" onclick="speakText('She will call you tomorrow.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign negative">-</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + will not (won't) + V_nguyên_mẫu + O</strong></div>
+                                    <div class="formula-example">
+                                        <span>He <span class="highlight-word" onclick="translateWordClick('won\'t')">won't</span> be late.</span>
+                                        <button class="btn-tts" onclick="speakText('He will not be late.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign question">?</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>Will + S + V_nguyên_mẫu + O?</strong></div>
+                                    <div class="formula-example">
+                                        <span><span class="highlight-word" onclick="translateWordClick('Will')">Will</span> you come to the party?</span>
+                                        <button class="btn-tts" onclick="speakText('Will you come to the party?')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <p>💡 <strong>Ghi nhớ:</strong> <em>will</em> KHÔNG thay đổi theo chủ ngữ — dùng cho I/You/He/She/It/We/They đều giống nhau!</p>
+                        </div>
+                    </div>
+
+                    <!-- BE GOING TO CARD -->
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag" style="background:rgba(99,102,241,0.15);color:#818cf8;border-color:rgba(99,102,241,0.3)">Dạng BE GOING TO</span>
+                            <h4>Dùng BE GOING TO (Kế hoạch, Dự tính)</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item">
+                                <span class="sign positive">+</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + am/is/are + going to + V_nguyên_mẫu</strong></div>
+                                    <div class="formula-example">
+                                        <span>I <span class="highlight-word" onclick="translateWordClick('am going to')">am going to</span> study tonight.</span>
+                                        <button class="btn-tts" onclick="speakText('I am going to study tonight.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                    <div class="formula-example">
+                                        <span>They <span class="highlight-word" onclick="translateWordClick('are going to')">are going to</span> travel next month.</span>
+                                        <button class="btn-tts" onclick="speakText('They are going to travel next month.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign negative">-</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + am/is/are + not + going to + V</strong></div>
+                                    <div class="formula-example">
+                                        <span>She <span class="highlight-word" onclick="translateWordClick('isn\'t')">isn't</span> going to join us.</span>
+                                        <button class="btn-tts" onclick="speakText('She is not going to join us.')" title="Nghe phát âm">🔊</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <p>💡 <strong>Phân biệt:</strong> <em>will</em> = quyết định tức thời / dự đoán chung | <em>be going to</em> = kế hoạch đã có sẵn / dấu hiệu rõ ràng</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <h3>2. Cách Dùng & Dấu Hiệu Nhận Biết 🔍</h3>
+                </div>
+
+                <div class="tab-sub-container">
+                    <div class="tabs-sub-buttons">
+                        <button class="tab-sub-btn active" onclick="switchSubTab(event, 'future-use-cases')">Cách dùng</button>
+                        <button class="tab-sub-btn" onclick="switchSubTab(event, 'future-time-signals')">Dấu hiệu nhận biết</button>
+                    </div>
+                    <div id="future-use-cases" class="tab-sub-content active">
+                        <ul class="styled-list">
+                            <li>
+                                <div class="list-title">Quyết định tức thời (Spontaneous Decisions)</div>
+                                <p>Quyết định ngay tại thời điểm nói — dùng WILL.</p>
+                                <div class="list-example">The phone is ringing. I <strong>will answer</strong> it! <button class="btn-tts" onclick="speakText('The phone is ringing. I will answer it!')">🔊</button></div>
+                            </li>
+                            <li>
+                                <div class="list-title">Dự đoán tương lai (Predictions)</div>
+                                <p>Dự đoán điều sẽ xảy ra — cả WILL và BE GOING TO đều dùng được.</p>
+                                <div class="list-example">I think it <strong>will rain</strong> tomorrow. <button class="btn-tts" onclick="speakText('I think it will rain tomorrow.')">🔊</button></div>
+                            </li>
+                            <li>
+                                <div class="list-title">Lời hứa / Đề nghị (Promises / Offers)</div>
+                                <p>Hứa hẹn hoặc đề nghị giúp đỡ — dùng WILL.</p>
+                                <div class="list-example">I <strong>will always love</strong> you. <button class="btn-tts" onclick="speakText('I will always love you.')">🔊</button></div>
+                            </li>
+                            <li>
+                                <div class="list-title">Kế hoạch đã định sẵn (Plans)</div>
+                                <p>Kế hoạch đã sắp xếp từ trước — dùng BE GOING TO.</p>
+                                <div class="list-example">We <strong>are going to visit</strong> Hue next week. <button class="btn-tts" onclick="speakText('We are going to visit Hue next week.')">🔊</button></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="future-time-signals" class="tab-sub-content">
+                        <p class="intro-p">Thì tương lai đơn thường đi kèm các từ/cụm từ chỉ thời gian tương lai:</p>
+                        <div class="signals-grid">
+                            <div class="signal-item">
+                                <span class="sig-title">Các cụm thường gặp:</span>
+                                <p><em>tomorrow (ngày mai), next week/month/year (tuần/tháng/năm tới)</em></p>
+                                <p><em>soon (sớm thôi), in the future (trong tương lai), later (sau này)</em></p>
+                            </div>
+                            <div class="signal-item">
+                                <span class="sig-title">Cụm thời gian cụ thể:</span>
+                                <p><em>in 2 days, on Saturday, at 8 PM tonight, next Monday...</em></p>
+                                <div class="position-note">📍 <strong>Mẹo:</strong> Hễ thấy "tomorrow", "next", "in the future" → nghĩ ngay đến Tương Lai Đơn!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="next-step-box">
+                    <p>Nắm chắc Tương Lai Đơn rồi? Hãy thử sức với bài tập!</p>
+                    <button class="btn btn-primary" onclick="switchPracticeTopic('futureSimple'); switchTab('practice')">Luyện tập Tương Lai Đơn 🚀</button>
+                </div>
+            </section>
+
             <!-- TAB 3: PRACTICE (LUYỆN TẬP TƯƠNG TÁC) -->
             <section id="tab-practice" class="tab-content">
                 <div class="practice-header">
@@ -441,18 +1005,27 @@
                     <div class="topic-buttons">
                         <button class="topic-btn active" id="btn-topic-grammar" onclick="switchPracticeTopic('grammar')">
                             <span class="topic-icon">📝</span>
-                            <span class="topic-title">Ngữ pháp Thì Hiện Tại Đơn</span>
+                            <span class="topic-title">Hiện Tại Đơn</span>
+                        </button>
+                        <button class="topic-btn" id="btn-topic-pastSimple" onclick="switchPracticeTopic('pastSimple')">
+                            <span class="topic-icon">⏮️</span>
+                            <span class="topic-title">Quá Khứ Đơn</span>
+                        </button>
+                        <button class="topic-btn" id="btn-topic-futureSimple" onclick="switchPracticeTopic('futureSimple')">
+                            <span class="topic-icon">⏭️</span>
+                            <span class="topic-title">Tương Lai Đơn</span>
                         </button>
                         <button class="topic-btn" id="btn-topic-ipa" onclick="switchPracticeTopic('ipa')">
                             <span class="topic-icon">🗣️</span>
-                            <span class="topic-title">Phát âm & Nhận diện âm IPA</span>
+                            <span class="topic-title">Phát âm IPA</span>
                         </button>
                         <button class="topic-btn" id="btn-topic-game" onclick="switchPracticeTopic('game')">
                             <span class="topic-icon">⚡</span>
-                            <span class="topic-title">Trò chơi phản xạ đuôi -s/-es</span>
+                            <span class="topic-title">Phản xạ -s/-es</span>
                         </button>
                     </div>
                 </div>
+
 
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="practice-progress" style="width: 0%"></div>
@@ -618,63 +1191,10 @@
         </main>
     </div>
 
-    <!-- FLOATING TRANSLATOR PANEL -->
-    <div class="floating-translator-container" id="floating-translator-container">
-        <!-- Floating Trigger Button -->
-        <button class="translator-trigger" id="translator-trigger-btn" onclick="toggleTranslatorPanel()">
-            <span class="trigger-icon">💬</span>
-            <span class="trigger-text">Dịch & Tra Từ</span>
-        </button>
-
-        <!-- Translator Panel Box -->
-        <div class="translator-panel card hidden" id="translator-panel">
-            <div class="translator-header">
-                <h5>Hộp Dịch & Từ Điển Anh-Việt</h5>
-                <button class="btn-close-panel" onclick="toggleTranslatorPanel()">×</button>
-            </div>
-            
-            <div class="translator-input-area">
-                <textarea id="translator-input" placeholder="Nhập từ đơn (để tra từ điển) hoặc câu tiếng Anh (để dịch nghĩa)..."></textarea>
-                <div class="translator-actions">
-                    <button class="btn btn-primary btn-sm" id="btn-action-translate" onclick="handleTranslateAction()">Tra cứu / Dịch ➔</button>
-                </div>
-            </div>
-
-            <div class="translator-result-area hidden" id="translator-result-area">
-                <!-- Result heading -->
-                <div class="result-word-info" id="result-word-info">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span class="result-word" id="result-word">hello</span>
-                        <button class="btn-star-vocab" id="btn-save-vocab" onclick="saveActiveWordToVocab()" title="Lưu vào sổ tay từ vựng">⭐</button>
-                    </div>
-                    <div class="result-phonetics" id="result-phonetics">
-                        <div class="phonetic-group">
-                            <span class="accent-flag">🇬🇧 UK:</span> <span class="phonetic-text" id="phonetic-uk">/həˈləʊ/</span>
-                            <button class="btn-tts" id="btn-play-uk" onclick="playWordAudio('uk')">🔊</button>
-                        </div>
-                        <div class="phonetic-group">
-                            <span class="accent-flag">🇺🇸 US:</span> <span class="phonetic-text" id="phonetic-us">/həˈloʊ/</span>
-                            <button class="btn-tts" id="btn-play-us" onclick="playWordAudio('us')">🔊</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Translated Text Box -->
-                <div class="result-translation-box">
-                    <div class="result-label">Ý Nghĩa tiếng Việt:</div>
-                    <div class="result-translated-text" id="result-translated-text">Xin chào</div>
-                </div>
-
-                <!-- Word Meanings / Definitions (for single words) -->
-                <div class="result-definitions-box hidden" id="result-definitions-box">
-                    <div class="result-label">Chi tiết định nghĩa:</div>
-                    <div class="definitions-list" id="definitions-list">
-                        <!-- Dynamic list -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Quick Access Floating Button (goes to Dict tab) -->
+    <button class="dict-float-btn" onclick="switchTab('dict')" title="Tra từ & Phát âm">
+        <span>📚</span>
+    </button>
 
     <!-- ONE-CLICK TRANSLATE POPUP BUBBLE -->
     <div class="translate-bubble hidden" id="translate-bubble">

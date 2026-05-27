@@ -13,6 +13,11 @@ let savedVocabList = []; // Vocabulary Notebook
 
 // Sound Sorting Game State
 let currentGameWord = null;
+let usedGameWordIndices = []; // Track used game words to avoid repeat
+
+// Infinite Question Pool State (grammar & ipa topics)
+let shuffledQuestionPool = []; // shuffled indices for current topic
+let poolPosition = 0;          // current position in shuffled pool
 
 // Audio context helper for synthesized UK/US speech
 let ukVoice = null;
@@ -821,8 +826,131 @@ const questionsDatabase = {
             correct: 'watches',
             explanation: 'Từ "watch" kết thúc bằng âm xuýt /tʃ/, do đó đuôi -es của nó được phát âm là /ɪz/.'
         }
+    ],
+
+    // ==========================================
+    // THÌ QUÁ KHỨ ĐƠN (Past Simple)
+    // ==========================================
+    pastSimple: [
+        {
+            type: 'mcq',
+            question: 'She _______ (go) to the cinema last Friday.',
+            illustration: 'student',
+            options: ['go', 'goes', 'went', 'going'],
+            correct: 'went',
+            explanation: '"Go" là động từ bất quy tắc. Dạng quá khứ đơn của "go" là "went". Dấu hiệu "last Friday" cho biết đây là thì quá khứ đơn.'
+        },
+        {
+            type: 'mcq',
+            question: 'They _______ (not eat) dinner yesterday.',
+            options: ["didn't eat", "don't eat", "doesn't eat", "weren't eat"],
+            correct: "didn't eat",
+            explanation: 'Câu phủ định quá khứ đơn: S + didn\'t + V_nguyên_mẫu. "Didn\'t" dùng cho mọi chủ ngữ, động từ trở về nguyên mẫu "eat".'
+        },
+        {
+            type: 'fitb',
+            question: 'I _______ (study) for the exam all night.',
+            illustration: 'student',
+            correct: ['studied'],
+            explanation: '"Study" kết thúc bằng phụ âm + y, đổi y→i rồi thêm -ed thành "studied". Đây là động từ có quy tắc.'
+        },
+        {
+            type: 'fitb',
+            question: 'He _______ (be) very tired after work.',
+            correct: ['was'],
+            explanation: 'Dạng quá khứ của TO BE: I/He/She/It → was | You/We/They → were. Chủ ngữ "He" nên dùng "was".'
+        },
+        {
+            type: 'mcq',
+            question: '_______ you see that movie last week?',
+            options: ['Do', 'Did', 'Was', 'Were'],
+            correct: 'Did',
+            explanation: 'Câu hỏi quá khứ đơn với động từ thường: Did + S + V_nguyên_mẫu? "Did" dùng cho mọi chủ ngữ.'
+        },
+        {
+            type: 'order',
+            question: 'Hãy xếp các từ thành câu đúng: "Cô ấy đã mua một chiếc váy mới hôm qua."',
+            words: ['She', 'bought', 'a', 'new', 'dress', 'yesterday'],
+            correct: 'She bought a new dress yesterday',
+            explanation: '"Buy" là động từ bất quy tắc, dạng V2 là "bought". Trật tự câu: S + V2 + O + Trạng từ thời gian.'
+        },
+        {
+            type: 'mcq',
+            question: 'When I was a child, I _______ (play) in the park every day.',
+            options: ['play', 'played', 'plays', 'was play'],
+            correct: 'played',
+            explanation: '"When I was a child" chỉ thời điểm trong quá khứ. "Play" là động từ có quy tắc, thêm -ed thành "played".'
+        },
+        {
+            type: 'fitb',
+            question: 'The students _______ (not finish) their homework on time.',
+            correct: ["didn't finish", "did not finish"],
+            explanation: 'Phủ định quá khứ đơn: didn\'t + V_nguyên_mẫu. "The students" là số nhiều nhưng vẫn dùng "didn\'t" (không phải "weren\'t" vì đây là động từ thường).'
+        }
+    ],
+
+    // ==========================================
+    // THÌ TƯƠNG LAI ĐƠN (Future Simple)
+    // ==========================================
+    futureSimple: [
+        {
+            type: 'mcq',
+            question: 'I _______ help you with your homework tonight.',
+            illustration: 'student',
+            options: ['am', 'was', 'will', 'would'],
+            correct: 'will',
+            explanation: 'Quyết định tức thì khi được yêu cầu giúp đỡ → dùng WILL. Công thức: S + will + V_nguyên_mẫu.'
+        },
+        {
+            type: 'mcq',
+            question: 'She _______ (not come) to the party tomorrow.',
+            options: ["didn't come", "won't come", "doesn't come", "isn't come"],
+            correct: "won't come",
+            explanation: 'Phủ định tương lai đơn: S + won\'t (will not) + V_nguyên_mẫu. "Won\'t" là dạng rút gọn của "will not".'
+        },
+        {
+            type: 'fitb',
+            question: '_______ you be at home this evening?',
+            correct: ['Will'],
+            explanation: 'Câu hỏi tương lai đơn: Will + S + V_nguyên_mẫu? "Will" đứng đầu câu hỏi.'
+        },
+        {
+            type: 'mcq',
+            question: 'Look at those dark clouds! It _______ rain.',
+            options: ['will', 'is going to', 'would', 'shall'],
+            correct: 'is going to',
+            explanation: 'Dấu hiệu rõ ràng (dark clouds) cho thấy điều sắp xảy ra → dùng BE GOING TO. "It is going to rain" = trời sắp mưa.'
+        },
+        {
+            type: 'fitb',
+            question: 'We _______ (visit) Hoi An next month. (Dùng be going to)',
+            correct: ['are going to visit'],
+            explanation: 'Kế hoạch đã định sẵn từ trước → BE GOING TO. We + are going to + visit.'
+        },
+        {
+            type: 'order',
+            question: 'Hãy xếp các từ thành câu đúng: "Anh ấy sẽ gọi điện cho bạn vào ngày mai."',
+            words: ['He', 'will', 'call', 'you', 'tomorrow'],
+            correct: 'He will call you tomorrow',
+            explanation: 'Công thức tương lai đơn: S + will + V_nguyên_mẫu + O + Trạng từ thời gian. "Will" không thay đổi theo chủ ngữ.'
+        },
+        {
+            type: 'mcq',
+            question: 'I\'m hungry. — Don\'t worry, I _______ make you a sandwich.',
+            options: ['am going to', 'will', 'shall', 'would'],
+            correct: 'will',
+            explanation: 'Quyết định ngay tại thời điểm nói (tức thì) → dùng WILL, không phải "be going to" (vốn dùng cho kế hoạch đã chuẩn bị trước).'
+        },
+        {
+            type: 'mcq',
+            question: 'By 2050, robots _______ do many jobs for humans.',
+            options: ['will', 'are going to', 'would', 'A hoặc B đều đúng'],
+            correct: 'A hoặc B đều đúng',
+            explanation: 'Dự đoán xa (không có bằng chứng rõ ràng) thường dùng WILL. Nhưng nếu có dấu hiệu thì BE GOING TO cũng được. Cả hai đều chấp nhận được trong câu dự đoán.'
+        }
     ]
 };
+
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
@@ -897,9 +1025,20 @@ function switchTab(tabName) {
     if (tabName === 'ipa') {
         mainTitle.innerHTML = 'Mục 1: Phát âm & Khẩu hình <span class="badge">IPA Guide</span>';
     } else if (tabName === 'grammar') {
-        mainTitle.innerHTML = 'Mục 2: Các thì ngữ pháp <span class="badge">Grammar</span>';
+        mainTitle.innerHTML = 'Ngữ Pháp: Thì Hiện Tại Đơn <span class="badge">Present Simple</span>';
+    } else if (tabName === 'past') {
+        mainTitle.innerHTML = 'Ngữ Pháp: Thì Quá Khứ Đơn <span class="badge">Past Simple</span>';
+    } else if (tabName === 'future') {
+        mainTitle.innerHTML = 'Ngữ Pháp: Thì Tương Lai Đơn <span class="badge">Future Simple</span>';
     } else if (tabName === 'practice') {
         mainTitle.innerHTML = 'Luyện tập Tương tác <span class="badge">Interactive Quiz</span>';
+    } else if (tabName === 'dict') {
+        mainTitle.innerHTML = 'Từ Điển & Tra Phát Âm <span class="badge">Dictionary & Pronunciation</span>';
+        // Auto-focus the search input when switching to dict tab
+        setTimeout(() => {
+            const inp = document.getElementById('dict-main-input');
+            if (inp) inp.focus();
+        }, 200);
     } else if (tabName === 'progress') {
         mainTitle.innerHTML = 'Tiến trình & Sổ tay từ vựng <span class="badge">Progress & Vocab</span>';
         updateProgressTab();
@@ -939,8 +1078,16 @@ function switchPracticeTopic(topicName) {
     const activeBtn = document.getElementById(`btn-topic-${topicName}`);
     if (activeBtn) activeBtn.classList.add('active');
     
-    // Reset index & load topic specific questions
-    currentQuestionIndex = 0;
+    // Initialize infinite shuffled pool for grammar/ipa topics
+    if (topicName !== 'game') {
+        const topicQuestions = questionsDatabase[topicName] || [];
+        shuffledQuestionPool = shuffleArray(topicQuestions.map((_, i) => i));
+        poolPosition = 0;
+        currentQuestionIndex = shuffledQuestionPool[0] ?? 0;
+    } else {
+        usedGameWordIndices = []; // reset game word pool
+    }
+    
     loadQuestion();
     updateProgressUI();
 }
@@ -1510,8 +1657,19 @@ function loadSoundGameQuestion() {
     typeBadge.style.borderColor = 'rgba(16, 185, 129, 0.2)';
     typeBadge.style.color = '#34d399';
 
-    // Pick random target word
-    currentGameWord = soundGameWords[Math.floor(Math.random() * soundGameWords.length)];
+    // Reset question-text so old quiz text doesn't bleed through
+    document.getElementById('question-text').textContent = '';
+
+    // Pick next word avoiding immediate repeat — cycle through all words before repeating
+    if (usedGameWordIndices.length >= soundGameWords.length) {
+        usedGameWordIndices = []; // all words shown → reset pool
+    }
+    let available = soundGameWords
+        .map((_, i) => i)
+        .filter(i => !usedGameWordIndices.includes(i));
+    const pickedIndex = available[Math.floor(Math.random() * available.length)];
+    usedGameWordIndices.push(pickedIndex);
+    currentGameWord = soundGameWords[pickedIndex];
     
     document.getElementById('game-target-word').textContent = currentGameWord.word;
     document.getElementById('sound-game-container').classList.remove('hidden');
@@ -1520,6 +1678,7 @@ function loadSoundGameQuestion() {
     // Enable game buttons
     document.querySelectorAll('.bucket-btn').forEach(btn => {
         btn.disabled = false;
+        btn.classList.remove('correct', 'incorrect');
     });
 }
 
@@ -1627,39 +1786,79 @@ function handleAnswerResult(isCorrect, userVal, correctVal) {
     updateProgressUI();
 }
 
-// Next question switcher
+// Next question switcher — supports infinite mode (no repeat within a full round)
 function nextQuestion() {
     if (currentPracticeTopic === 'game') {
         loadSoundGameQuestion();
         return;
     }
 
-    currentQuestionIndex++;
     const topicQuestions = questionsDatabase[currentPracticeTopic] || [];
-    
-    if (currentQuestionIndex >= topicQuestions.length) {
-        alert('Chúc mừng! Bạn đã hoàn thành bộ bài tập của chủ đề này. Hãy xem thành quả và huy hiệu ở Tab Tiến Trình.');
-        currentQuestionIndex = 0;
-        switchTab('progress');
-    } else {
-        loadQuestion();
+    if (topicQuestions.length === 0) return;
+
+    // Advance pool position
+    poolPosition++;
+
+    if (poolPosition >= shuffledQuestionPool.length) {
+        // Completed one full round — reshuffle and start again (infinite!)
+        shuffledQuestionPool = shuffleArray(topicQuestions.map((_, i) => i));
+        poolPosition = 0;
+        showRoundCompleteToast();
     }
+
+    currentQuestionIndex = shuffledQuestionPool[poolPosition];
+    loadQuestion();
+}
+
+// Utility: Fisher-Yates shuffle returning array of indices
+function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+// Brief non-blocking toast for round complete
+function showRoundCompleteToast() {
+    const toast = document.createElement('div');
+    toast.textContent = '🎊 Vòng mới! Bài tập đã được xáo trộn ngẫu nhiên — tiếp tục chinh phục!';
+    toast.style.cssText = `
+        position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        color: white; padding: 0.9rem 1.8rem; border-radius: 2rem;
+        font-weight: 600; font-size: 0.95rem; z-index: 9999;
+        box-shadow: 0 8px 32px rgba(99,102,241,0.4);
+        animation: toastIn 0.4s ease;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
 }
 
 // Restart Quiz
 function resetQuiz() {
-    currentQuestionIndex = 0;
     currentScore = 0;
     answeredQuestionsCount = 0;
     correctAnswersCount = 0;
     correctIpaAnswersCount = 0;
     streak = 0;
     userAnswers = [];
+    usedGameWordIndices = [];
+
+    // Re-init shuffled pool for infinite mode
+    if (currentPracticeTopic !== 'game') {
+        const topicQuestions = questionsDatabase[currentPracticeTopic] || [];
+        shuffledQuestionPool = shuffleArray(topicQuestions.map((_, i) => i));
+        poolPosition = 0;
+        currentQuestionIndex = shuffledQuestionPool[0] ?? 0;
+    }
     
     saveProgressToStorage();
     loadQuestion();
     updateProgressUI();
 }
+
 
 // UI score refresh
 function updateProgressUI() {
@@ -2210,3 +2409,308 @@ function loadProgressFromStorage() {
 
 // Call on startup loading
 loadProgressFromStorage();
+
+// ======================================================
+//   DICTIONARY TAB - TỪ ĐIỂN & PHÁT ÂM CHÍNH
+// ======================================================
+
+let activeDictWordData = null;
+
+async function handleDictSearch() {
+    const input = document.getElementById('dict-main-input');
+    const query = input ? input.value.trim() : '';
+    if (!query) return;
+
+    const loadingEl = document.getElementById('dict-loading');
+    const resultWrapper = document.getElementById('dict-result-wrapper');
+    const sentenceResult = document.getElementById('dict-sentence-result');
+
+    loadingEl.classList.remove('hidden');
+    resultWrapper.classList.add('hidden');
+    sentenceResult.classList.add('hidden');
+
+    // Reset the IPA detail panel
+    document.getElementById('dict-panel-empty').classList.remove('hidden');
+    document.getElementById('dict-panel-content').classList.add('hidden');
+
+    const words = query.split(/\s+/);
+    const isSingleWord = words.length === 1 && /^[a-zA-Z'-]+$/.test(words[0]);
+
+    try {
+        if (isSingleWord) {
+            const cleanWord = words[0].toLowerCase();
+            const [resTrans, resDict] = await Promise.all([
+                fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(cleanWord)}&langpair=en|vi`),
+                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${cleanWord}`)
+            ]);
+
+            let viMeaning = '';
+            if (resTrans.ok) {
+                const td = await resTrans.json();
+                const raw = td.responseData.translatedText || '';
+                viMeaning = new DOMParser().parseFromString(raw, 'text/html').body.textContent;
+            }
+
+            if (resDict.ok) {
+                const dictData = await resDict.json();
+                activeDictWordData = parseDictionaryData(dictData[0]);
+                activeDictWordData.viMeaning = viMeaning;
+                renderDictWordResult(activeDictWordData, dictData[0]);
+            } else {
+                renderDictFallback(cleanWord, viMeaning);
+            }
+        } else {
+            const resTrans = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(query)}&langpair=en|vi`);
+            let viSentence = 'Không tìm thấy bản dịch.';
+            if (resTrans.ok) {
+                const td = await resTrans.json();
+                const raw = td.responseData.translatedText || '';
+                viSentence = new DOMParser().parseFromString(raw, 'text/html').body.textContent;
+            }
+            renderDictSentence(query, viSentence);
+        }
+    } catch (err) {
+        console.error('Dict tab error:', err);
+        document.getElementById('dict-translation-text').textContent = 'Lỗi kết nối. Vui lòng thử lại.';
+        resultWrapper.classList.remove('hidden');
+    } finally {
+        loadingEl.classList.add('hidden');
+    }
+}
+
+function renderDictWordResult(data, rawData) {
+    document.getElementById('dict-word-main').textContent = data.word;
+    const pos = data.meanings && data.meanings.length > 0 ? data.meanings[0].partOfSpeech : '';
+    document.getElementById('dict-word-type').textContent = pos ? `(${pos})` : '';
+    document.getElementById('dict-ipa-uk').textContent = data.phoneticUK || '/—/';
+    document.getElementById('dict-ipa-us').textContent = data.phoneticUS || '/—/';
+    document.getElementById('dict-translation-text').textContent = data.viMeaning || '(Chưa có nghĩa tiếng Việt)';
+
+    // Definitions
+    const defsArea = document.getElementById('dict-definitions-area');
+    defsArea.innerHTML = '';
+    (data.meanings || []).slice(0, 4).forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'dict-def-item';
+        div.innerHTML = `<span class="dict-def-pos">${m.partOfSpeech}:</span> ${m.definition}`;
+        defsArea.appendChild(div);
+    });
+
+    // IPA Sound Breakdown chips
+    renderIPABreakdown(data.phoneticUK || data.phoneticUS || '');
+
+    document.getElementById('dict-result-wrapper').classList.remove('hidden');
+    document.getElementById('dict-sentence-result').classList.add('hidden');
+    document.getElementById('dict-save-btn').classList.remove('saved');
+
+    // AUTO-PLAY UK audio after short delay
+    setTimeout(() => playDictAudio('uk'), 500);
+}
+
+function renderDictFallback(word, viMeaning) {
+    document.getElementById('dict-word-main').textContent = word;
+    document.getElementById('dict-word-type').textContent = '';
+    document.getElementById('dict-ipa-uk').textContent = '/—/';
+    document.getElementById('dict-ipa-us').textContent = '/—/';
+    document.getElementById('dict-translation-text').textContent = viMeaning || '(Không tìm thấy nghĩa)';
+    document.getElementById('dict-definitions-area').innerHTML = '';
+    document.getElementById('dict-sound-chips').innerHTML = `
+        <p style="color:var(--text-muted);font-size:0.85rem;padding:1rem 0;">
+            Không tìm thấy từ này trong từ điển phát âm. Bạn có thể nghe bằng nút phát âm UK/US.
+        </p>`;
+    activeDictWordData = { word, phoneticUK: '', phoneticUS: '', audioUK: null, audioUS: null, meanings: [], viMeaning };
+    document.getElementById('dict-result-wrapper').classList.remove('hidden');
+    document.getElementById('dict-sentence-result').classList.add('hidden');
+    setTimeout(() => speakText(word, 'uk'), 500);
+}
+
+function renderDictSentence(sentence, viTranslation) {
+    document.getElementById('dict-sentence-original').textContent = sentence;
+    document.getElementById('dict-sentence-translation').textContent = viTranslation;
+    document.getElementById('dict-sentence-result').classList.remove('hidden');
+    document.getElementById('dict-result-wrapper').classList.add('hidden');
+    setTimeout(() => speakText(sentence, 'us'), 500);
+}
+
+function renderIPABreakdown(ipaText) {
+    const container = document.getElementById('dict-sound-chips');
+    container.innerHTML = '';
+    if (!ipaText || ipaText === '/—/') {
+        container.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;padding:0.5rem 0;">Không có thông tin IPA để phân tích.</p>';
+        return;
+    }
+
+    // Show full IPA label
+    const fullLabel = document.createElement('div');
+    fullLabel.className = 'ipa-full-word-label';
+    fullLabel.textContent = ipaText;
+    container.appendChild(fullLabel);
+
+    // Clean IPA for matching
+    const cleaned = ipaText.replace(/[\/\.ˈˌː]/g, '');
+    const matchedSounds = [];
+    let remaining = cleaned;
+    let safety = 0;
+
+    while (remaining.length > 0 && safety++ < 60) {
+        let matched = false;
+        for (let len = 3; len >= 1; len--) {
+            if (remaining.length < len) continue;
+            const chunk = remaining.substring(0, len);
+            const found = allIpaSounds.find(s => {
+                const sym = s.symbol.replace(/[\/\.ˈˌː]/g, '');
+                return sym === chunk;
+            });
+            if (found) {
+                matchedSounds.push(found);
+                remaining = remaining.substring(len);
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) {
+            matchedSounds.push({ symbol: remaining[0], _unmatched: true, type: 'other' });
+            remaining = remaining.substring(1);
+        }
+    }
+
+    if (matchedSounds.filter(s => !s._unmatched).length === 0) {
+        container.innerHTML += '<p style="color:var(--text-muted);font-size:0.85rem;">Nhấp vào bảng IPA để tìm hiểu từng âm.</p>';
+        return;
+    }
+
+    const chipsRow = document.createElement('div');
+    chipsRow.className = 'ipa-chips-row';
+    matchedSounds.forEach(sound => {
+        const chip = document.createElement('button');
+        chip.className = `dict-ipa-chip sound-type-${sound.type || 'other'}${sound._unmatched ? ' unmatched' : ''}`;
+        chip.textContent = sound.symbol;
+        chip.title = sound.name || '';
+        if (!sound._unmatched) {
+            chip.onclick = () => showDictIpaDetail(sound, chip);
+        }
+        chipsRow.appendChild(chip);
+    });
+    container.appendChild(chipsRow);
+
+    const hint = document.createElement('p');
+    hint.className = 'chips-hint';
+    hint.textContent = '👆 Nhấp vào từng âm để xem hướng dẫn khẩu hình →';
+    container.appendChild(hint);
+}
+
+function showDictIpaDetail(sound, chipEl) {
+    document.querySelectorAll('.dict-ipa-chip').forEach(c => c.classList.remove('active'));
+    if (chipEl) chipEl.classList.add('active');
+
+    document.getElementById('dict-panel-empty').classList.add('hidden');
+    document.getElementById('dict-panel-content').classList.remove('hidden');
+
+    document.getElementById('dict-panel-type').textContent = sound.name || sound.symbol;
+    document.getElementById('dict-panel-symbol').textContent = sound.symbol;
+    document.getElementById('dict-panel-name').textContent = sound.voicing === 'voiced' ? 'Hữu thanh (Voiced)' : 'Vô thanh (Voiceless)';
+
+    const isVoiced = sound.voicing === 'voiced';
+    document.getElementById('dict-voice-wave').className = isVoiced ? 'voice-wave active' : 'voice-wave';
+    document.getElementById('dict-voicing-text').textContent = isVoiced
+        ? '🔔 Hữu thanh – Đặt tay lên cổ, cảm nhận rung khi phát âm'
+        : '🔕 Vô thanh – Hơi thở thoát ra, không rung cổ họng';
+
+    // Render mouth SVG
+    const svgEl = document.getElementById('dict-mouth-svg');
+    if (svgEl && typeof renderMouthSVG === 'function') {
+        renderMouthSVG(svgEl, sound);
+    }
+
+    // Instructions
+    const listEl = document.getElementById('dict-instructions-list');
+    listEl.innerHTML = '';
+    (sound.description || []).forEach(desc => {
+        const li = document.createElement('li');
+        li.textContent = desc;
+        listEl.appendChild(li);
+    });
+
+    // Examples
+    const existingEx = document.getElementById('dict-panel-content').querySelector('.dict-panel-examples');
+    if (existingEx) existingEx.remove();
+
+    if (sound.examples && sound.examples.length > 0) {
+        const exDiv = document.createElement('div');
+        exDiv.className = 'dict-panel-examples';
+        exDiv.innerHTML = '<h5>Từ ví dụ:</h5>';
+        const exList = document.createElement('div');
+        exList.className = 'example-list';
+        sound.examples.forEach(ex => {
+            const item = document.createElement('div');
+            item.className = 'example-item';
+            item.innerHTML = `
+                <button class="btn-play-example" onclick="speakText('${ex.word}','uk')" title="Nghe">▶</button>
+                <span class="example-word">${ex.word}</span>
+                <span class="example-ipa">${ex.ipa}</span>
+                <span class="example-meaning">${ex.text}</span>`;
+            exList.appendChild(item);
+        });
+        exDiv.appendChild(exList);
+        document.getElementById('dict-panel-content').appendChild(exDiv);
+
+        // Play first example word
+        speakText(sound.examples[0].word, 'uk');
+    }
+}
+
+function playDictAudio(accent) {
+    if (!activeDictWordData) return;
+    const audioUrl = accent === 'uk' ? activeDictWordData.audioUK : activeDictWordData.audioUS;
+    const fallbackAccent = accent === 'uk' ? 'us' : 'uk';
+    const fallbackUrl = accent === 'uk' ? activeDictWordData.audioUS : activeDictWordData.audioUK;
+
+    const playUrl = audioUrl || fallbackUrl;
+    if (playUrl) {
+        const audio = new Audio(playUrl);
+        audio.play().catch(() => speakText(activeDictWordData.word, accent));
+    } else {
+        speakText(activeDictWordData.word, accent);
+    }
+}
+
+function playSentenceAudio(elementId, accent) {
+    const el = document.getElementById(elementId);
+    if (el) speakText(el.textContent, accent);
+}
+
+function clearDictSearch() {
+    const input = document.getElementById('dict-main-input');
+    if (input) { input.value = ''; input.focus(); }
+    document.getElementById('dict-result-wrapper').classList.add('hidden');
+    document.getElementById('dict-sentence-result').classList.add('hidden');
+    document.getElementById('dict-loading').classList.add('hidden');
+    document.getElementById('dict-panel-empty').classList.remove('hidden');
+    document.getElementById('dict-panel-content').classList.add('hidden');
+    activeDictWordData = null;
+}
+
+function quickSearch(word) {
+    const input = document.getElementById('dict-main-input');
+    if (input) input.value = word;
+    handleDictSearch();
+}
+
+function saveDictWordToVocab() {
+    if (!activeDictWordData) return;
+    const { word, phoneticUK, phoneticUS, audioUK, audioUS, viMeaning } = activeDictWordData;
+    const ipa = phoneticUK || phoneticUS || '';
+    addWordToVocabNotebook(word, viMeaning || '', ipa, audioUK || '', audioUS || '');
+    const btn = document.getElementById('dict-save-btn');
+    if (btn) btn.classList.add('saved');
+}
+
+// Override translateWordClick to redirect to dict tab
+function translateWordClick(word) {
+    const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim();
+    if (!cleanWord || cleanWord.length < 2) return;
+    switchTab('dict');
+    const input = document.getElementById('dict-main-input');
+    if (input) input.value = cleanWord;
+    setTimeout(() => handleDictSearch(), 350);
+}
