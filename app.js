@@ -1875,135 +1875,270 @@ function selectIPASound(sound, cellElement) {
 }
 
 // Render dynamic face profile SVG based on sound parameters
-function drawMouthSVG(symbol) {
-    const svg = document.getElementById('mouth-svg');
+// Render dynamic front-facing + side-profile SVG based on sound parameters
+function drawMouthSVG(target, symbol) {
+    let svg;
+    let sym = symbol;
+    if (!symbol) {
+        svg = document.getElementById('mouth-svg');
+        sym = target;
+    } else {
+        svg = typeof target === 'string' ? document.getElementById(target) : target;
+    }
     if (!svg) return;
     
     let lipsProfile = "neutral";
     let tongueProfile = "neutral";
     let voiceActive = true;
     
-    const soundData = allIpaSounds.find(s => s.symbol === symbol);
+    const soundData = allIpaSounds.find(s => s.symbol === sym);
     if (soundData) {
         voiceActive = (soundData.voicing === "voiced");
         
         // Categorize profile based on details
-        if (["/i:/", "/ɪ/", "/e/", "/æ/"].includes(symbol)) {
+        if (["/i:/", "/ɪ/", "/e/", "/æ/"].includes(sym)) {
             lipsProfile = "open-spread";
-            tongueProfile = symbol === "/i:/" || symbol === "/ɪ/" ? "high-front" : "low-front";
-        } else if (["/u:/", "/ʊ/", "/ɔ:/", "/ɒ/"].includes(symbol)) {
+            tongueProfile = sym === "/i:/" || sym === "/ɪ/" ? "high-front" : "low-front";
+        } else if (["/u:/", "/ʊ/", "/ɔ:/", "/ɒ/"].includes(sym)) {
             lipsProfile = "open-round";
-            tongueProfile = symbol === "/u:/" || symbol === "/ʊ/" ? "high-back" : "low-back";
-        } else if (["/ʌ/", "/ɑ:/", "/ə/", "/ɜ:/"].includes(symbol)) {
+            tongueProfile = sym === "/u:/" || sym === "/ʊ/" ? "high-back" : "low-back";
+        } else if (["/ʌ/", "/ɑ:/", "/ə/", "/ɜ:/"].includes(sym)) {
             lipsProfile = "neutral";
-            tongueProfile = symbol === "/ɑ:/" ? "low-back" : "neutral";
-        } else if (["/p/", "/b/", "/m/"].includes(symbol)) {
+            tongueProfile = sym === "/ɑ:/" ? "low-back" : "neutral";
+        } else if (["/p/", "/b/", "/m/"].includes(sym)) {
             lipsProfile = "closed";
             tongueProfile = "neutral";
-        } else if (["/f/", "/v/"].includes(symbol)) {
+        } else if (["/f/", "/v/"].includes(sym)) {
             lipsProfile = "lip-bite";
             tongueProfile = "neutral";
-        } else if (["/θ/", "/ð/"].includes(symbol)) {
+        } else if (["/θ/", "/ð/"].includes(sym)) {
             lipsProfile = "narrow";
             tongueProfile = "touch-teeth";
-        } else if (["/t/", "/d/", "/n/", "/l/", "/s/", "/z/"].includes(symbol)) {
+        } else if (["/t/", "/d/", "/n/", "/l/", "/s/", "/z/"].includes(sym)) {
             lipsProfile = "narrow";
             tongueProfile = "touch-alveolar";
-        } else if (["/k/", "/g/", "/ŋ/"].includes(symbol)) {
+        } else if (["/k/", "/g/", "/ŋ/"].includes(sym)) {
             lipsProfile = "narrow";
             tongueProfile = "velar-block";
         }
     }
 
-    // SVG elements calculation
-    let upperLip = "";
-    let lowerLip = "";
-    let teeth = "";
-    let tongue = "";
-    let vocalCords = "";
+    // SVG linear gradients definitions (defs)
+    const defs = `
+        <defs>
+            <linearGradient id="lipsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff758c" />
+                <stop offset="100%" stop-color="#ff7eb3" />
+            </linearGradient>
+            <linearGradient id="palateGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="rgba(56, 189, 248, 0.15)" />
+                <stop offset="100%" stop-color="rgba(56, 189, 248, 0.02)" />
+            </linearGradient>
+            <linearGradient id="tongueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fd79a8" />
+                <stop offset="100%" stop-color="#e84393" />
+            </linearGradient>
+        </defs>
+    `;
 
-    // Lips configuration
+    // FRONT VIEW rendering paths (X: 10 -> 95)
+    let frontCavity = "";
+    let frontTeeth = "";
+    let frontTongue = "";
+    let frontLips = "";
+
     if (lipsProfile === "closed") {
-        upperLip = "M 70 65 Q 85 70 85 70";
-        lowerLip = "M 85 70 Q 85 70 70 85";
+        frontLips = `
+            <path d="M 22 65 C 32 58, 48 58, 55 62 C 62 58, 78 58, 88 65 C 78 67, 55 68, 22 65 Z" fill="url(#lipsGrad)" />
+            <path d="M 22 65 C 38 73, 72 73, 88 65 C 78 70, 55 70, 22 65 Z" fill="url(#lipsGrad)" />
+            <line x1="22" y1="65" x2="88" y2="65" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" />
+        `;
     } else if (lipsProfile === "open-spread") {
-        upperLip = "M 65 52 Q 78 58 85 64";
-        lowerLip = "M 65 98 Q 78 92 85 86";
-        teeth = "M 82 64 V 68 M 82 86 V 82";
+        frontCavity = `<path d="M 26 65 Q 55 42 84 65 Q 55 88 26 65 Z" fill="rgba(17,17,17,0.95)" stroke="rgba(255,255,255,0.05)" />`;
+        frontTeeth = `
+            <!-- Upper Teeth -->
+            <path d="M 34 52 H 76 V 59 H 34 Z" fill="#ffffff" rx="1" />
+            <path d="M 42 52 V 59 M 50 52 V 59 M 60 52 V 59 M 68 52 V 59" stroke="rgba(0,0,0,0.12)" stroke-width="1" />
+            <!-- Lower Teeth -->
+            <path d="M 37 70 H 73 V 77 H 37 Z" fill="#ffffff" rx="1" />
+            <path d="M 44 70 V 77 M 51 70 V 77 M 59 70 V 77 M 66 70 V 77" stroke="rgba(0,0,0,0.12)" stroke-width="1" />
+        `;
+        if (tongueProfile === "touch-teeth") {
+            frontTongue = `<path d="M 40 65 Q 55 58 70 65 Q 70 73 55 73 Q 40 73 40 65 Z" fill="url(#tongueGrad)" />`;
+        } else if (tongueProfile.startsWith("high")) {
+            frontTongue = `<path d="M 32 68 Q 55 58 78 68 Q 55 85 32 68 Z" fill="url(#tongueGrad)" opacity="0.8" />`;
+        } else {
+            frontTongue = `<path d="M 30 76 Q 55 70 80 76 Q 55 86 30 76 Z" fill="url(#tongueGrad)" />`;
+        }
+        frontLips = `
+            <path d="M 18 65 Q 40 37 55 42 Q 70 37 92 65 Q 70 51 55 53 Q 40 51 18 65 Z" fill="url(#lipsGrad)" />
+            <path d="M 18 65 Q 55 93 92 65 Q 70 77 55 79 Q 40 77 18 65 Z" fill="url(#lipsGrad)" />
+        `;
     } else if (lipsProfile === "open-round") {
-        upperLip = "M 68 56 Q 72 63 76 66";
-        lowerLip = "M 68 94 Q 72 87 76 84";
-        teeth = "M 74 65 V 68 M 74 85 V 82";
+        frontCavity = `<circle cx="55" cy="65" r="14" fill="rgba(17,17,17,0.95)" />`;
+        frontTeeth = `
+            <path d="M 47 58 Q 55 61 63 58 V 59 Q 55 62 47 59 Z" fill="#ffffff" />
+            <path d="M 48 71 Q 55 68 62 71 V 70 Q 55 67 48 70 Z" fill="#ffffff" />
+        `;
+        frontLips = `
+            <path d="M 33 65 A 22 22 0 1 1 77 65 A 22 22 0 1 1 33 65 Z M 43 65 A 12 12 0 1 0 67 65 A 12 12 0 1 0 43 65 Z" fill="url(#lipsGrad)" fill-rule="evenodd" />
+        `;
     } else if (lipsProfile === "lip-bite") {
-        upperLip = "M 68 53 Q 78 58 82 66";
-        lowerLip = "M 65 94 Q 80 82 82 72"; // Tucked bottom lip
-        teeth = "M 82 66 V 72";
+        frontCavity = `<path d="M 28 62 Q 55 48 82 62 Q 55 76 28 62 Z" fill="rgba(17,17,17,0.95)" />`;
+        frontTeeth = `
+            <path d="M 34 53 H 76 V 65 H 34 Z" fill="#ffffff" rx="1" />
+            <path d="M 42 53 V 65 M 50 53 V 65 M 60 53 V 65 M 68 53 V 65" stroke="rgba(0,0,0,0.12)" stroke-width="1" />
+        `;
+        frontLips = `
+            <path d="M 20 62 Q 40 40 55 44 Q 70 40 90 62 Q 70 51 55 53 Q 40 51 20 62 Z" fill="url(#lipsGrad)" />
+            <path d="M 20 68 Q 55 86 90 68 Q 70 73 55 73 Q 40 73 20 68 Z" fill="url(#lipsGrad)" />
+        `;
     } else { // narrow / neutral
-        upperLip = "M 67 56 Q 78 60 82 67";
-        lowerLip = "M 67 94 Q 78 90 82 83";
-        teeth = "M 80 67 V 71 M 80 83 V 79";
+        frontCavity = `<path d="M 28 65 Q 55 48 82 65 Q 55 82 28 65 Z" fill="rgba(17,17,17,0.95)" />`;
+        frontTeeth = `
+            <path d="M 36 55 H 74 V 60 H 36 Z" fill="#ffffff" rx="0.5" />
+            <path d="M 38 70 H 72 V 75 H 38 Z" fill="#ffffff" rx="0.5" />
+        `;
+        if (tongueProfile === "touch-teeth") {
+            frontTongue = `<path d="M 42 65 Q 55 59 68 65 Q 68 71 55 71 Q 42 71 42 65 Z" fill="url(#tongueGrad)" />`;
+        } else if (tongueProfile === "touch-alveolar") {
+            frontTongue = `<path d="M 36 68 Q 55 62 74 68 Q 55 78 36 68 Z" fill="url(#tongueGrad)" opacity="0.8" />`;
+        }
+        frontLips = `
+            <path d="M 22 65 Q 40 45 55 49 Q 70 45 88 65 Q 70 55 55 57 Q 40 55 22 65 Z" fill="url(#lipsGrad)" />
+            <path d="M 22 65 Q 55 85 88 65 Q 70 72 55 74 Q 40 72 22 65 Z" fill="url(#lipsGrad)" />
+        `;
     }
 
-    // Tongue position configuration
-    if (tongueProfile === "high-front") {
-        tongue = "M 115 110 C 110 75, 95 65, 82 72 C 84 82, 98 94, 115 110 Z";
-    } else if (tongueProfile === "low-front") {
-        tongue = "M 115 110 C 110 88, 90 82, 80 86 C 82 92, 98 102, 115 110 Z";
-    } else if (tongueProfile === "high-back") {
-        tongue = "M 115 110 C 104 68, 94 78, 86 88 C 89 96, 99 104, 115 110 Z";
-    } else if (tongueProfile === "low-back") {
-        tongue = "M 115 110 C 110 93, 98 88, 90 93 C 92 100, 100 105, 115 110 Z";
-    } else if (tongueProfile === "touch-teeth") {
-        tongue = "M 115 110 C 105 85, 90 73, 76 73 C 78 80, 98 96, 115 110 Z";
-    } else if (tongueProfile === "touch-alveolar") {
-        tongue = "M 115 110 C 105 80, 92 63, 83 63 C 86 73, 98 93, 115 110 Z";
-    } else if (tongueProfile === "velar-block") {
-        tongue = "M 115 110 C 98 68, 92 82, 87 90 C 90 96, 100 104, 115 110 Z";
-    } else { // neutral
-        tongue = "M 115 110 C 105 88, 92 78, 84 83 C 87 93, 100 103, 115 110 Z";
-    }
+    // SIDE VIEW rendering paths (X: 105 -> 195)
+    let sideTeeth = `
+        <rect x="156" y="44" width="4" height="8" rx="1" fill="#ffffff" />
+        <rect x="156" y="78" width="4" height="8" rx="1" fill="#ffffff" />
+    `;
 
-    // Vocal Cords vibration configuration
-    if (voiceActive) {
-        vocalCords = "M 125 120 Q 128 118, 131 120 T 137 120 T 143 120 T 149 120";
+    // Lips side
+    let sideLips = "";
+    if (lipsProfile === "closed") {
+        sideLips = `
+            <path d="M 148 55 Q 155 58 152 62" fill="none" stroke="url(#lipsGrad)" stroke-width="4.5" stroke-linecap="round" />
+            <path d="M 148 70 Q 155 67 152 62" fill="none" stroke="url(#lipsGrad)" stroke-width="4.5" stroke-linecap="round" />
+        `;
+    } else if (lipsProfile === "open-spread") {
+        sideLips = `
+            <path d="M 145 38 Q 153 41 150 46" fill="none" stroke="url(#lipsGrad)" stroke-width="4.5" stroke-linecap="round" />
+            <path d="M 145 88 Q 153 85 150 80" fill="none" stroke="url(#lipsGrad)" stroke-width="4.5" stroke-linecap="round" />
+        `;
+    } else if (lipsProfile === "open-round") {
+        sideLips = `
+            <path d="M 142 42 Q 155 45 150 49" fill="none" stroke="url(#lipsGrad)" stroke-width="5.5" stroke-linecap="round" />
+            <path d="M 142 84 Q 155 81 150 77" fill="none" stroke="url(#lipsGrad)" stroke-width="5.5" stroke-linecap="round" />
+        `;
+    } else if (lipsProfile === "lip-bite") {
+        sideLips = `
+            <path d="M 145 38 Q 153 41 150 46" fill="none" stroke="url(#lipsGrad)" stroke-width="4.5" stroke-linecap="round" />
+            <path d="M 144 88 Q 154 82 153 72" fill="none" stroke="url(#lipsGrad)" stroke-width="4.5" stroke-linecap="round" />
+        `;
     } else {
-        vocalCords = "M 125 120 L 150 120";
+        sideLips = `
+            <path d="M 146 41 Q 153 43 150 48" fill="none" stroke="url(#lipsGrad)" stroke-width="4.5" stroke-linecap="round" />
+            <path d="M 146 85 Q 153 83 150 78" fill="none" stroke="url(#lipsGrad)" stroke-width="4.5" stroke-linecap="round" />
+        `;
     }
 
+    // Tongue side
+    let sideTongue = "";
+    if (tongueProfile === "high-front") {
+        sideTongue = "M 180 112 C 172 74, 158 55, 146 64 C 148 76, 160 90, 180 112 Z";
+    } else if (tongueProfile === "low-front") {
+        sideTongue = "M 180 112 C 172 88, 154 78, 144 83 C 146 90, 160 100, 180 112 Z";
+    } else if (tongueProfile === "high-back") {
+        sideTongue = "M 180 112 C 170 60, 158 72, 148 84 C 151 93, 162 102, 180 112 Z";
+    } else if (tongueProfile === "low-back") {
+        sideTongue = "M 180 112 C 174 88, 162 84, 152 89 C 155 96, 164 102, 180 112 Z";
+    } else if (tongueProfile === "touch-teeth") {
+        sideTongue = "M 180 112 C 170 82, 156 68, 140 68 C 142 76, 162 94, 180 112 Z";
+    } else if (tongueProfile === "touch-alveolar") {
+        sideTongue = "M 180 112 C 170 78, 158 52, 150 52 C 152 64, 162 90, 180 112 Z";
+    } else if (tongueProfile === "velar-block") {
+        sideTongue = "M 180 112 C 162 60, 156 75, 151 86 C 154 92, 162 102, 180 112 Z";
+    } else { // neutral
+        sideTongue = "M 180 112 C 170 82, 156 72, 148 78 C 151 88, 162 99, 180 112 Z";
+    }
+
+    // Vocal cords side
+    let sideVocalCords = "";
+    if (voiceActive) {
+        sideVocalCords = "M 182 116 Q 184 118 182 120 T 182 124 T 182 128";
+    } else {
+        sideVocalCords = "M 182 116 L 182 128";
+    }
+
+    // SVG Full Code assembly
     svg.innerHTML = `
-        <!-- Palate / Oral cavity profile -->
-        <path d="M 20 20 C 50 20, 75 30, 85 45 C 95 55, 98 70, 98 85 C 98 100, 92 120, 92 130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="5" stroke-linecap="round"/>
-        <path d="M 20 140 C 50 140, 90 135, 115 110" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="5" stroke-linecap="round"/>
-        
-        <!-- Tongue -->
-        <path d="${tongue}" fill="rgba(244, 63, 94, 0.35)" stroke="var(--error-light)" stroke-width="2.5" stroke-linejoin="round"/>
-        
-        <!-- Teeth (if visible) -->
-        ${teeth ? `<path d="${teeth}" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>` : ''}
-        
-        <!-- Lips -->
-        <path d="${upperLip}" fill="none" stroke="#ef4444" stroke-width="4.5" stroke-linecap="round"/>
-        <path d="${lowerLip}" fill="none" stroke="#ef4444" stroke-width="4.5" stroke-linecap="round"/>
-        
-        <!-- Vocal Cords -->
-        <path d="${vocalCords}" fill="none" stroke="${voiceActive ? 'var(--success-light)' : 'var(--text-muted)'}" stroke-width="2.5" stroke-linecap="round" ${voiceActive ? '' : 'stroke-dasharray="3,3"'}/>
-        
-        <text x="135" y="140" fill="var(--text-muted)" font-size="8" text-anchor="middle">Vocal cords</text>
+        ${defs}
+        <!-- Divider Line between Front and Side view -->
+        <line x1="102" y1="15" x2="102" y2="120" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-dasharray="3,3" />
+
+        <!-- 1. LEFT SIDE: FRONT VIEW OF MOUTH -->
+        <g id="front-view">
+            <!-- Background cavity -->
+            ${frontCavity}
+            <!-- Tongue -->
+            ${frontTongue}
+            <!-- Teeth -->
+            ${frontTeeth}
+            <!-- Lips -->
+            ${frontLips}
+        </g>
+
+        <!-- 2. RIGHT SIDE: SIDE CROSS-SECTION OF VOCAL TRACT -->
+        <g id="side-view">
+            <!-- Palate / cavity profile -->
+            <path d="M 120 25 C 138 25, 155 30, 162 42 C 168 50, 171 62, 171 85 C 171 100, 166 112, 166 122" fill="url(#palateGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="2" />
+            <path d="M 120 128 C 132 128, 142 124, 148 116" fill="url(#palateGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="2" />
+            
+            <!-- Tongue -->
+            <path d="${sideTongue}" fill="url(#tongueGrad)" stroke="#e84393" stroke-width="2" stroke-linejoin="round" class="svg-path-transition" />
+            
+            <!-- Teeth -->
+            ${sideTeeth}
+            
+            <!-- Lips -->
+            ${sideLips}
+            
+            <!-- Vocal Cords vibration -->
+            <path d="${sideVocalCords}" fill="none" stroke="${voiceActive ? 'var(--success-light)' : 'var(--text-muted)'}" stroke-width="2.5" stroke-linecap="round" ${voiceActive ? '' : 'stroke-dasharray="2,2"'} />
+        </g>
+
+        <!-- Dynamic Labels -->
+        <text x="52" y="140" fill="var(--text-muted)" font-size="8" font-weight="600" text-anchor="middle">Mặt Trước (Lips)</text>
+        <text x="150" y="140" fill="var(--text-muted)" font-size="8" font-weight="600" text-anchor="middle">Mặt Nghiêng (Tongue)</text>
     `;
 
     // Panel styling reflecting voicing state
-    const waveEl = document.getElementById('voice-wave-animation');
-    const voicingStatus = document.getElementById('voicing-status');
-    const voicingText = document.getElementById('voicing-text');
+    const isDict = svg.id === 'dict-mouth-svg';
+    const waveId = isDict ? 'dict-voice-wave' : 'voice-wave-animation';
+    const statusId = isDict ? 'dict-voicing-status' : 'voicing-status';
+    const textId = isDict ? 'dict-voicing-text' : 'voicing-text';
+
+    const waveEl = document.getElementById(waveId);
+    const voicingStatus = document.getElementById(statusId);
+    const voicingText = document.getElementById(textId);
     
-    if (voiceActive) {
-        voicingStatus.className = "voicing-status voiced";
-        voicingText.textContent = "Hữu thanh (Voiced - Rung cổ họng)";
-        if (waveEl) waveEl.style.display = "inline-block";
-    } else {
-        voicingStatus.className = "voicing-status voiceless";
-        voicingText.textContent = "Vô thanh (Voiceless - Chỉ bật hơi)";
-        if (waveEl) waveEl.style.display = "none";
+    if (voicingStatus && voicingText) {
+        if (voiceActive) {
+            voicingStatus.className = "voicing-status voiced";
+            voicingText.textContent = isDict 
+                ? "🔔 Hữu thanh – Đặt tay lên cổ, cảm nhận rung khi phát âm" 
+                : "Hữu thanh (Voiced - Rung cổ họng)";
+            if (waveEl) waveEl.style.display = "inline-block";
+        } else {
+            voicingStatus.className = "voicing-status voiceless";
+            voicingText.textContent = isDict 
+                ? "🔕 Vô thanh – Hơi thở thoát ra, không rung cổ họng" 
+                : "Vô thanh (Voiceless - Chỉ bật hơi)";
+            if (waveEl) waveEl.style.display = "none";
+        }
     }
 }
 
@@ -3203,14 +3338,47 @@ async function handleDictSearch() {
                 renderDictFallback(cleanWord, viMeaning);
             }
         } else {
-            const resTrans = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(query)}&langpair=en|vi`);
+            // Translate using MyMemory AND check grammar using LanguageTool API in parallel!
             let viSentence = 'Không tìm thấy bản dịch.';
-            if (resTrans.ok) {
-                const td = await resTrans.json();
-                const raw = td.responseData.translatedText || '';
-                viSentence = new DOMParser().parseFromString(raw, 'text/html').body.textContent;
+            let grammarMatches = [];
+            
+            try {
+                // Prepare parallel API calls
+                const translatePromise = fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(query)}&langpair=en|vi`)
+                    .then(async res => {
+                        if (res.ok) {
+                            const td = await res.json();
+                            const raw = td.responseData.translatedText || '';
+                            viSentence = new DOMParser().parseFromString(raw, 'text/html').body.textContent;
+                        }
+                    }).catch(e => console.warn('Lỗi dịch MyMemory:', e));
+
+                const params = new URLSearchParams();
+                params.append("text", query);
+                params.append("language", "en-US");
+                params.append("enabledOnly", "false");
+
+                const grammarPromise = fetch("https://api.languagetool.org/v2/check", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Accept": "application/json"
+                    },
+                    body: params
+                }).then(async res => {
+                    if (res.ok) {
+                        const dataGrammar = await res.json();
+                        grammarMatches = dataGrammar.matches || [];
+                    }
+                }).catch(e => console.warn('Lỗi kiểm tra ngữ pháp LanguageTool:', e));
+
+                // Wait for both to complete
+                await Promise.all([translatePromise, grammarPromise]);
+            } catch (parallelErr) {
+                console.error('Error during parallel fetch:', parallelErr);
             }
-            renderDictSentence(query, viSentence);
+            
+            renderDictSentence(query, viSentence, grammarMatches);
         }
     } catch (err) {
         console.error('Dict tab error:', err);
@@ -3267,12 +3435,126 @@ function renderDictFallback(word, viMeaning) {
     setTimeout(() => speakText(word, 'uk'), 500);
 }
 
-function renderDictSentence(sentence, viTranslation) {
+function renderDictSentence(sentence, viTranslation, grammarMatches = []) {
     document.getElementById('dict-sentence-original').textContent = sentence;
     document.getElementById('dict-sentence-translation').textContent = viTranslation;
+    
+    // Process grammar suggestions
+    const grammarContainer = document.getElementById('dict-grammar-analysis');
+    if (grammarContainer) {
+        grammarContainer.innerHTML = '';
+        
+        if (grammarMatches && grammarMatches.length > 0) {
+            // Reconstruct corrected sentence
+            const correctedSentence = reconstructCorrectedSentence(sentence, grammarMatches);
+            
+            // Build the header and corrected block
+            let html = `
+                <div class="grammar-header">
+                    <span>⚠️ Phát hiện ${grammarMatches.length} lỗi chính tả / ngữ pháp trong câu của bạn:</span>
+                </div>
+                
+                <div class="grammar-corrected-box">
+                    <div class="grammar-corrected-title">💡 Gợi ý câu viết lại đúng chuẩn:</div>
+                    <div class="grammar-corrected-text">
+                        <span id="txt-corrected-sentence">${correctedSentence}</span>
+                        <div class="grammar-actions">
+                            <button class="btn-search-corrected" onclick="useCorrectedSentence(\`${correctedSentence.replace(/`/g, "\\`").replace(/'/g, "\\'")}\`)" title="Tra cứu câu sửa">Tra câu này 🔍</button>
+                            <button class="btn-tts-corrected" onclick="speakText(\`${correctedSentence.replace(/`/g, "\\`").replace(/'/g, "\\'")}\`, 'us')" title="Nghe câu sửa">🔊 Nghe</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="grammar-errors-list">
+            `;
+            
+            // Add details for each mistake
+            grammarMatches.forEach((match, index) => {
+                const wrongText = sentence.substring(match.offset, match.offset + match.length);
+                const suggestedText = (match.replacements && match.replacements.length > 0) 
+                    ? match.replacements.slice(0, 3).map(r => r.value).join(', ') 
+                    : '(Không có gợi ý)';
+                
+                const translatedExplain = translateGrammarRule(match.message);
+                
+                html += `
+                    <div class="grammar-err-item">
+                        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:0.25rem;">
+                            <span>❌ Sai: <span class="grammar-err-bad">${wrongText}</span></span>
+                            <span>➔ Sửa lại: <span class="grammar-err-good">${suggestedText}</span></span>
+                        </div>
+                        <div class="grammar-err-desc">📌 ${translatedExplain}</div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            
+            // Render to container
+            grammarContainer.innerHTML = html;
+            grammarContainer.style.display = 'block';
+        } else {
+            // No grammar mistakes! Display a congratulatory message
+            grammarContainer.innerHTML = `
+                <div class="grammar-header success" style="color: var(--success-light); display:flex; align-items:center; gap:0.5rem; margin-bottom:0; font-size: 0.9rem;">
+                    <span>✅ Ngữ pháp xuất sắc! Không phát hiện lỗi chính tả hay ngữ pháp nào trong câu này.</span>
+                </div>
+            `;
+            grammarContainer.style.display = 'block';
+        }
+    }
+
     document.getElementById('dict-sentence-result').classList.remove('hidden');
     document.getElementById('dict-result-wrapper').classList.add('hidden');
     setTimeout(() => speakText(sentence, 'us'), 500);
+}
+
+function reconstructCorrectedSentence(text, matches) {
+    if (!matches || matches.length === 0) return text;
+    // Sort descending by offset so that replacing from back to front doesn't shift earlier indices!
+    const sortedMatches = [...matches].sort((a, b) => b.offset - a.offset);
+    let corrected = text;
+    sortedMatches.forEach(match => {
+        if (match.replacements && match.replacements.length > 0) {
+            const replacement = match.replacements[0].value;
+            corrected = corrected.substring(0, match.offset) + replacement + corrected.substring(match.offset + match.length);
+        }
+    });
+    return corrected;
+}
+
+function useCorrectedSentence(newSentence) {
+    const input = document.getElementById('dict-main-input');
+    if (input) {
+        input.value = newSentence;
+        handleDictSearch();
+    }
+}
+
+function translateGrammarRule(msg) {
+    if (!msg) return "";
+    
+    // Standard quick matches for common LanguageTool errors
+    const mappings = [
+        { regex: /verb does not agree with the subject/i, trans: "Động từ này không chia đúng với chủ ngữ (lỗi hòa hợp chủ vị)." },
+        { regex: /use 'an' instead of 'a'/i, trans: "Dùng 'an' thay vì 'a' trước từ bắt đầu bằng nguyên âm (u, e, o, a, i)." },
+        { regex: /use 'a' instead of 'an'/i, trans: "Dùng 'a' thay vì 'an' trước từ bắt đầu bằng phụ âm." },
+        { regex: /possible spelling mistake/i, trans: "Có thể viết sai chính tả. Hãy kiểm tra lại cách viết của từ này." },
+        { regex: /use the bare infinitive/i, trans: "Dùng động từ nguyên mẫu không 'to' ở đây." },
+        { regex: /did you mean/i, trans: "Có phải ý bạn là..." },
+        { regex: /should be followed by/i, trans: "Từ này nên được đi kèm bởi..." },
+        { regex: /duplicate word/i, trans: "Từ này bị lặp lại hai lần liên tiếp." },
+        { regex: /whitespace/i, trans: "Có khoảng trắng thừa hoặc không hợp lệ." },
+        { regex: /lowercase/i, trans: "Hãy viết hoa chữ cái đầu tiên của câu hoặc tên riêng." },
+        { regex: /capitalization/i, trans: "Sai quy tắc viết hoa viết thường." }
+    ];
+
+    for (let mapping of mappings) {
+        if (mapping.regex.test(msg)) {
+            return mapping.trans;
+        }
+    }
+
+    return msg;
 }
 
 function renderIPABreakdown(ipaText) {
@@ -3361,8 +3643,8 @@ function showDictIpaDetail(sound, chipEl) {
 
     // Render mouth SVG
     const svgEl = document.getElementById('dict-mouth-svg');
-    if (svgEl && typeof renderMouthSVG === 'function') {
-        renderMouthSVG(svgEl, sound);
+    if (svgEl) {
+        drawMouthSVG('dict-mouth-svg', sound.symbol);
     }
 
     // Instructions
