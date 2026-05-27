@@ -2792,5 +2792,259 @@ body {
     }
 }
 
+/* ======================================================
+   ADDITIONAL STYLES FOR PERSONALIZED UPGRADES
+   ====================================================== */
+
+/* 1. Personalized Welcome Modal Styles */
+.welcome-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(7, 10, 18, 0.92);
+    backdrop-filter: blur(15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.welcome-modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.welcome-modal-card {
+    width: 90%;
+    max-width: 480px;
+    padding: 3rem 2.5rem !important;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    border: 1.5px solid rgba(99, 102, 241, 0.25) !important;
+    border-radius: var(--radius-lg) !important;
+    animation: welcomeScaleUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: linear-gradient(135deg, rgba(22, 31, 48, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%) !important;
+}
+
+@keyframes welcomeScaleUp {
+    from { transform: scale(0.9) translateY(20px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.welcome-logo {
+    margin-bottom: 1.5rem;
+}
+
+.welcome-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    animation: bounceIcon 3s ease-in-out infinite;
+}
+
+@keyframes bounceIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.welcome-modal-card h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+}
+
+.welcome-modal-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.welcome-input-group {
+    margin-bottom: 1.75rem;
+    position: relative;
+}
+
+.welcome-input-group input {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1.2rem;
+    color: white;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    text-align: center;
+    transition: var(--transition);
+    outline: none;
+}
+
+.welcome-input-group input:focus {
+    border-color: var(--primary);
+    background-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+.btn-welcome-start {
+    width: 100%;
+    padding: 0.9rem !important;
+    font-size: 1rem !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+/* 2. 10 Lessons Grid Layout */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.lesson-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 185px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.lesson-card:hover {
+    border-color: var(--border-color-active);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    background-color: rgba(22, 31, 48, 0.95);
+}
+
+.lesson-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    width: 100%;
+}
+
+.lesson-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+}
+
+.lesson-badge.completed {
+    background-color: rgba(16, 185, 129, 0.12);
+    color: var(--success-light);
+    border: 0.5px solid rgba(16, 185, 129, 0.3);
+}
+
+.lesson-index {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary-light);
+}
+
+.lesson-card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.lesson-card-body h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.lesson-card-body p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+}
+
+.lesson-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.85rem;
+    font-size: 0.8rem;
+}
+
+.lesson-score {
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.lesson-score.high-score {
+    color: var(--success-light);
+}
+
+.lesson-action-lbl {
+    font-weight: 600;
+    color: var(--primary-light);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: var(--transition);
+}
+
+.lesson-card:hover .lesson-action-lbl {
+    color: white;
+    transform: translateX(3px);
+}
+
+/* 3. Quiz Play Mode Header Styles */
+.quiz-play-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.quiz-play-title-wrap {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.quiz-play-title-wrap h4 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: white;
+}
+
+.lesson-progress-text {
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 0.2rem;
+}
+
+.quiz-play-score-display {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-sm);
+}
+
 
 

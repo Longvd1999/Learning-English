@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Tiếng Anh Tương Tác - Easy English</title>
+    <title>Học Tiếng Anh cùng Vũ Đức Long - Easy English</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,12 +20,18 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                     </svg>
                 </div>
-                <h2>Easy English</h2>
+                <h2>Easy English LongVD</h2>
             </div>
             
             <nav class="nav-menu">
+                <div class="nav-group-title">Từ điển & Dịch thuật</div>
+                <button class="nav-item active" id="btn-tab-dict" onclick="switchTab('dict')">
+                    <span class="nav-icon">📚</span>
+                    <span>Tra từ & Phát âm</span>
+                </button>
+
                 <div class="nav-group-title">Mục 1: Phát âm & Khẩu hình</div>
-                <button class="nav-item active" id="btn-tab-ipa" onclick="switchTab('ipa')">
+                <button class="nav-item" id="btn-tab-ipa" onclick="switchTab('ipa')">
                     <span class="nav-icon">🗣️</span>
                     <span>Bảng âm IPA chuẩn</span>
                 </button>
@@ -44,12 +50,6 @@
                     <span>Thì Tương Lai Đơn</span>
                 </button>
 
-                <div class="nav-group-title">Từ điển & Dịch thuật</div>
-                <button class="nav-item" id="btn-tab-dict" onclick="switchTab('dict')">
-                    <span class="nav-icon">📚</span>
-                    <span>Tra từ & Phát âm</span>
-                </button>
-
                 <div class="nav-group-title">Luyện tập & Tiến trình</div>
                 <button class="nav-item" id="btn-tab-practice" onclick="switchTab('practice')">
                     <span class="nav-icon">🎯</span>
@@ -61,11 +61,11 @@
                 </button>
             </nav>
 
-            <div class="user-profile">
-                <div class="avatar">V</div>
+            <div class="user-profile" onclick="promptChangeName()" title="Nhấp để đổi tên" style="cursor: pointer;">
+                <div class="avatar" id="user-avatar">V</div>
                 <div class="user-info">
-                    <span class="user-name">Vũ Đức Long</span>
-                    <span class="user-status">Cấp độ: Người mới</span>
+                    <span class="user-name" id="user-name-display">Vũ Đức Long</span>
+                    <span class="user-status">Cấp độ: Học viên</span>
                 </div>
             </div>
         </aside>
@@ -80,7 +80,7 @@
             </header>
 
             <!-- TAB 1: PHÁT ÂM IPA -->
-            <section id="tab-ipa" class="tab-content active">
+            <section id="tab-ipa" class="tab-content">
                 <div class="hero-card">
                     <div class="hero-text">
                         <h2>Làm chủ 44 âm tiếng Anh chuẩn Quốc Tế! 🗣️</h2>
@@ -177,7 +177,7 @@
             </section>
 
             <!-- TAB: TỪ ĐIỂN & DỊCH THUẬT CHÍNH -->
-            <section id="tab-dict" class="tab-content">
+            <section id="tab-dict" class="tab-content active">
                 <div class="hero-card dict-hero">
                     <div class="hero-text">
                         <h2>Từ Điển & Tra Phát Âm Anh-Việt 📚</h2>
@@ -982,128 +982,123 @@
 
             <!-- TAB 3: PRACTICE (LUYỆN TẬP TƯƠNG TÁC) -->
             <section id="tab-practice" class="tab-content">
-                <div class="practice-header">
-                    <div class="practice-info">
-                        <h3>Kho Bài Tập Luyện Tập Sinh Động</h3>
-                        <p>Luyện tập ngữ pháp và phát âm IPA với các dạng bài trắc nghiệm trực quan, sắp xếp câu và trò chơi phản xạ.</p>
+                <!-- VIEW 1: LESSON SELECTOR VIEW -->
+                <div id="lesson-selector-view">
+                    <div class="practice-header">
+                        <div class="practice-info">
+                            <h3>Hệ Thống Luyện Tập 10 Bài Học 🎯</h3>
+                            <p>Hãy chinh phục 10 bài luyện tập tương tác (mỗi bài 10 câu hỏi) để làm chủ kiến thức ngữ pháp và phát âm IPA của bạn!</p>
+                        </div>
+                        <div class="score-board">
+                            <div class="score-item">
+                                <span class="score-label">Tổng Điểm</span>
+                                <span class="score-value" id="total-lessons-score">0</span>
+                            </div>
+                            <div class="score-item">
+                                <span class="score-label">Bài Đã Học</span>
+                                <span class="score-value" id="completed-lessons-ratio">0/10</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="score-board">
-                        <div class="score-item">
-                            <span class="score-label">Điểm số</span>
-                            <span class="score-value" id="current-score">0</span>
-                        </div>
-                        <div class="score-item">
-                            <span class="score-label">Đúng/Tổng</span>
-                            <span class="score-value" id="answered-ratio">0/0</span>
-                        </div>
+
+                    <div class="lessons-grid" id="lessons-grid">
+                        <!-- Dynamic lesson cards generated by app.js -->
                     </div>
                 </div>
 
-                <!-- TOPIC SELECTOR FOR GAMIFICATION -->
-                <div class="topic-selector-container card">
-                    <h5>Chọn chủ đề luyện tập của bạn:</h5>
-                    <div class="topic-buttons">
-                        <button class="topic-btn active" id="btn-topic-grammar" onclick="switchPracticeTopic('grammar')">
-                            <span class="topic-icon">📝</span>
-                            <span class="topic-title">Hiện Tại Đơn</span>
+                <!-- VIEW 2: QUIZ PLAY CARD VIEW (Initially Hidden) -->
+                <div id="quiz-play-view" class="hidden">
+                    <div class="quiz-play-header-row">
+                        <button class="btn btn-secondary btn-sm" onclick="exitQuizToLessons()" style="display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600;">
+                            ⬅ Quay lại danh sách bài
                         </button>
-                        <button class="topic-btn" id="btn-topic-pastSimple" onclick="switchPracticeTopic('pastSimple')">
-                            <span class="topic-icon">⏮️</span>
-                            <span class="topic-title">Quá Khứ Đơn</span>
-                        </button>
-                        <button class="topic-btn" id="btn-topic-futureSimple" onclick="switchPracticeTopic('futureSimple')">
-                            <span class="topic-icon">⏭️</span>
-                            <span class="topic-title">Tương Lai Đơn</span>
-                        </button>
-                        <button class="topic-btn" id="btn-topic-ipa" onclick="switchPracticeTopic('ipa')">
-                            <span class="topic-icon">🗣️</span>
-                            <span class="topic-title">Phát âm IPA</span>
-                        </button>
-                        <button class="topic-btn" id="btn-topic-game" onclick="switchPracticeTopic('game')">
-                            <span class="topic-icon">⚡</span>
-                            <span class="topic-title">Phản xạ -s/-es</span>
-                        </button>
-                    </div>
-                </div>
-
-
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" id="practice-progress" style="width: 0%"></div>
-                </div>
-
-                <!-- Main Quiz Card Area -->
-                <div class="quiz-container card" id="quiz-card">
-                    <div class="quiz-type-badge" id="quiz-type-badge">Trắc nghiệm</div>
-                    
-                    <!-- Question Image Area (SVG or Img) -->
-                    <div class="question-image-container" id="question-image-container">
-                        <!-- Dynamic illustrations dynamically generated -->
-                    </div>
-                    
-                    <div class="question-text" id="question-text">
-                        Đang tải câu hỏi...
-                    </div>
-
-                    <!-- Layout for Multiple Choice -->
-                    <div class="options-container" id="options-container">
-                        <!-- Options generated dynamically -->
-                    </div>
-
-                    <!-- Layout for Fill-in-the-blank -->
-                    <div class="input-container hidden" id="input-container">
-                        <input type="text" id="blank-input" placeholder="Nhập câu trả lời của bạn..." autocomplete="off">
-                        <button class="btn btn-primary" id="btn-submit-blank" onclick="checkBlankAnswer()">Nộp bài</button>
-                    </div>
-
-                    <!-- Layout for Word Ordering -->
-                    <div class="word-order-container hidden" id="word-order-container">
-                        <p class="info-small">Nhấp vào các từ bên dưới theo đúng thứ tự để tạo câu hoàn chỉnh:</p>
-                        <div class="selected-words-zone" id="selected-words-zone">
-                            <!-- Selected words appear here -->
+                        <div class="quiz-play-title-wrap">
+                            <h4 id="quiz-lesson-title" style="margin: 0; color: var(--text-color);">Bài 1: Phát âm & Nguyên âm đơn</h4>
+                            <span class="lesson-progress-text" id="lesson-q-index" style="font-weight: 700; color: var(--primary-color);">Câu 1/10</span>
                         </div>
-                        <div class="shuffled-words-zone" id="shuffled-words-zone">
-                            <!-- Words to select -->
-                        </div>
-                        <div class="word-order-actions">
-                            <button class="btn btn-secondary btn-sm" onclick="resetWordOrder()">Làm lại</button>
-                            <button class="btn btn-primary btn-sm" onclick="checkWordOrderAnswer()">Kiểm tra</button>
+                        <div class="quiz-play-score-display" style="font-weight: 600; font-size: 0.95rem;">
+                            Đúng: <span id="current-score" style="color: var(--success-color);">0</span>/<span id="answered-count">0</span>
                         </div>
                     </div>
 
-                    <!-- Special Layout for Sound Sorting Game -->
-                    <div class="sound-game-container hidden" id="sound-game-container">
-                        <div class="game-target-word" id="game-target-word">works</div>
-                        <div class="game-instructions">Đuôi <b>-s/-es</b> của động từ trên được phát âm thế nào? Chọn nhanh:</div>
-                        <div class="game-buckets">
-                            <button class="bucket-btn" onclick="checkSoundGameAnswer('s')">
-                                <span class="bucket-sound">/s/</span>
-                                <span class="bucket-desc">Vô thanh</span>
-                            </button>
-                            <button class="bucket-btn" onclick="checkSoundGameAnswer('z')">
-                                <span class="bucket-sound">/z/</span>
-                                <span class="bucket-desc">Hữu thanh</span>
-                            </button>
-                            <button class="bucket-btn" onclick="checkSoundGameAnswer('iz')">
-                                <span class="bucket-sound">/ɪz/</span>
-                                <span class="bucket-desc">Âm xuýt</span>
-                            </button>
+                    <div class="progress-bar-container" style="margin-top: 1.2rem;">
+                        <div class="progress-bar-fill" id="practice-progress" style="width: 0%"></div>
+                    </div>
+
+                    <!-- Main Quiz Card Area -->
+                    <div class="quiz-container card" id="quiz-card" style="margin-top: 1.5rem;">
+                        <div class="quiz-type-badge" id="quiz-type-badge">Trắc nghiệm</div>
+                        
+                        <!-- Question Image Area (SVG or Img) -->
+                        <div class="question-image-container" id="question-image-container">
+                            <!-- Dynamic illustrations dynamically generated -->
                         </div>
-                        <div class="game-feedback hidden" id="game-feedback">
-                            <!-- correct/incorrect message -->
+                        
+                        <div class="question-text" id="question-text">
+                            Đang tải câu hỏi...
+                        </div>
+
+                        <!-- Layout for Multiple Choice -->
+                        <div class="options-container" id="options-container">
+                            <!-- Options generated dynamically -->
+                        </div>
+
+                        <!-- Layout for Fill-in-the-blank -->
+                        <div class="input-container hidden" id="input-container">
+                            <input type="text" id="blank-input" placeholder="Nhập câu trả lời của bạn..." autocomplete="off">
+                            <button class="btn btn-primary" id="btn-submit-blank" onclick="checkBlankAnswer()">Nộp bài</button>
+                        </div>
+
+                        <!-- Layout for Word Ordering -->
+                        <div class="word-order-container hidden" id="word-order-container">
+                            <p class="info-small">Nhấp vào các từ bên dưới theo đúng thứ tự để tạo câu hoàn chỉnh:</p>
+                            <div class="selected-words-zone" id="selected-words-zone">
+                                <!-- Selected words appear here -->
+                            </div>
+                            <div class="shuffled-words-zone" id="shuffled-words-zone">
+                                <!-- Words to select -->
+                            </div>
+                            <div class="word-order-actions">
+                                <button class="btn btn-secondary btn-sm" onclick="resetWordOrder()">Làm lại</button>
+                                <button class="btn btn-primary btn-sm" onclick="checkWordOrderAnswer()">Kiểm tra</button>
+                            </div>
+                        </div>
+
+                        <!-- Special Layout for Sound Sorting Game -->
+                        <div class="sound-game-container hidden" id="sound-game-container">
+                            <div class="game-target-word" id="game-target-word">works</div>
+                            <div class="game-instructions">Đuôi <b>-s/-es</b> của động từ trên được phát âm thế nào? Chọn nhanh:</div>
+                            <div class="game-buckets">
+                                <button class="bucket-btn" onclick="checkSoundGameAnswer('s')">
+                                    <span class="bucket-sound">/s/</span>
+                                    <span class="bucket-desc">Vô thanh</span>
+                                </button>
+                                <button class="bucket-btn" onclick="checkSoundGameAnswer('z')">
+                                    <span class="bucket-sound">/z/</span>
+                                    <span class="bucket-desc">Hữu thanh</span>
+                                </button>
+                                <button class="bucket-btn" onclick="checkSoundGameAnswer('iz')">
+                                    <span class="bucket-sound">/ɪz/</span>
+                                    <span class="bucket-desc">Âm xuýt</span>
+                                </button>
+                            </div>
+                            <div class="game-feedback hidden" id="game-feedback">
+                                <!-- correct/incorrect message -->
+                            </div>
+                        </div>
+
+                        <!-- Feedback Box -->
+                        <div class="feedback-box hidden" id="feedback-box">
+                            <div class="feedback-status" id="feedback-status"></div>
+                            <div class="feedback-message" id="feedback-message"></div>
+                            <div class="feedback-explanation" id="feedback-explanation"></div>
+                            <button class="btn btn-primary btn-next" id="btn-next-question" onclick="nextQuestion()">Tiếp tục ➔</button>
                         </div>
                     </div>
 
-                    <!-- Feedback Box -->
-                    <div class="feedback-box hidden" id="feedback-box">
-                        <div class="feedback-status" id="feedback-status"></div>
-                        <div class="feedback-message" id="feedback-message"></div>
-                        <div class="feedback-explanation" id="feedback-explanation"></div>
-                        <button class="btn btn-primary btn-next" id="btn-next-question" onclick="nextQuestion()">Tiếp tục ➔</button>
+                    <div class="quiz-controls" style="margin-top: 1.5rem; justify-content: flex-end;">
+                        <button class="btn btn-secondary btn-sm" onclick="resetQuiz()">Làm lại bài học này</button>
                     </div>
-                </div>
-
-                <div class="quiz-controls">
-                    <button class="btn btn-secondary" onclick="resetQuiz()">Làm lại từ đầu</button>
                 </div>
             </section>
 
@@ -1207,6 +1202,22 @@
         <div class="bubble-phonetics">
             <span id="bubble-ipa-uk">/uk/</span> <button class="btn-tts-xs" onclick="playBubbleAudio('uk')">🔊 UK</button>
             <span id="bubble-ipa-us">/us/</span> <button class="btn-tts-xs" onclick="playBubbleAudio('us')">🔊 US</button>
+        </div>
+    </div>
+
+    <!-- PERSONALIZED WELCOME MODAL -->
+    <div class="welcome-modal-overlay" id="welcome-modal-overlay">
+        <div class="welcome-modal-card card">
+            <div class="welcome-logo">
+                <span class="welcome-icon">🎓</span>
+                <h2>Easy English</h2>
+            </div>
+            <h3>Chào mừng bạn đến với Easy English!</h3>
+            <p>Hãy nhập tên của bạn để chúng ta bắt đầu lưu trữ tiến trình học tập và sổ tay từ vựng nhé:</p>
+            <div class="welcome-input-group">
+                <input type="text" id="welcome-name-input" placeholder="Nhập tên của bạn (Ví dụ: Vũ Đức Long)..." autocomplete="off" maxlength="25">
+            </div>
+            <button class="btn btn-primary btn-welcome-start" id="btn-welcome-start" onclick="submitWelcomeName()">Bắt đầu học ngay 🚀</button>
         </div>
     </div>
 

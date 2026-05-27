@@ -1,6 +1,6 @@
 // App State
-let currentTab = 'ipa'; // default starting tab
-let currentPracticeTopic = 'grammar'; // default topic
+let currentTab = 'dict'; // default starting tab
+let currentPracticeTopic = 'lesson1'; // default topic
 let currentScore = 0;
 let answeredQuestionsCount = 0;
 let correctAnswersCount = 0;
@@ -10,6 +10,8 @@ let currentQuestionIndex = 0;
 let userAnswers = []; // Track answered questions details
 let selectedWords = []; // For word ordering questions
 let savedVocabList = []; // Vocabulary Notebook
+let lessonScores = {}; // Holds high scores for Bài 1 - Bài 10
+let currentLessonCorrectAnswers = 0; // Holds current run correct answers count
 
 // Sound Sorting Game State
 let currentGameWord = null;
@@ -736,220 +738,904 @@ const soundGameWords = [
 ];
 
 // Interactive Quiz Questions Database (Ngữ pháp & Phát âm)
+// Interactive Quiz Questions Database (Restructured to 10 Lessons x 10 Questions)
 const questionsDatabase = {
-    grammar: [
-        {
-            type: 'mcq',
-            question: 'She _______ (study) English every night.',
-            illustration: 'student', // Custom SVG reference
-            options: ['study', 'studies', 'studys', 'studying'],
-            correct: 'studies',
-            explanation: 'Chủ ngữ là "She" (ngôi thứ 3 số ít), động từ "study" kết thúc bằng phụ âm + "y", ta đổi "y" thành "i" rồi thêm "es".'
-        },
-        {
-            type: 'mcq',
-            question: 'The train _______ at 8:00 AM every morning.',
-            illustration: 'train',
-            options: ['leave', 'leaves', 'leaving', 'is leave'],
-            correct: 'leaves',
-            explanation: 'Diễn tả lịch trình cố định của phương tiện giao thông. "The train" là danh từ số ít nên động từ "leave" thêm "s".'
-        },
-        {
-            type: 'fitb',
-            question: 'He _______ (go) to school by bus.',
-            illustration: 'bus',
-            correct: ['goes'],
-            explanation: 'Chủ ngữ "He" (ngôi thứ 3 số ít), động từ "go" kết thúc bằng chữ "o" nên ta thêm đuôi "es".'
-        },
-        {
-            type: 'fitb',
-            question: 'Water _______ (boil) at 100 degrees Celsius.',
-            illustration: 'water',
-            correct: ['boils'],
-            explanation: 'Diễn tả một chân lý, sự thật hiển nhiên. "Water" là danh từ số ít không đếm được nên động từ thêm "s".'
-        },
-        {
-            type: 'order',
-            question: 'Hãy xếp các từ thành câu đúng: "Anh ấy thường chơi bóng đá vào thứ Bảy."',
-            words: ['He', 'usually', 'plays', 'soccer', 'on', 'Saturdays'],
-            correct: 'He usually plays soccer on Saturdays',
-            explanation: 'Trạng từ chỉ tần suất (usually) đứng trước động từ thường (plays). Trật tự: S + trạng từ + V + O + Trạng từ chỉ thời gian.'
-        },
-        {
-            type: 'mcq',
-            question: 'We _______ (not watch) TV in the morning.',
-            options: ['not watch', 'watches not', "don't watch", "doesn't watch"],
-            correct: "don't watch",
-            explanation: 'Chủ ngữ "We" số nhiều, trong câu phủ định dùng trợ động từ "don\'t" (do not) + động từ nguyên mẫu.'
-        },
-        {
-            type: 'fitb',
-            question: 'What time _______ you usually wake up?',
-            correct: ['do'],
-            explanation: 'Câu hỏi dùng từ để hỏi (Wh-), chủ ngữ là "you" nên dùng trợ động từ "do".'
-        }
-    ],
-    ipa: [
+    lesson1: [
         {
             type: 'mcq',
             question: 'Chọn từ có phát âm nguyên âm <b>KHÁC</b> các từ còn lại:',
-            illustration: 'ear',
             options: ['sheep (/i:/)', 'meat (/i:/)', 'ship (/ɪ/)', 'see (/i:/)'],
             correct: 'ship (/ɪ/)',
             explanation: 'Từ "ship" chứa nguyên âm ngắn /ɪ/, trong khi 3 từ còn lại chứa nguyên âm dài /i:/.'
         },
         {
-            type: 'mcq',
-            question: 'Từ nào dưới đây có cách phát âm đuôi <b>-s / -es</b> là <b>/s/</b>?',
-            options: ['plays', 'works', 'watches', 'loves'],
-            correct: 'works',
-            explanation: 'Từ "works" kết thúc bằng âm vô thanh /k/, do đó đuôi -s phát âm là /s/. Các từ khác phát âm là /z/ hoặc /ɪz/.'
+            type: 'fitb',
+            question: 'Nguyên âm nào là nguyên âm dài trong hai âm <b>/i:/</b> và <b>/ɪ/</b>?',
+            correct: ['/i:/', 'i:'],
+            explanation: 'Âm /i:/ là nguyên âm dài (được ký hiệu bằng dấu hai chấm), phát âm mở rộng môi giống đang cười.'
         },
         {
             type: 'mcq',
-            question: 'Phát âm của âm được gạch chân trong từ "f<b>a</b>ther" là âm gì?',
-            options: ['/æ/', '/ʌ/', '/ɑ:/', '/e/'],
+            question: 'Từ "father" (/ˈfɑːðər/) chứa nguyên âm đơn nào sau đây?',
+            options: ['/ɑ:/', '/æ/', '/ʌ/', '/ɒ/'],
             correct: '/ɑ:/',
-            explanation: 'Từ "father" phát âm là /ˈfɑːðər/ với nguyên âm dài /ɑ:/.'
-        },
-        {
-            type: 'fitb',
-            question: 'Âm phát âm nào là âm hữu thanh (Voiced) trong hai âm /s/ và /z/?',
-            correct: ['/z/', 'z'],
-            explanation: 'Âm /z/ yêu cầu rung dây thanh quản (Hữu thanh), trong khi âm /s/ chỉ có tiếng gió bật ra (Vô thanh).'
+            explanation: 'Từ "father" phát âm chứa nguyên âm dài mở rộng miệng /ɑ:/.'
         },
         {
             type: 'mcq',
-            question: 'Từ nào có phát âm đuôi <b>-es</b> được phát âm là <b>/ɪz/</b>?',
-            illustration: 'clock',
-            options: ['goes', 'lives', 'watches', 'runs'],
-            correct: 'watches',
-            explanation: 'Từ "watch" kết thúc bằng âm xuýt /tʃ/, do đó đuôi -es của nó được phát âm là /ɪz/.'
+            question: 'Từ "cat" (/kæt/) chứa nguyên âm đơn ngắn nào sau đây?',
+            options: ['/æ/', '/e/', '/ʌ/', '/ɑ:/'],
+            correct: '/æ/',
+            explanation: 'Từ "cat" chứa âm e bẹt /æ/, miệng mở rộng hết cỡ ra 4 hướng như đang cười to.'
+        },
+        {
+            type: 'mcq',
+            question: 'Từ nào sau đây chứa nguyên âm ngắn <b>/ɒ/</b>?',
+            options: ['dog', 'door', 'dark', 'day'],
+            correct: 'dog',
+            explanation: 'Từ "dog" phát âm là /dɒɡ/ trong giọng Anh-Anh, chứa nguyên âm ngắn /ɒ/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Âm <b>/ə/</b> được gọi là gì trong tiếng Anh?',
+            options: ['Âm Schwa', 'Âm dài', 'Âm vô thanh', 'Phụ âm'],
+            correct: 'Âm Schwa',
+            explanation: 'Âm /ə/ là âm yếu và phổ biến nhất trong tiếng Anh, được gọi là âm Schwa.'
+        },
+        {
+            type: 'mcq',
+            question: 'Nguyên âm đơn nào xuất hiện trong từ "bird" (/bɜːd/)?',
+            options: ['/ɜ:/', '/ə/', '/ɔ:/', '/ɑ:/'],
+            correct: '/ɜ:/',
+            explanation: 'Từ "bird" chứa nguyên âm dài /ɜ:/, là một âm lười hướng lưỡi về giữa khoang miệng.'
+        },
+        {
+            type: 'fitb',
+            question: 'Nguyên âm đơn <b>/u:/</b> là nguyên âm ngắn hay nguyên âm dài?',
+            correct: ['dài', 'dai', 'long vowel'],
+            explanation: 'Âm /u:/ là nguyên âm dài (có dấu hai chấm), chu môi tròn phát âm giống tiếng hú.'
+        },
+        {
+            type: 'mcq',
+            question: 'Từ "book" (/bʊk/) chứa nguyên âm đơn ngắn nào?',
+            options: ['/ʊ/', '/u:/', '/ʌ/', '/ɒ/'],
+            correct: '/ʊ/',
+            explanation: 'Từ "book" phát âm chứa âm u ngắn /ʊ/, hơi chu môi nhẹ và bật âm dứt khoát.'
+        },
+        {
+            type: 'mcq',
+            question: 'Chọn từ có phát âm chứa nguyên âm ngắn <b>/ʌ/</b>:',
+            options: ['cup', 'car', 'cop', 'keep'],
+            correct: 'cup',
+            explanation: 'Từ "cup" phát âm là /kʌp/, chứa nguyên âm ngắn nửa mở /ʌ/.'
         }
     ],
-
-    // ==========================================
-    // THÌ QUÁ KHỨ ĐƠN (Past Simple)
-    // ==========================================
-    pastSimple: [
+    lesson2: [
         {
             type: 'mcq',
-            question: 'She _______ (go) to the cinema last Friday.',
-            illustration: 'student',
-            options: ['go', 'goes', 'went', 'going'],
-            correct: 'went',
-            explanation: '"Go" là động từ bất quy tắc. Dạng quá khứ đơn của "go" là "went". Dấu hiệu "last Friday" cho biết đây là thì quá khứ đơn.'
-        },
-        {
-            type: 'mcq',
-            question: 'They _______ (not eat) dinner yesterday.',
-            options: ["didn't eat", "don't eat", "doesn't eat", "weren't eat"],
-            correct: "didn't eat",
-            explanation: 'Câu phủ định quá khứ đơn: S + didn\'t + V_nguyên_mẫu. "Didn\'t" dùng cho mọi chủ ngữ, động từ trở về nguyên mẫu "eat".'
+            question: 'Nguyên âm đôi (Diphthongs) là sự kết hợp của mấy nguyên âm đơn?',
+            options: ['2 nguyên âm đơn', '3 nguyên âm đơn', '1 nguyên âm đơn', '4 nguyên âm đơn'],
+            correct: '2 nguyên âm đơn',
+            explanation: 'Nguyên âm đôi là sự kết hợp của 2 nguyên âm đơn bằng cách trượt từ âm này sang âm kia trong một hơi.'
         },
         {
             type: 'fitb',
-            question: 'I _______ (study) for the exam all night.',
-            illustration: 'student',
-            correct: ['studied'],
-            explanation: '"Study" kết thúc bằng phụ âm + y, đổi y→i rồi thêm -ed thành "studied". Đây là động từ có quy tắc.'
+            question: 'Từ "boy" (/bɔɪ/) chứa nguyên âm đôi nào?',
+            correct: ['/bɔɪ/', 'bɔɪ', '/ɔɪ/', 'ɔɪ'],
+            explanation: 'Từ "boy" chứa nguyên âm đôi /ɔɪ/ (kết hợp từ /ɔ/ trượt sang /ɪ/).'
+        },
+        {
+            type: 'mcq',
+            question: 'Từ "late" (/leɪt/) chứa nguyên âm đôi nào sau đây?',
+            options: ['/eɪ/', '/aɪ/', '/aʊ/', '/eə/'],
+            correct: '/eɪ/',
+            explanation: 'Từ "late" chứa nguyên âm đôi /eɪ/ (kết hợp từ âm /e/ trượt sang /ɪ/).'
         },
         {
             type: 'fitb',
-            question: 'He _______ (be) very tired after work.',
+            question: 'Âm <b>/p/</b> là âm vô thanh hay hữu thanh?',
+            correct: ['vô thanh', 'vo thanh'],
+            explanation: 'Âm /p/ là âm vô thanh (chỉ bật hơi gió từ môi, cổ họng không rung).'
+        },
+        {
+            type: 'fitb',
+            question: 'Âm <b>/b/</b> là âm vô thanh hay hữu thanh?',
+            correct: ['hữu thanh', 'huu thanh'],
+            explanation: 'Âm /b/ là âm hữu thanh (khi phát âm rung mạnh dây thanh quản).'
+        },
+        {
+            type: 'mcq',
+            question: 'Chọn từ có phụ âm đầu là âm <b>vô thanh</b>:',
+            options: ['pen', 'boy', 'dog', 'go'],
+            correct: 'pen',
+            explanation: 'Từ "pen" bắt đầu bằng âm vô thanh /p/. Các từ còn lại bắt đầu bằng âm hữu thanh /b/, /d/, /ɡ/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Từ nào sau đây chứa phụ âm hữu thanh <b>/z/</b>?',
+            options: ['busy', 'easy', 'Cả hai đều đúng', 'Không từ nào đúng'],
+            correct: 'Cả hai đều đúng',
+            explanation: 'Cả "busy" (/ˈbɪzi/) và "easy" (/ˈiːzi/) đều có chữ "s" được phát âm là phụ âm hữu thanh /z/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Phát âm của âm "th" trong từ "think" (/θɪŋk/) là âm gì?',
+            options: ['/θ/ (âm vô thanh)', '/ð/ (âm hữu thanh)', '/t/', '/d/'],
+            correct: '/θ/ (âm vô thanh)',
+            explanation: 'Từ "think" chứa âm vô thanh /θ/ (đặt đầu lưỡi giữa răng cửa và thổi gió ra).'
+        },
+        {
+            type: 'mcq',
+            question: 'Phát âm của âm "th" trong từ "mother" (/ˈmʌðər/) là âm gì?',
+            options: ['/ð/ (âm hữu thanh)', '/θ/ (âm vô thanh)', '/d/', '/z/'],
+            correct: '/ð/ (âm hữu thanh)',
+            explanation: 'Từ "mother" chứa âm hữu thanh /ð/ (cách đặt miệng giống /θ/ nhưng rung cổ họng).'
+        },
+        {
+            type: 'mcq',
+            question: 'Chọn cặp phụ âm tương ứng: Phụ âm vô thanh <b>/t/</b> tương ứng với phụ âm hữu thanh nào?',
+            options: ['/d/', '/b/', '/g/', '/s/'],
+            correct: '/d/',
+            explanation: 'Cặp âm /t/ và /d/ có chung vị trí khẩu hình miệng (đầu lưỡi chạm nướu răng trên), chỉ khác /t/ là vô thanh và /d/ là hữu thanh.'
+        }
+    ],
+    lesson3: [
+        {
+            type: 'mcq',
+            question: 'She _______ (be) a beautiful and highly intelligent student.',
+            options: ['am', 'is', 'are', 'be'],
+            correct: 'is',
+            explanation: 'Chủ ngữ "She" là ngôi thứ 3 số ít, động từ TO BE đi kèm ở hiện tại là "is".'
+        },
+        {
+            type: 'mcq',
+            question: 'They _______ (not be) ready for the final examination yet.',
+            options: ['am not', "isn't", "aren't", 'don\'t be'],
+            correct: "aren't",
+            explanation: 'Chủ ngữ "They" số nhiều, thể phủ định của TO BE là "are not" (viết tắt là "aren\'t").'
+        },
+        {
+            type: 'fitb',
+            question: 'I _______ (be) highly interested in learning English vocabulary.',
+            correct: ['am'],
+            explanation: 'Chủ ngữ "I" đi kèm với động từ TO BE ở hiện tại đơn là "am".'
+        },
+        {
+            type: 'fitb',
+            question: '_______ you a member of this premium online class?',
+            correct: ['Are', 'are'],
+            explanation: 'Câu nghi vấn với chủ ngữ "you" đảo động từ TO BE "Are" lên đầu câu.'
+        },
+        {
+            type: 'mcq',
+            question: 'It _______ (be) a hot and sunny day today.',
+            options: ['am', 'is', 'are', 'be'],
+            correct: 'is',
+            explanation: 'Chủ ngữ số ít "It" đi với động từ TO BE "is".'
+        },
+        {
+            type: 'order',
+            question: 'Hãy xếp các từ thành câu đúng: "Họ là những bác sĩ giỏi."',
+            words: ['They', 'are', 'very', 'good', 'doctors'],
+            correct: 'They are very good doctors',
+            explanation: 'Cấu trúc câu: S + TO BE + Danh từ/Tính từ bổ nghĩa.'
+        },
+        {
+            type: 'mcq',
+            question: 'Chọn câu hỏi viết đúng cấu trúc ngữ pháp nhất:',
+            options: ['Is he happy today?', 'Are he happy today?', 'He is happy today?', 'Am he happy today?'],
+            correct: 'Is he happy today?',
+            explanation: 'Câu hỏi nghi vấn TO BE ở quá khứ: Đảo TO BE (is) lên trước chủ ngữ số ít (he).'
+        },
+        {
+            type: 'fitb',
+            question: 'Who _______ (be) your favorite teacher at school?',
+            correct: ['is'],
+            explanation: 'Hỏi về đối tượng ngôi thứ 3 số ít "Who" đi kèm trợ động từ TO BE "is".'
+        },
+        {
+            type: 'mcq',
+            question: 'My parents _______ (be) extremely proud of my learning progress.',
+            options: ['am', 'is', 'are', 'be'],
+            correct: 'are',
+            explanation: 'Chủ ngữ "My parents" (bố mẹ tôi) là số nhiều, đi kèm động từ TO BE "are".'
+        },
+        {
+            type: 'mcq',
+            question: 'Viết tắt của thể phủ định "She is not" là gì?',
+            options: ["She isn't", "She's not", 'Cả hai đều đúng', 'She aren\'t'],
+            correct: 'Cả hai đều đúng',
+            explanation: '"She is not" có thể viết tắt theo hai cách: "She isn\'t" hoặc "She\'s not".'
+        }
+    ],
+    lesson4: [
+        {
+            type: 'mcq',
+            question: 'He _______ (play) soccer with his friends every weekend.',
+            options: ['play', 'plays', 'playes', 'playing'],
+            correct: 'plays',
+            explanation: 'Chủ ngữ "He" ngôi thứ 3 số ít, động từ thường ở khẳng định hiện tại đơn thêm "-s" thành "plays".'
+        },
+        {
+            type: 'mcq',
+            question: 'We _______ (not drink) coffee late in the evening.',
+            options: ['not drink', "don't drink", "doesn't drink", "don't drinks"],
+            correct: "don't drink",
+            explanation: 'Chủ ngữ "We" số nhiều, mượn trợ động từ phủ định "don\'t" + động từ nguyên mẫu "drink".'
+        },
+        {
+            type: 'fitb',
+            question: 'I _______ (study) English for 2 hours every single day.',
+            correct: ['study'],
+            explanation: 'Chủ ngữ "I" giữ nguyên động từ thường ở dạng nguyên mẫu "study".'
+        },
+        {
+            type: 'fitb',
+            question: 'Where _______ your sister live?',
+            correct: ['does'],
+            explanation: 'Câu hỏi nghi vấn Wh-, chủ ngữ "your sister" số ít nên mượn trợ động từ "does".'
+        },
+        {
+            type: 'mcq',
+            question: 'My father _______ (go) to work by car every morning.',
+            options: ['go', 'gos', 'goes', 'going'],
+            correct: 'goes',
+            explanation: 'Chủ ngữ "My father" số ít, động từ "go" kết thúc bằng "o" nên thêm đuôi "-es" thành "goes".'
+        },
+        {
+            type: 'order',
+            question: 'Hãy xếp các từ thành câu đúng: "Tôi thường thức dậy lúc 6 giờ sáng."',
+            words: ['I', 'usually', 'wake', 'up', 'at', '6', 'AM'],
+            correct: 'I usually wake up at 6 AM',
+            explanation: 'Trạng từ tần suất (usually) đứng trước động từ thường (wake up).'
+        },
+        {
+            type: 'mcq',
+            question: 'Chọn câu viết đúng ngữ pháp hiện tại đơn:',
+            options: ["She don't like milk.", "She doesn't like milk.", "She doesn't likes milk.", "She not likes milk."],
+            correct: "She doesn't like milk.",
+            explanation: 'Phủ định số ít: mượn "doesn\'t", động từ chính phải trở về dạng nguyên mẫu không chia "like".'
+        },
+        {
+            type: 'fitb',
+            question: 'What _______ you usually do on Sunday afternoons?',
+            correct: ['do'],
+            explanation: 'Câu nghi vấn số nhiều với chủ ngữ "you" mượn trợ động từ "do".'
+        },
+        {
+            type: 'mcq',
+            question: 'The sun _______ (rise) in the East.',
+            options: ['rise', 'rises', 'rising', 'rose'],
+            correct: 'rises',
+            explanation: 'Diễn tả chân lý/sự thật hiển nhiên. "The sun" số ít nên động từ thêm "s" thành "rises".'
+        },
+        {
+            type: 'mcq',
+            question: 'Cats _______ (love) catching mice.',
+            options: ['love', 'loves', 'loving', 'loved'],
+            correct: 'love',
+            explanation: 'Chủ ngữ "Cats" số nhiều, động từ giữ nguyên mẫu ở dạng khẳng định là "love".'
+        }
+    ],
+    lesson5: [
+        {
+            type: 'mcq',
+            question: 'Từ "works" có đuôi <b>-s</b> được phát âm là âm gì?',
+            options: ['/s/', '/z/', '/ɪz/', '/d/'],
+            correct: '/s/',
+            explanation: 'Động từ gốc "work" kết thúc bằng âm vô thanh /k/, nên đuôi -s phát âm vô thanh là /s/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Từ "plays" có đuôi <b>-s</b> được phát âm là âm gì?',
+            options: ['/z/', '/s/', '/ɪz/', '/t/'],
+            correct: '/z/',
+            explanation: 'Động từ gốc "play" kết thúc bằng nguyên âm hữu thanh /eɪ/, nên đuôi -s đọc hữu thanh là /z/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Từ "watches" có đuôi <b>-es</b> được phát âm là âm gì?',
+            options: ['/ɪz/', '/s/', '/z/', '/t/'],
+            correct: '/ɪz/',
+            explanation: 'Động từ gốc "watch" kết thúc bằng âm xuýt /tʃ/, nên đuôi -es phát âm là /ɪz/.'
+        },
+        {
+            type: 'fitb',
+            question: 'Đuôi -s/-es sau các âm xuýt (như /s/, /z/, /ʃ/, /tʃ/) được phát âm là âm gì?',
+            correct: ['/ɪz/', 'iz', '/iz/'],
+            explanation: 'Quy tắc âm xuýt (Sibilants) yêu cầu đuôi -es phát âm là /ɪz/ (thêm một âm tiết).'
+        },
+        {
+            type: 'mcq',
+            question: 'Đuôi -s sau các phụ âm vô thanh (như /p/, /t/, /k/, /f/) được phát âm là gì?',
+            options: ['/s/', '/z/', '/ɪz/', '/d/'],
+            correct: '/s/',
+            explanation: 'Theo quy tắc đồng hóa phát âm: âm vô thanh đi kèm âm vô thanh /s/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Chọn từ có phát âm đuôi <b>-s/-es</b> khác các từ còn lại:',
+            options: ['cooks (/s/)', 'stops (/s/)', 'likes (/s/)', 'runs (/z/)'],
+            correct: 'runs (/z/)',
+            explanation: 'Từ "runs" đuôi -s phát âm là /z/ vì từ gốc kết thúc bằng phụ âm hữu thanh /n/. Các từ còn lại đọc là /s/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Chọn từ có phát âm đuôi <b>-es</b> được phát âm là <b>/ɪz/</b>:',
+            options: ['boxes', 'goes', 'does', 'lives'],
+            correct: 'boxes',
+            explanation: 'Từ gốc "box" kết thúc bằng phụ âm xuýt /s/ (của âm /ks/), nên đuôi -es được phát âm là /ɪz/.'
+        },
+        {
+            type: 'fitb',
+            question: 'Từ "laughs" (/lɑːfs/) có đuôi <b>-s</b> phát âm là /s/ hay /z/?',
+            correct: ['/s/', 's'],
+            explanation: 'Mặc dù viết là "gh" nhưng phát âm là âm vô thanh /f/, vì vậy đuôi -s phát âm vô thanh là /s/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Từ "breathes" (/briːðz/) có đuôi <b>-s</b> phát âm là gì?',
+            options: ['/z/', '/s/', '/ɪz/', '/t/'],
+            correct: '/z/',
+            explanation: 'Từ gốc "breathe" kết thúc bằng âm hữu thanh /ð/, do đó đuôi -s đọc hữu thanh là /z/.'
+        },
+        {
+            type: 'order',
+            question: 'Hãy xếp các từ thành câu đúng: "Mẹ tôi thường giặt quần áo."',
+            words: ['My', 'mother', 'usually', 'washes', 'the', 'clothes'],
+            correct: 'My mother usually washes the clothes',
+            explanation: 'Động từ "wash" thêm đuôi -es phát âm là /ɪz/.'
+        }
+    ],
+    lesson6: [
+        {
+            type: 'mcq',
+            question: 'I _______ (be) at home all day yesterday afternoon.',
+            options: ['was', 'were', 'am', 'been'],
+            correct: 'was',
+            explanation: 'Chủ ngữ "I" đi với động từ TO BE ở quá khứ đơn là "was".'
+        },
+        {
+            type: 'mcq',
+            question: 'They _______ (not be) at the music party last night.',
+            options: ['was not', "weren't", "isn't", 'don\'t be'],
+            correct: "weren't",
+            explanation: 'Chủ ngữ "They" đi với phủ định TO BE quá khứ là "were not" (viết tắt là "weren\'t").'
+        },
+        {
+            type: 'fitb',
+            question: '_______ you tired after a long day at work yesterday?',
+            correct: ['Were', 'were'],
+            explanation: 'Câu nghi vấn quá khứ với chủ ngữ "you" đảo động từ TO BE "Were" lên đầu câu.'
+        },
+        {
+            type: 'fitb',
+            question: 'Where _______ she last Sunday afternoon?',
             correct: ['was'],
-            explanation: 'Dạng quá khứ của TO BE: I/He/She/It → was | You/We/They → were. Chủ ngữ "He" nên dùng "was".'
+            explanation: 'Câu nghi vấn Wh- quá khứ với chủ ngữ số ít "she" đi kèm TO BE "was".'
         },
         {
             type: 'mcq',
-            question: '_______ you see that movie last week?',
-            options: ['Do', 'Did', 'Was', 'Were'],
-            correct: 'Did',
-            explanation: 'Câu hỏi quá khứ đơn với động từ thường: Did + S + V_nguyên_mẫu? "Did" dùng cho mọi chủ ngữ.'
+            question: 'We _______ (be) extremely happy to see you last week.',
+            options: ['was', 'were', 'are', 'been'],
+            correct: 'were',
+            explanation: 'Chủ ngữ số nhiều "We" đi kèm động từ TO BE quá khứ "were".'
+        },
+        {
+            type: 'mcq',
+            question: 'Chọn câu nghi vấn viết đúng ngữ pháp quá khứ nhất:',
+            options: ['Was he sick yesterday?', 'Were he sick yesterday?', 'Did he sick yesterday?', 'Did he was sick yesterday?'],
+            correct: 'Was he sick yesterday?',
+            explanation: 'Câu hỏi nghi vấn TO BE ở quá khứ: Đảo TO BE (Was) lên trước chủ ngữ số ít (he), không mượn trợ động từ "did".'
         },
         {
             type: 'order',
-            question: 'Hãy xếp các từ thành câu đúng: "Cô ấy đã mua một chiếc váy mới hôm qua."',
-            words: ['She', 'bought', 'a', 'new', 'dress', 'yesterday'],
-            correct: 'She bought a new dress yesterday',
-            explanation: '"Buy" là động từ bất quy tắc, dạng V2 là "bought". Trật tự câu: S + V2 + O + Trạng từ thời gian.'
-        },
-        {
-            type: 'mcq',
-            question: 'When I was a child, I _______ (play) in the park every day.',
-            options: ['play', 'played', 'plays', 'was play'],
-            correct: 'played',
-            explanation: '"When I was a child" chỉ thời điểm trong quá khứ. "Play" là động từ có quy tắc, thêm -ed thành "played".'
+            question: 'Hãy xếp các từ thành câu đúng: "Thời tiết hôm qua rất đẹp."',
+            words: ['The', 'weather', 'was', 'beautiful', 'yesterday'],
+            correct: 'The weather was beautiful yesterday',
+            explanation: 'Cấu trúc: S (The weather) + was + Tính từ (beautiful) + trạng từ chỉ thời gian quá khứ (yesterday).'
         },
         {
             type: 'fitb',
-            question: 'The students _______ (not finish) their homework on time.',
-            correct: ["didn't finish", "did not finish"],
-            explanation: 'Phủ định quá khứ đơn: didn\'t + V_nguyên_mẫu. "The students" là số nhiều nhưng vẫn dùng "didn\'t" (không phải "weren\'t" vì đây là động từ thường).'
+            question: 'Why _______ they absent from class yesterday morning?',
+            correct: ['were'],
+            explanation: 'Chủ ngữ "they" số nhiều đi kèm động từ TO BE ở quá khứ là "were".'
+        },
+        {
+            type: 'mcq',
+            question: 'The text book _______ (be) on the desk an hour ago.',
+            options: ['was', 'were', 'is', 'are'],
+            correct: 'was',
+            explanation: 'Chủ ngữ "The text book" số ít đi kèm động từ TO BE quá khứ "was".'
+        },
+        {
+            type: 'mcq',
+            question: 'Dạng viết tắt phủ định của "was not" là gì?',
+            options: ["wasn't", "weren't", 'was not', 'wasn'],
+            correct: "wasn't",
+            explanation: '"was not" viết tắt thành "wasn\'t". ("weren\'t" dùng cho số nhiều "were not").'
         }
     ],
-
-    // ==========================================
-    // THÌ TƯƠNG LAI ĐƠN (Future Simple)
-    // ==========================================
-    futureSimple: [
+    lesson7: [
         {
             type: 'mcq',
-            question: 'I _______ help you with your homework tonight.',
-            illustration: 'student',
-            options: ['am', 'was', 'will', 'would'],
-            correct: 'will',
-            explanation: 'Quyết định tức thì khi được yêu cầu giúp đỡ → dùng WILL. Công thức: S + will + V_nguyên_mẫu.'
+            question: 'She _______ (watch) a highly exciting movie last night.',
+            options: ['watch', 'watched', 'watches', 'watching'],
+            correct: 'watched',
+            explanation: 'Động từ "watch" là động từ có quy tắc, ở quá khứ đơn thêm đuôi "-ed" thành "watched".'
         },
         {
             type: 'mcq',
-            question: 'She _______ (not come) to the party tomorrow.',
-            options: ["didn't come", "won't come", "doesn't come", "isn't come"],
-            correct: "won't come",
-            explanation: 'Phủ định tương lai đơn: S + won\'t (will not) + V_nguyên_mẫu. "Won\'t" là dạng rút gọn của "will not".'
+            question: 'We _______ (not play) soccer yesterday because of the heavy rain.',
+            options: ["didn't play", "didn't played", 'not played', "weren't play"],
+            correct: "didn't play",
+            explanation: 'Phủ định quá khứ mượn "didn\'t" + động từ nguyên mẫu không chia "play".'
         },
         {
             type: 'fitb',
-            question: '_______ you be at home this evening?',
-            correct: ['Will'],
-            explanation: 'Câu hỏi tương lai đơn: Will + S + V_nguyên_mẫu? "Will" đứng đầu câu hỏi.'
-        },
-        {
-            type: 'mcq',
-            question: 'Look at those dark clouds! It _______ rain.',
-            options: ['will', 'is going to', 'would', 'shall'],
-            correct: 'is going to',
-            explanation: 'Dấu hiệu rõ ràng (dark clouds) cho thấy điều sắp xảy ra → dùng BE GOING TO. "It is going to rain" = trời sắp mưa.'
+            question: 'I _______ (study) very hard for the final exam last night.',
+            correct: ['studied'],
+            explanation: '"study" kết thúc bằng phụ âm + "y", đổi "y" thành "i" rồi thêm "-ed" thành "studied".'
         },
         {
             type: 'fitb',
-            question: 'We _______ (visit) Hoi An next month. (Dùng be going to)',
-            correct: ['are going to visit'],
-            explanation: 'Kế hoạch đã định sẵn từ trước → BE GOING TO. We + are going to + visit.'
+            question: '_______ you finish your homework on time yesterday?',
+            correct: ['Did', 'did'],
+            explanation: 'Câu hỏi nghi vấn động từ thường quá khứ đơn: mượn trợ động từ "Did" đảo lên đầu.'
+        },
+        {
+            type: 'mcq',
+            question: 'He _______ (stop) his car at the red traffic light.',
+            options: ['stoped', 'stopped', 'stopping', 'stops'],
+            correct: 'stopped',
+            explanation: 'Động từ "stop" 1 âm tiết có cấu trúc nguyên âm + phụ âm tận cùng, gấp đôi phụ âm cuối rồi thêm "-ed" thành "stopped".'
+        },
+        {
+            type: 'mcq',
+            question: 'Đuôi <b>-ed</b> trong từ "wanted" được phát âm là âm gì?',
+            options: ['/ɪd/', '/t/', '/d/', '/s/'],
+            correct: '/ɪd/',
+            explanation: 'Từ gốc "want" kết thúc bằng âm /t/, nên đuôi -ed được phát âm là /ɪd/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Đuôi <b>-ed</b> trong từ "worked" được phát âm là âm gì?',
+            options: ['/t/', '/d/', '/ɪd/', '/z/'],
+            correct: '/t/',
+            explanation: 'Từ gốc "work" kết thúc bằng âm vô thanh /k/, nên đuôi -ed phát âm là âm vô thanh /t/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Đuôi <b>-ed</b> trong từ "played" được phát âm là âm gì?',
+            options: ['/d/', '/t/', '/ɪd/', '/z/'],
+            correct: '/d/',
+            explanation: 'Từ gốc "play" kết thúc bằng nguyên âm hữu thanh, nên đuôi -ed phát âm là âm hữu thanh /d/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Chọn từ có phát âm đuôi <b>-ed</b> là <b>/ɪd/</b>:',
+            options: ['needed', 'played', 'watched', 'laughed'],
+            correct: 'needed',
+            explanation: 'Từ gốc "need" kết thúc bằng âm /d/, nên đuôi -ed đọc là /ɪd/. Các từ còn lại đọc là /t/ hoặc /d/.'
         },
         {
             type: 'order',
-            question: 'Hãy xếp các từ thành câu đúng: "Anh ấy sẽ gọi điện cho bạn vào ngày mai."',
-            words: ['He', 'will', 'call', 'you', 'tomorrow'],
-            correct: 'He will call you tomorrow',
-            explanation: 'Công thức tương lai đơn: S + will + V_nguyên_mẫu + O + Trạng từ thời gian. "Will" không thay đổi theo chủ ngữ.'
+            question: 'Hãy xếp các từ thành câu đúng: "Cô ấy đã sống ở Hà Nội 5 năm trước."',
+            words: ['She', 'lived', 'in', 'Hanoi', 'five', 'years', 'ago'],
+            correct: 'She lived in Hanoi five years ago',
+            explanation: 'Cấu trúc câu quá khứ: S + V-ed + Trạng từ chỉ nơi chốn/thời gian.'
+        }
+    ],
+    lesson8: [
+        {
+            type: 'mcq',
+            question: 'Yesterday, I _______ (go) to the local supermarket with my mom.',
+            options: ['go', 'goes', 'went', 'gone'],
+            correct: 'went',
+            explanation: '"go" là động từ bất quy tắc, quá khứ cột 2 là "went".'
         },
         {
             type: 'mcq',
-            question: 'I\'m hungry. — Don\'t worry, I _______ make you a sandwich.',
-            options: ['am going to', 'will', 'shall', 'would'],
-            correct: 'will',
-            explanation: 'Quyết định ngay tại thời điểm nói (tức thì) → dùng WILL, không phải "be going to" (vốn dùng cho kế hoạch đã chuẩn bị trước).'
+            question: 'My father _______ (buy) a beautiful new laptop last week.',
+            options: ['buy', 'bought', 'buys', 'buyed'],
+            correct: 'bought',
+            explanation: '"buy" là động từ bất quy tắc, quá khứ cột 2 là "bought".'
+        },
+        {
+            type: 'fitb',
+            question: 'She _______ (have) a wonderful birthday party last night.',
+            correct: ['had'],
+            explanation: '"have" là động từ bất quy tắc, quá khứ cột 2 là "had".'
+        },
+        {
+            type: 'fitb',
+            question: 'What did you _______ (do) at home yesterday afternoon?',
+            correct: ['do'],
+            explanation: 'Trong câu hỏi mượn trợ động từ "did", động từ chính phải trở lại nguyên mẫu là "do".'
         },
         {
             type: 'mcq',
-            question: 'By 2050, robots _______ do many jobs for humans.',
-            options: ['will', 'are going to', 'would', 'A hoặc B đều đúng'],
-            correct: 'A hoặc B đều đúng',
-            explanation: 'Dự đoán xa (không có bằng chứng rõ ràng) thường dùng WILL. Nhưng nếu có dấu hiệu thì BE GOING TO cũng được. Cả hai đều chấp nhận được trong câu dự đoán.'
+            question: 'I _______ (see) a very famous actor at the airport yesterday.',
+            options: ['see', 'saw', 'seen', 'seed'],
+            correct: 'saw',
+            explanation: '"see" là động từ bất quy tắc, quá khứ cột 2 là "saw".'
+        },
+        {
+            type: 'mcq',
+            question: 'Dạng quá khứ quá khứ đơn (V2) của động từ "make" là gì?',
+            options: ['made', 'makeed', 'makes', 'making'],
+            correct: 'made',
+            explanation: '"make" bất quy tắc chuyển thành "made" ở quá khứ đơn.'
+        },
+        {
+            type: 'mcq',
+            question: 'They _______ (take) many beautiful photos during their summer trip.',
+            options: ['take', 'took', 'taken', 'taked'],
+            correct: 'took',
+            explanation: '"take" bất quy tắc chuyển thành "took" ở quá khứ.'
+        },
+        {
+            type: 'fitb',
+            question: 'He _______ (write) a heartfelt letter to his parents yesterday.',
+            correct: ['wrote'],
+            explanation: '"write" bất quy tắc chuyển thành quá khứ cột 2 là "wrote".'
+        },
+        {
+            type: 'mcq',
+            question: 'We _______ (eat) delicious fresh seafood at the beach restaurant.',
+            options: ['eat', 'eated', 'ate', 'eating'],
+            correct: 'ate',
+            explanation: '"eat" bất quy tắc chuyển thành "ate" ở quá khứ.'
+        },
+        {
+            type: 'order',
+            question: 'Hãy xếp các từ thành câu đúng: "Cô ấy đã tặng tôi một món quà."',
+            words: ['She', 'gave', 'me', 'a', 'lovely', 'present'],
+            correct: 'She gave me a lovely present',
+            explanation: '"give" bất quy tắc chuyển thành "gave" ở quá khứ.'
+        }
+    ],
+    lesson9: [
+        {
+            type: 'mcq',
+            question: 'I promise I _______ (help) you with your difficult homework tonight.',
+            options: ['will help', 'help', 'am helping', 'helped'],
+            correct: 'will help',
+            explanation: 'Lời hứa hẹn (promise) đi kèm thì tương lai đơn sử dụng "will" + động từ nguyên mẫu.'
+        },
+        {
+            type: 'mcq',
+            question: 'She _______ (not come) to the school party tomorrow night.',
+            options: ['don\'t come', "won't come", "doesn't come", "isn't come"],
+            correct: "won't come",
+            explanation: 'Phủ định tương lai đơn: "will not" (viết tắt là "won\'t") + động từ nguyên mẫu "come".'
+        },
+        {
+            type: 'fitb',
+            question: '_______ you be free and at home this evening?',
+            correct: ['Will', 'will'],
+            explanation: 'Câu nghi vấn tương lai đơn: Đảo trợ động từ "Will" lên trước chủ ngữ.'
+        },
+        {
+            type: 'fitb',
+            question: 'Don\'t worry about that, I _______ (call) you when I arrive.',
+            correct: ['will call'],
+            explanation: 'Quyết định tức thời ngay tại thời điểm nói sử dụng "will call".'
+        },
+        {
+            type: 'mcq',
+            question: 'I think it _______ (rain) tomorrow morning.',
+            options: ['will rain', 'rains', 'rained', 'is rain'],
+            correct: 'will rain',
+            explanation: 'Dự đoán tương lai không có căn cứ chắc chắn (sau "I think") dùng "will rain".'
+        },
+        {
+            type: 'mcq',
+            question: 'Trợ động từ viết tắt dạng phủ định của "will not" là gì?',
+            options: ["won't", "willn't", 'wont', 'not will'],
+            correct: "won't",
+            explanation: '"will not" viết tắt dứt khoát thành "won\'t".'
+        },
+        {
+            type: 'order',
+            question: 'Hãy xếp các từ thành câu đúng: "Họ sẽ đi du lịch Đà Nẵng tuần tới."',
+            words: ['They', 'will', 'travel', 'to', 'Da', 'Nang', 'next', 'week'],
+            correct: 'They will travel to Da Nang next week',
+            explanation: 'Công thức tương lai đơn: S + will + V_nguyên_mẫu + O + thời gian tương lai.'
+        },
+        {
+            type: 'fitb',
+            question: 'Where _______ we meet tomorrow morning?',
+            correct: ['will'],
+            explanation: 'Câu hỏi tương lai đơn mượn trợ động từ "will" đứng trước chủ ngữ "we".'
+        },
+        {
+            type: 'mcq',
+            question: 'Perhaps he _______ (pass) the final examination easily.',
+            options: ['will pass', 'passes', 'pass', 'is going to pass'],
+            correct: 'will pass',
+            explanation: 'Dự đoán tương lai đi kèm trạng từ phán đoán mơ hồ "Perhaps" (có lẽ) dùng "will pass".'
+        },
+        {
+            type: 'mcq',
+            question: 'Dạng viết tắt khẳng định của "I will" là gì?',
+            options: ["I'll", "I'd", "I've", "I'm"],
+            correct: "I'll",
+            explanation: '"I will" viết tắt là "I\'ll".'
+        }
+    ],
+    lesson10: [
+        {
+            type: 'mcq',
+            question: 'Look at those dark black clouds! It _______ (rain) very soon.',
+            options: ['will rain', 'is going to rain', 'rains', 'rained'],
+            correct: 'is going to rain',
+            explanation: 'Dự đoán có bằng chứng rõ ràng trước mắt (dark clouds) $\rightarrow$ Dùng tương lai gần "is going to rain".'
+        },
+        {
+            type: 'mcq',
+            question: 'We _______ (visit) our grandparents this weekend. (Kế hoạch định sẵn từ trước)',
+            options: ['will visit', 'are going to visit', 'visited', 'visits'],
+            correct: 'are going to visit',
+            explanation: 'Kế hoạch đã chuẩn bị kỹ lưỡng từ trước $\rightarrow$ Dùng tương lai gần "are going to visit".'
+        },
+        {
+            type: 'fitb',
+            question: 'I _______ (study) English hard tonight because I have an exam tomorrow.',
+            correct: ['am going to study'],
+            explanation: 'Có mục đích định sẵn và có căn cứ lịch thi rõ ràng $\rightarrow$ Dùng "am going to study".'
+        },
+        {
+            type: 'mcq',
+            question: 'Phân biệt: Quyết định tức thời tại thời điểm nói dùng "will", kế hoạch có trước dùng _______.',
+            options: ['be going to', 'will', 'quá khứ đơn', 'hiện tại đơn'],
+            correct: 'be going to',
+            explanation: 'Khác biệt cốt lõi: "will" bột phát tức thì, "be going to" kế hoạch sẵn có.'
+        },
+        {
+            type: 'fitb',
+            question: 'He is saving money. He _______ (buy) a new smartphone next month.',
+            correct: ['is going to buy'],
+            explanation: 'Có hành động chuẩn bị (saving money) $\rightarrow$ Dùng tương lai gần "is going to buy".'
+        },
+        {
+            type: 'mcq',
+            question: 'Thì Hiện tại đơn có thể diễn tả lịch trình cố định của xe lửa hay không?',
+            options: ['Có, đây là cách dùng chuẩn', 'Không thể', 'Chỉ dùng được ở quá khứ', 'Chỉ dùng cho hoạt động con người'],
+            correct: 'Có, đây là cách dùng chuẩn',
+            explanation: 'Hiện tại đơn dùng để mô tả lịch trình cố định (xe tàu, máy bay, lịch chiếu phim...).'
+        },
+        {
+            type: 'mcq',
+            question: 'Động từ gốc "fix" kết thúc bằng âm xuýt /s/, đuôi <b>-es</b> phát âm là gì?',
+            options: ['/ɪz/', '/s/', '/z/', '/t/'],
+            correct: '/ɪz/',
+            explanation: '"fix" tận cùng bằng âm /ks/, chứa âm xuýt /s/ ở cuối nên đuôi -es phát âm là /ɪz/.'
+        },
+        {
+            type: 'mcq',
+            question: 'Quá khứ của "buy" là "bought". Đây là động từ có quy tắc hay bất quy tắc?',
+            options: ['Bất quy tắc', 'Có quy tắc', 'Không phải động từ', 'Không xác định được'],
+            correct: 'Bất quy tắc',
+            explanation: 'Động từ bất quy tắc vì nó biến đổi hoàn toàn từ "buy" sang "bought" thay vì thêm -ed.'
+        },
+        {
+            type: 'fitb',
+            question: 'Từ "went" là dạng quá khứ của động từ nguyên mẫu nào?',
+            correct: ['go', 'Go'],
+            explanation: '"went" là dạng quá khứ bất quy tắc của động từ nguyên mẫu "go".'
+        },
+        {
+            type: 'order',
+            question: 'Hãy xếp các từ thành câu đúng: "Chúng ta sẽ học tập chăm chỉ cùng nhau."',
+            words: ['We', 'are', 'going', 'to', 'study', 'hard', 'together'],
+            correct: 'We are going to study hard together',
+            explanation: 'Cấu trúc tương lai gần: S + be going to + V_nguyên_mẫu.'
         }
     ]
 };
+
+// ======================================================
+//   LESSONS & PERSONALIZED PROFILE SUPPORT FUNCTIONS
+// ======================================================
+
+const lessonList = [
+    { id: 'lesson1', title: 'Bài 1: IPA & Nguyên âm đơn', desc: 'Làm quen bảng IPA quốc tế và cách phát âm 12 nguyên âm đơn chuẩn xác.', badge: 'Phát âm' },
+    { id: 'lesson2', title: 'Bài 2: Nguyên âm đôi & Phụ âm', desc: 'Bí quyết làm chủ các nguyên âm đôi và phân biệt phụ âm vô thanh/hữu thanh.', badge: 'Phát âm' },
+    { id: 'lesson3', title: 'Bài 3: Hiện tại đơn - TO BE', desc: 'Công thức, cách dùng của am/is/are ở thể khẳng định, phủ định và nghi vấn.', badge: 'Ngữ pháp' },
+    { id: 'lesson4', title: 'Bài 4: Hiện tại đơn - Động từ thường', desc: 'Cách chia động từ thường, mượn trợ động từ Do/Does chuẩn ngữ pháp.', badge: 'Ngữ pháp' },
+    { id: 'lesson5', title: 'Bài 5: Cách phát âm đuôi -s/-es', desc: 'Cầu nối phát âm: Nắm vững quy tắc sibilant, vô thanh, hữu thanh.', badge: 'Cầu nối' },
+    { id: 'lesson6', title: 'Bài 6: Quá khứ đơn - TO BE', desc: 'Cách kể về trạng thái, sự việc đã kết thúc bằng động từ was/were.', badge: 'Ngữ pháp' },
+    { id: 'lesson7', title: 'Bài 7: Quá khứ đơn - Động từ thường', desc: 'Cách chia động từ có quy tắc thêm đuôi -ed và mẹo phát âm chuẩn.', badge: 'Ngữ pháp' },
+    { id: 'lesson8', title: 'Bài 8: Động từ Bất quy tắc thông dụng', desc: 'Làm quen các động từ bất quy tắc thiết yếu hay gặp nhất (go, buy, have...).', badge: 'Từ vựng' },
+    { id: 'lesson9', title: 'Bài 9: Thì Tương lai đơn với WILL', desc: 'Diễn tả lời hứa, quyết định tức thì và các câu nghi vấn tương lai.', badge: 'Ngữ pháp' },
+    { id: 'lesson10', title: 'Bài 10: BE GOING TO & Tổng ôn tập', desc: 'Phân biệt ý định có sẵn với quyết định bột phát và bài tập tổng kết.', badge: 'Tổng hợp' }
+];
+
+function initUserProfile() {
+    const savedName = localStorage.getItem('easy_english_username');
+    const overlay = document.getElementById('welcome-modal-overlay');
+    if (savedName) {
+        currentUsername = savedName;
+        updateUserProfileUI();
+        if (overlay) overlay.classList.add('hidden');
+    } else {
+        if (overlay) overlay.classList.remove('hidden');
+    }
+}
+
+function submitWelcomeName() {
+    const input = document.getElementById('welcome-name-input');
+    const name = input ? input.value.trim() : '';
+    if (!name) {
+        alert('Vui lòng nhập tên của bạn nhé!');
+        return;
+    }
+    currentUsername = name;
+    localStorage.setItem('easy_english_username', name);
+    updateUserProfileUI();
+    const overlay = document.getElementById('welcome-modal-overlay');
+    if (overlay) overlay.classList.add('hidden');
+    alert(`Chào mừng ${name} đến với Easy English! Chúc bạn học tập vui vẻ! 🎉`);
+}
+
+function updateUserProfileUI() {
+    const nameDisplays = document.querySelectorAll('#user-name-display');
+    const avatarEl = document.getElementById('user-avatar');
+    nameDisplays.forEach(el => {
+        el.textContent = currentUsername;
+    });
+    if (avatarEl && currentUsername) {
+        avatarEl.textContent = currentUsername.charAt(0).toUpperCase();
+        const charCode = currentUsername.charCodeAt(0);
+        const hue = (charCode * 37) % 360; // stable randomized hue
+        avatarEl.style.backgroundColor = `hsl(${hue}, 65%, 50%)`;
+    }
+}
+
+function promptChangeName() {
+    const newName = prompt('Nhập tên học viên mới của bạn:', currentUsername);
+    if (newName && newName.trim() !== '') {
+        currentUsername = newName.trim();
+        localStorage.setItem('easy_english_username', currentUsername);
+        updateUserProfileUI();
+        alert('Đã đổi tên học viên thành công! 🌟');
+    }
+}
+
+function renderLessonsGrid() {
+    const grid = document.getElementById('lessons-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    let completedCount = 0;
+    lessonList.forEach((lesson, index) => {
+        const score = lessonScores[lesson.id];
+        const isCompleted = (score !== undefined);
+        if (isCompleted) completedCount++;
+        
+        const card = document.createElement('div');
+        card.className = 'lesson-card';
+        card.onclick = () => selectLesson(lesson.id);
+        
+        const badgeClass = isCompleted ? 'lesson-badge completed' : 'lesson-badge';
+        const badgeText = isCompleted ? 'Đã hoàn thành ✓' : lesson.badge;
+        const scoreText = isCompleted ? `${score}/10` : 'Chưa làm';
+        const scoreClass = isCompleted && score >= 8 ? 'lesson-score high-score' : 'lesson-score';
+        
+        card.innerHTML = `
+            <div class="lesson-card-header">
+                <span class="${badgeClass}">${badgeText}</span>
+                <span class="lesson-index">Bài 0${index + 1}</span>
+            </div>
+            <div class="lesson-card-body">
+                <h4>${lesson.title}</h4>
+                <p>${lesson.desc}</p>
+            </div>
+            <div class="lesson-card-footer">
+                <span class="${scoreClass}">Đạt: ${scoreText}</span>
+                <span class="lesson-action-lbl">Vào học ➔</span>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+    
+    const ttlScoreEl = document.getElementById('total-lessons-score');
+    const compRatioEl = document.getElementById('completed-lessons-ratio');
+    if (ttlScoreEl) ttlScoreEl.textContent = currentScore;
+    if (compRatioEl) compRatioEl.textContent = `${completedCount}/10`;
+}
+
+function selectLesson(lessonId) {
+    currentPracticeTopic = lessonId;
+    currentQuestionIndex = 0;
+    currentLessonCorrectAnswers = 0;
+    
+    const nextBtn = document.getElementById('btn-next-question');
+    if (nextBtn) {
+        nextBtn.textContent = 'Tiếp tục ➔';
+        nextBtn.onclick = () => nextQuestion();
+    }
+    
+    const lesson = lessonList.find(l => l.id === lessonId);
+    const titleEl = document.getElementById('quiz-lesson-title');
+    if (titleEl) titleEl.textContent = lesson ? lesson.title : 'Luyện tập';
+    
+    const csEl = document.getElementById('current-score');
+    const acEl = document.getElementById('answered-count');
+    if (csEl) csEl.textContent = '0';
+    if (acEl) acEl.textContent = '0';
+    
+    const selectorView = document.getElementById('lesson-selector-view');
+    const playView = document.getElementById('quiz-play-view');
+    if (selectorView) selectorView.classList.add('hidden');
+    if (playView) playView.classList.remove('hidden');
+    
+    loadQuestion();
+}
+
+function completeLesson() {
+    document.getElementById('options-container').classList.add('hidden');
+    document.getElementById('input-container').classList.add('hidden');
+    document.getElementById('word-order-container').classList.add('hidden');
+    document.getElementById('sound-game-container').classList.add('hidden');
+    
+    const feedbackBox = document.getElementById('feedback-box');
+    feedbackBox.classList.remove('hidden');
+    feedbackBox.className = 'feedback-box correct';
+    
+    const fbStatus = document.getElementById('feedback-status');
+    const fbMessage = document.getElementById('feedback-message');
+    const fbExplanation = document.getElementById('feedback-explanation');
+    const nextBtn = document.getElementById('btn-next-question');
+    
+    const oldHighScore = lessonScores[currentPracticeTopic] || 0;
+    const isNewHigh = currentLessonCorrectAnswers > oldHighScore;
+    lessonScores[currentPracticeTopic] = Math.max(oldHighScore, currentLessonCorrectAnswers);
+    
+    if (isNewHigh) {
+        currentScore += (currentLessonCorrectAnswers - oldHighScore) * 10;
+    }
+    
+    saveProgressToStorage();
+    
+    fbStatus.textContent = '🎉 BÀI HỌC HOÀN THÀNH! 🎉';
+    
+    let comment = '';
+    if (currentLessonCorrectAnswers === 10) {
+        comment = 'Tuyệt đối! Bạn là một bậc thầy thực thụ! 🏆';
+        triggerConfettiEffect();
+    } else if (currentLessonCorrectAnswers >= 8) {
+        comment = 'Tuyệt vời! Bạn nắm vững bài học rất tốt. 🌟';
+        triggerConfettiEffect();
+    } else if (currentLessonCorrectAnswers >= 5) {
+        comment = 'Khá tốt! Bạn đã vượt qua thử thách này. Hãy ôn luyện thêm nhé! 📚';
+    } else {
+        comment = 'Cố gắng lên! Hãy xem lại lý thuyết và làm lại bài học để nâng cao điểm số nhé! 💪';
+    }
+    
+    fbMessage.innerHTML = `
+        <div style="font-size: 1.15rem; margin-bottom: 0.5rem; text-align: center; font-weight:700;">
+            Kết quả của bạn: <span style="color: var(--success-light); font-size: 1.35rem;">${currentLessonCorrectAnswers}/10</span> câu đúng!
+        </div>
+        <div style="text-align: center; color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;">
+            ${comment}
+        </div>
+    `;
+    fbExplanation.textContent = 'Bấm nút bên dưới để quay lại màn hình chọn bài tập và tiếp tục chinh phục bài học khác.';
+    
+    nextBtn.textContent = 'Quay lại danh sách bài ⬅';
+    nextBtn.onclick = () => exitQuizToLessons();
+    
+    updateProgressTab();
+}
+
+function exitQuizToLessons() {
+    const playView = document.getElementById('quiz-play-view');
+    const selectorView = document.getElementById('lesson-selector-view');
+    if (playView) playView.classList.add('hidden');
+    if (selectorView) selectorView.classList.remove('hidden');
+    renderLessonsGrid();
+}
 
 
 // Initialize on DOM load
@@ -976,6 +1662,12 @@ document.addEventListener('DOMContentLoaded', () => {
             closeTranslateBubble();
         }
     });
+
+    // Personalized User Setup
+    initUserProfile();
+
+    // Render lessons grid initially
+    renderLessonsGrid();
 
     // Load initial quiz & setup
     resetQuiz();
@@ -1032,6 +1724,11 @@ function switchTab(tabName) {
         mainTitle.innerHTML = 'Ngữ Pháp: Thì Tương Lai Đơn <span class="badge">Future Simple</span>';
     } else if (tabName === 'practice') {
         mainTitle.innerHTML = 'Luyện tập Tương tác <span class="badge">Interactive Quiz</span>';
+        const selectorView = document.getElementById('lesson-selector-view');
+        const playView = document.getElementById('quiz-play-view');
+        if (selectorView) selectorView.classList.remove('hidden');
+        if (playView) playView.classList.add('hidden');
+        renderLessonsGrid();
     } else if (tabName === 'dict') {
         mainTitle.innerHTML = 'Từ Điển & Tra Phát Âm <span class="badge">Dictionary & Pronunciation</span>';
         // Auto-focus the search input when switching to dict tab
@@ -1762,7 +2459,11 @@ function handleAnswerResult(isCorrect, userVal, correctVal) {
     if (isCorrect) {
         correctAnswersCount++;
         if (currentPracticeTopic === 'ipa') correctIpaAnswersCount++;
-        currentScore += 10;
+        if (currentPracticeTopic && currentPracticeTopic.startsWith('lesson')) {
+            currentLessonCorrectAnswers++;
+        } else {
+            currentScore += 10;
+        }
         streak++;
         
         feedbackBox.classList.add('correct');
@@ -1795,6 +2496,16 @@ function nextQuestion() {
 
     const topicQuestions = questionsDatabase[currentPracticeTopic] || [];
     if (topicQuestions.length === 0) return;
+
+    if (currentPracticeTopic && currentPracticeTopic.startsWith('lesson')) {
+        currentQuestionIndex++;
+        if (currentQuestionIndex >= topicQuestions.length) {
+            completeLesson();
+            return;
+        }
+        loadQuestion();
+        return;
+    }
 
     // Advance pool position
     poolPosition++;
@@ -1838,7 +2549,6 @@ function showRoundCompleteToast() {
 
 // Restart Quiz
 function resetQuiz() {
-    currentScore = 0;
     answeredQuestionsCount = 0;
     correctAnswersCount = 0;
     correctIpaAnswersCount = 0;
@@ -1846,8 +2556,15 @@ function resetQuiz() {
     userAnswers = [];
     usedGameWordIndices = [];
 
-    // Re-init shuffled pool for infinite mode
-    if (currentPracticeTopic !== 'game') {
+    if (currentPracticeTopic && currentPracticeTopic.startsWith('lesson')) {
+        currentQuestionIndex = 0;
+        currentLessonCorrectAnswers = 0;
+        const nextBtn = document.getElementById('btn-next-question');
+        if (nextBtn) {
+            nextBtn.textContent = 'Tiếp tục ➔';
+            nextBtn.onclick = () => nextQuestion();
+        }
+    } else if (currentPracticeTopic !== 'game') {
         const topicQuestions = questionsDatabase[currentPracticeTopic] || [];
         shuffledQuestionPool = shuffleArray(topicQuestions.map((_, i) => i));
         poolPosition = 0;
@@ -1862,17 +2579,33 @@ function resetQuiz() {
 
 // UI score refresh
 function updateProgressUI() {
-    document.getElementById('current-score').textContent = currentScore;
-    document.getElementById('answered-ratio').textContent = `${correctAnswersCount}/${answeredQuestionsCount}`;
-    
-    // Progress fill update
-    const progressFill = document.getElementById('practice-progress');
-    if (currentPracticeTopic === 'game') {
-        progressFill.style.width = '100%'; // Infinite game mode
+    if (currentPracticeTopic && currentPracticeTopic.startsWith('lesson')) {
+        const csEl = document.getElementById('current-score');
+        const acEl = document.getElementById('answered-count');
+        if (csEl) csEl.textContent = currentLessonCorrectAnswers;
+        if (acEl) acEl.textContent = currentQuestionIndex;
+        
+        const progressFill = document.getElementById('practice-progress');
+        if (progressFill) {
+            progressFill.style.width = `${(currentQuestionIndex / 10) * 100}%`;
+        }
     } else {
-        const topicQuestions = questionsDatabase[currentPracticeTopic] || [];
-        const percent = topicQuestions.length > 0 ? (currentQuestionIndex / topicQuestions.length) * 100 : 0;
-        progressFill.style.width = `${percent}%`;
+        const csEl = document.getElementById('current-score');
+        if (csEl) csEl.textContent = currentScore;
+        
+        const arEl = document.getElementById('answered-ratio');
+        if (arEl) arEl.textContent = `${correctAnswersCount}/${answeredQuestionsCount}`;
+        
+        const progressFill = document.getElementById('practice-progress');
+        if (progressFill) {
+            if (currentPracticeTopic === 'game') {
+                progressFill.style.width = '100%';
+            } else {
+                const topicQuestions = questionsDatabase[currentPracticeTopic] || [];
+                const percent = topicQuestions.length > 0 ? (currentQuestionIndex / topicQuestions.length) * 100 : 0;
+                progressFill.style.width = `${percent}%`;
+            }
+        }
     }
 }
 
