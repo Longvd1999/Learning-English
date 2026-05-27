@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Tiếng Anh Tương Tác - Thì Hiện Tại Đơn (Present Simple)</title>
+    <title>Học Tiếng Anh Tương Tác - Easy English</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,31 +24,33 @@
             </div>
             
             <nav class="nav-menu">
-                <button class="nav-item active" id="btn-tab-learn" onclick="switchTab('learn')">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                    </svg>
-                    <span>Lý thuyết</span>
+                <div class="nav-group-title">Mục 1: Phát âm & Khẩu hình</div>
+                <button class="nav-item active" id="btn-tab-ipa" onclick="switchTab('ipa')">
+                    <span class="nav-icon">🗣️</span>
+                    <span>Bảng âm IPA chuẩn</span>
                 </button>
+
+                <div class="nav-group-title">Mục 2: Các thì ngữ pháp</div>
+                <button class="nav-item" id="btn-tab-grammar" onclick="switchTab('grammar')">
+                    <span class="nav-icon">📖</span>
+                    <span>Thì Hiện Tại Đơn</span>
+                </button>
+
+                <div class="nav-group-title">Luyện tập & Tiến trình</div>
                 <button class="nav-item" id="btn-tab-practice" onclick="switchTab('practice')">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l8.904-4.474M18 10.5c0 2.8-2.2 5.2-5 5.2s-5-2.4-5-5.2s2.2-5.3 5-5.3s5 2.5 5 5.3Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 21v-2.25m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591" />
-                    </svg>
-                    <span>Luyện tập</span>
+                    <span class="nav-icon">🎯</span>
+                    <span>Luyện tập tương tác</span>
                 </button>
                 <button class="nav-item" id="btn-tab-progress" onclick="switchTab('progress')">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v16.5c0 .621.504 1.125 1.125 1.125H21m-16.5-15L9.75 12l4.5-4.5 4.5 4.5" />
-                    </svg>
-                    <span>Tiến trình</span>
+                    <span class="nav-icon">📊</span>
+                    <span>Tiến trình & Sổ tay</span>
                 </button>
             </nav>
 
             <div class="user-profile">
-                <div class="avatar">U</div>
+                <div class="avatar">V</div>
                 <div class="user-info">
-                    <span class="user-name">Người học</span>
+                    <span class="user-name">Vũ Đức Long</span>
                     <span class="user-status">Cấp độ: Người mới</span>
                 </div>
             </div>
@@ -57,28 +59,125 @@
         <!-- Main Content Area -->
         <main class="main-content">
             <header class="top-header">
-                <h1>Thì Hiện Tại Đơn <span class="badge">Present Simple</span></h1>
+                <h1 id="main-title">Mục 1: Phát âm & Khẩu hình <span class="badge">IPA Guide</span></h1>
                 <div class="header-right">
-                    <span class="date-display" id="date-display">25 Tháng 5, 2026</span>
+                    <span class="date-display" id="date-display">Đang tải ngày...</span>
                 </div>
             </header>
 
-            <!-- TAB 1: LEARN (LÝ THUYẾT) -->
-            <section id="tab-learn" class="tab-content active">
+            <!-- TAB 1: PHÁT ÂM IPA -->
+            <section id="tab-ipa" class="tab-content active">
                 <div class="hero-card">
                     <div class="hero-text">
-                        <h2>Làm chủ Thì Hiện Tại Đơn hôm nay! 🚀</h2>
-                        <p>Thì hiện tại đơn là nền tảng quan trọng nhất trong tiếng Anh, dùng để diễn tả các thói quen, sự thật hiển nhiên hoặc lịch trình cố định. Hãy bắt đầu học công thức và cách sử dụng bên dưới.</p>
+                        <h2>Làm chủ 44 âm tiếng Anh chuẩn Quốc Tế! 🗣️</h2>
+                        <p>Phiên âm quốc tế IPA giúp bạn tự tin đọc đúng bất kỳ từ tiếng Anh nào. Chọn một âm bất kỳ bên dưới để xem chi tiết khẩu hình miệng (môi, răng, lưỡi, thanh quản) và nghe giọng đọc bản xứ.</p>
                     </div>
                     <div class="hero-image">
                         <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
                             <circle cx="100" cy="100" r="80" fill="url(#hero-grad)" fill-opacity="0.15"/>
-                            <path d="M70 120L100 90L130 120" stroke="url(#hero-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M100 60V130" stroke="url(#hero-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M70 110C70 110 85 95 100 95C115 95 130 110 130 110" stroke="url(#hero-grad)" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M100 70V80" stroke="url(#hero-grad)" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M60 130C80 160 120 160 140 130" stroke="url(#hero-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
                             <defs>
                                 <linearGradient id="hero-grad" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#6366F1"/>
                                     <stop offset="1" stop-color="#A855F7"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="ipa-container-layout">
+                    <!-- IPA Grid Board -->
+                    <div class="ipa-board card">
+                        <!-- Vowels Group -->
+                        <div class="ipa-group">
+                            <h4 class="ipa-group-header">Nguyên Âm (Vowels)</h4>
+                            
+                            <div class="ipa-sub-group">
+                                <h5>Nguyên âm đơn (Monophthongs)</h5>
+                                <div class="ipa-grid monophthongs-grid" id="monophthongs-container">
+                                    <!-- Dynamic generated or static list with classes for coloring -->
+                                </div>
+                            </div>
+                            
+                            <div class="ipa-sub-group">
+                                <h5>Nguyên âm đôi (Diphthongs)</h5>
+                                <div class="ipa-grid diphthongs-grid" id="diphthongs-container">
+                                    <!-- Dynamic -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consonants Group -->
+                        <div class="ipa-group">
+                            <h4 class="ipa-group-header" style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1.5rem;">Phụ Âm (Consonants)</h4>
+                            <div class="ipa-grid consonants-grid" id="consonants-container">
+                                <!-- Dynamic -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Pronunciation Panel -->
+                    <div class="ipa-detail-panel card" id="ipa-detail-panel">
+                        <div class="panel-empty-state" id="panel-empty-state">
+                            <div class="panel-empty-icon">🗣️</div>
+                            <h4>Hướng Dẫn Khẩu Hình Chi Tiết</h4>
+                            <p>Hãy bấm vào một âm phiên âm bất kỳ trong bảng IPA để xem mô tả khẩu hình miệng, từ ví dụ và nghe audio chuẩn Anh-Anh / Anh-Mỹ nhé!</p>
+                        </div>
+                        <div class="panel-content hidden" id="panel-content">
+                            <div class="panel-header-info">
+                                <div class="panel-sound-badge" id="panel-sound-type">Nguyên âm dài</div>
+                                <div class="panel-sound-symbol" id="panel-sound-symbol">/i:/</div>
+                                <div class="panel-sound-name" id="panel-sound-name">Vocal Sound</div>
+                            </div>
+
+                            <!-- Interactive Mouth Visualizer SVG -->
+                            <div class="mouth-visualizer" id="mouth-visualizer">
+                                <svg viewBox="0 0 200 150" class="mouth-svg" id="mouth-svg">
+                                    <!-- dynamic paths reflecting mouth shape will be rendered here -->
+                                </svg>
+                                <div class="voicing-status" id="voicing-status">
+                                    <span class="voice-wave" id="voice-wave-animation"></span>
+                                    <span id="voicing-text">Hữu thanh (Voiced - Rung cổ họng)</span>
+                                </div>
+                            </div>
+
+                            <div class="mouth-instructions">
+                                <h5>Cách đặt khẩu hình:</h5>
+                                <ul class="instruction-list" id="mouth-instructions-list">
+                                    <!-- dynamic lips, tongue, vocal instructions -->
+                                </ul>
+                            </div>
+
+                            <div class="sound-examples">
+                                <h5>Ví dụ thực tế:</h5>
+                                <div class="example-list" id="sound-example-list">
+                                    <!-- dynamic list of examples with play buttons -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: THÌ HIỆN TẠI ĐƠN -->
+            <section id="tab-grammar" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì Hiện Tại Đơn <span class="badge">Present Simple</span></h2>
+                        <p>Thì hiện tại đơn là nền tảng quan trọng nhất trong tiếng Anh, dùng để diễn tả các thói quen, sự thật hiển nhiên hoặc lịch trình cố định. Học xong lý thuyết này, bạn sẽ làm bài tập rất dễ dàng.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#hero-grad-2)" fill-opacity="0.15"/>
+                            <rect x="60" y="60" width="80" height="80" rx="10" stroke="url(#hero-grad-2)" stroke-width="8"/>
+                            <path d="M85 100L95 110L115 90" stroke="url(#hero-grad-2)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="hero-grad-2" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#3B82F6"/>
+                                    <stop offset="1" stop-color="#10B981"/>
                                 </linearGradient>
                             </defs>
                         </svg>
@@ -103,11 +202,11 @@
                                 <div class="formula-details">
                                     <div class="formula-text"><strong>S + am / is / are + O</strong></div>
                                     <div class="formula-example">
-                                        <span>I <strong>am</strong> a student.</span>
+                                        <span>I <span class="highlight-word" onclick="translateWordClick('am')">am</span> a student.</span>
                                         <button class="btn-tts" onclick="speakText('I am a student.')" title="Nghe phát âm">🔊</button>
                                     </div>
                                     <div class="formula-example">
-                                        <span>He <strong>is</strong> happy.</span>
+                                        <span>He <span class="highlight-word" onclick="translateWordClick('is')">is</span> happy.</span>
                                         <button class="btn-tts" onclick="speakText('He is happy.')" title="Nghe phát âm">🔊</button>
                                     </div>
                                 </div>
@@ -117,7 +216,7 @@
                                 <div class="formula-details">
                                     <div class="formula-text"><strong>S + am / is / are + not + O</strong></div>
                                     <div class="formula-example">
-                                        <span>They <strong>are not</strong> (aren't) at home.</span>
+                                        <span>They <span class="highlight-word" onclick="translateWordClick('are')">are</span> not at home.</span>
                                         <button class="btn-tts" onclick="speakText('They are not at home.')" title="Nghe phát âm">🔊</button>
                                     </div>
                                 </div>
@@ -127,7 +226,7 @@
                                 <div class="formula-details">
                                     <div class="formula-text"><strong>Am / Is / Are + S + O?</strong></div>
                                     <div class="formula-example">
-                                        <span><strong>Is</strong> she your teacher?</span>
+                                        <span><span class="highlight-word" onclick="translateWordClick('Is')">Is</span> she your teacher?</span>
                                         <button class="btn-tts" onclick="speakText('Is she your teacher?')" title="Nghe phát âm">🔊</button>
                                     </div>
                                 </div>
@@ -150,11 +249,11 @@
                                 <div class="formula-details">
                                     <div class="formula-text"><strong>S + V(s/es) + O</strong></div>
                                     <div class="formula-example">
-                                        <span>I <strong>work</strong> every day.</span>
+                                        <span>I <span class="highlight-word" onclick="translateWordClick('work')">work</span> every day.</span>
                                         <button class="btn-tts" onclick="speakText('I work every day.')" title="Nghe phát âm">🔊</button>
                                     </div>
                                     <div class="formula-example">
-                                        <span>She <strong>works</strong> every day.</span>
+                                        <span>She <span class="highlight-word" onclick="translateWordClick('works')">works</span> every day.</span>
                                         <button class="btn-tts" onclick="speakText('She works every day.')" title="Nghe phát âm">🔊</button>
                                     </div>
                                 </div>
@@ -164,11 +263,11 @@
                                 <div class="formula-details">
                                     <div class="formula-text"><strong>S + do / does + not + V_nguyên_mẫu + O</strong></div>
                                     <div class="formula-example">
-                                        <span>We <strong>don't like</strong> coffee.</span>
+                                        <span>We don't <span class="highlight-word" onclick="translateWordClick('like')">like</span> coffee.</span>
                                         <button class="btn-tts" onclick="speakText('We do not like coffee.')" title="Nghe phát âm">🔊</button>
                                     </div>
                                     <div class="formula-example">
-                                        <span>He <strong>doesn't like</strong> coffee.</span>
+                                        <span>He doesn't <span class="highlight-word" onclick="translateWordClick('like')">like</span> coffee.</span>
                                         <button class="btn-tts" onclick="speakText('He does not like coffee.')" title="Nghe phát âm">🔊</button>
                                     </div>
                                 </div>
@@ -178,11 +277,11 @@
                                 <div class="formula-details">
                                     <div class="formula-text"><strong>Do / Does + S + V_nguyên_mẫu + O?</strong></div>
                                     <div class="formula-example">
-                                        <span><strong>Do</strong> you play soccer?</span>
+                                        <span>Do you <span class="highlight-word" onclick="translateWordClick('play')">play</span> soccer?</span>
                                         <button class="btn-tts" onclick="speakText('Do you play soccer?')" title="Nghe phát âm">🔊</button>
                                     </div>
                                     <div class="formula-example">
-                                        <span><strong>Does</strong> he play soccer?</span>
+                                        <span>Does he <span class="highlight-word" onclick="translateWordClick('play')">play</span> soccer?</span>
                                         <button class="btn-tts" onclick="speakText('Does he play soccer?')" title="Nghe phát âm">🔊</button>
                                     </div>
                                 </div>
@@ -195,7 +294,7 @@
                 </div>
 
                 <div class="section-title">
-                    <h3>2. Quy Tắc Thêm S / ES và Phát Âm ✍️</h3>
+                    <h3>2. Quy Tắc Thêm S / ES và Cách Phát Âm ✍️</h3>
                     <p>Khi chủ ngữ là ngôi thứ ba số ít (He, She, It, Danh từ số ít), ta phải thêm <strong>s</strong> hoặc <strong>es</strong> vào sau động từ thường ở thể khẳng định.</p>
                 </div>
 
@@ -204,26 +303,61 @@
                         <h5>1. Hầu hết động từ</h5>
                         <p class="rule-desc">Thêm <strong>-s</strong> vào sau động từ.</p>
                         <div class="example-box">
-                            <span class="ex-item">run ➔ run<strong>s</strong></span>
-                            <span class="ex-item">speak ➔ speak<strong>s</strong></span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('run')">run</span> ➔ runs</span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('speak')">speak</span> ➔ speaks</span>
                         </div>
                     </div>
                     <div class="card info-card">
                         <h5>2. Đuôi ch, sh, s, x, o, z</h5>
                         <p class="rule-desc">Thêm <strong>-es</strong> vào sau động từ (Mẹo nhớ: <b>Ô</b>ng <b>S</b>áu <b>C</b>hạy <b>X</b>e <b>S</b>h <b>Z</b>ởm).</p>
                         <div class="example-box">
-                            <span class="ex-item">watch ➔ watch<strong>es</strong></span>
-                            <span class="ex-item">go ➔ go<strong>es</strong></span>
-                            <span class="ex-item">wash ➔ wash<strong>es</strong></span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('watch')">watch</span> ➔ watches</span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('go')">go</span> ➔ goes</span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('wash')">wash</span> ➔ washes</span>
                         </div>
                     </div>
                     <div class="card info-card">
                         <h5>3. Kết thúc bằng phụ âm + Y</h5>
                         <p class="rule-desc">Đổi <strong>-y</strong> thành <strong>-i</strong> rồi thêm <strong>-es</strong>.</p>
                         <div class="example-box">
-                            <span class="ex-item">study ➔ stud<strong>ies</strong></span>
-                            <span class="ex-item">fly ➔ fl<strong>ies</strong></span>
-                            <span class="ex-item"><i>(Nhưng: play ➔ play<b>s</b> vì 'a' là nguyên âm)</i></span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('study')">study</span> ➔ studies</span>
+                            <span class="ex-item"><span class="highlight-word" onclick="translateWordClick('fly')">fly</span> ➔ flies</span>
+                            <span class="ex-item"><i>(Nhưng: play ➔ plays vì 'a' là nguyên âm)</i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW ADDITION: SPELLED S/ES PRONUNCIATION BRIDGE -->
+                <div class="card info-card-full">
+                    <h4>Cầu nối phát âm: Đuôi -s/-es đọc như thế nào?</h4>
+                    <p class="intro-p">Phụ thuộc vào âm cuối của động từ gốc (chứ không phải chữ cái cuối), ta có 3 cách đọc đuôi -s/es:</p>
+                    <div class="spelling-pron-grid">
+                        <div class="spelling-pron-item item-s">
+                            <div class="sound-badge">/s/</div>
+                            <h5>Phát âm vô thanh</h5>
+                            <p>Khi từ kết thúc bằng các âm vô thanh: <b>/p/, /t/, /k/, /f/, /θ/</b></p>
+                            <div class="examples-small">
+                                <span>works /wɜːks/ 🔊</span>
+                                <span>laughs /lɑːfs/ 🔊</span>
+                            </div>
+                        </div>
+                        <div class="spelling-pron-item item-z">
+                            <div class="sound-badge">/z/</div>
+                            <h5>Phát âm hữu thanh</h5>
+                            <p>Khi từ kết thúc bằng nguyên âm & âm hữu thanh còn lại: <b>/b/, /d/, /g/, /v/, /ð/, /m/, /n/, /ŋ/, /l/, /r/, /w/, /j/</b></p>
+                            <div class="examples-small">
+                                <span>plays /pleɪz/ 🔊</span>
+                                <span>runs /rʌnz/ 🔊</span>
+                            </div>
+                        </div>
+                        <div class="spelling-pron-item item-iz">
+                            <div class="sound-badge">/ɪz/</div>
+                            <h5>Âm xuýt (Sibilants)</h5>
+                            <p>Khi từ kết thúc bằng các âm xuýt: <b>/s/, /z/, /ʃ/, /ʒ/, /tʃ/, /dʒ/</b></p>
+                            <div class="examples-small">
+                                <span>watches /wɒtʃɪz/ 🔊</span>
+                                <span>misses /mɪsɪz/ 🔊</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -277,17 +411,17 @@
                 </div>
 
                 <div class="next-step-box">
-                    <p>Bạn đã nắm được lý thuyết chưa? Hãy chuyển sang Tab Luyện Tập để thử thách bản thân với các bài tập tương tác nhé!</p>
-                    <button class="btn btn-primary" onclick="switchTab('practice')">Đi đến Luyện tập 🚀</button>
+                    <p>Bạn đã nắm vững lý thuyết chưa? Hãy chuyển sang Tab Luyện Tập để tham gia các thử thách bài tập đầy màu sắc nhé!</p>
+                    <button class="btn btn-primary" onclick="switchTab('practice')">Bắt đầu Luyện tập 🚀</button>
                 </div>
             </section>
 
-            <!-- TAB 2: PRACTICE (LUYỆN TẬP) -->
+            <!-- TAB 3: PRACTICE (LUYỆN TẬP TƯƠNG TÁC) -->
             <section id="tab-practice" class="tab-content">
                 <div class="practice-header">
                     <div class="practice-info">
-                        <h3>Bài Tập Trực Quan & Tương Tác</h3>
-                        <p>Luyện tập ngữ pháp thông qua 3 dạng bài tập khác nhau. Đạt điểm cao để nâng cấp huy hiệu!</p>
+                        <h3>Kho Bài Tập Luyện Tập Sinh Động</h3>
+                        <p>Luyện tập ngữ pháp và phát âm IPA với các dạng bài trắc nghiệm trực quan, sắp xếp câu và trò chơi phản xạ.</p>
                     </div>
                     <div class="score-board">
                         <div class="score-item">
@@ -301,13 +435,37 @@
                     </div>
                 </div>
 
+                <!-- TOPIC SELECTOR FOR GAMIFICATION -->
+                <div class="topic-selector-container card">
+                    <h5>Chọn chủ đề luyện tập của bạn:</h5>
+                    <div class="topic-buttons">
+                        <button class="topic-btn active" id="btn-topic-grammar" onclick="switchPracticeTopic('grammar')">
+                            <span class="topic-icon">📝</span>
+                            <span class="topic-title">Ngữ pháp Thì Hiện Tại Đơn</span>
+                        </button>
+                        <button class="topic-btn" id="btn-topic-ipa" onclick="switchPracticeTopic('ipa')">
+                            <span class="topic-icon">🗣️</span>
+                            <span class="topic-title">Phát âm & Nhận diện âm IPA</span>
+                        </button>
+                        <button class="topic-btn" id="btn-topic-game" onclick="switchPracticeTopic('game')">
+                            <span class="topic-icon">⚡</span>
+                            <span class="topic-title">Trò chơi phản xạ đuôi -s/-es</span>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="practice-progress" style="width: 0%"></div>
                 </div>
 
-                <!-- Exercise Card Area -->
+                <!-- Main Quiz Card Area -->
                 <div class="quiz-container card" id="quiz-card">
                     <div class="quiz-type-badge" id="quiz-type-badge">Trắc nghiệm</div>
+                    
+                    <!-- Question Image Area (SVG or Img) -->
+                    <div class="question-image-container" id="question-image-container">
+                        <!-- Dynamic illustrations dynamically generated -->
+                    </div>
                     
                     <div class="question-text" id="question-text">
                         Đang tải câu hỏi...
@@ -339,6 +497,29 @@
                         </div>
                     </div>
 
+                    <!-- Special Layout for Sound Sorting Game -->
+                    <div class="sound-game-container hidden" id="sound-game-container">
+                        <div class="game-target-word" id="game-target-word">works</div>
+                        <div class="game-instructions">Đuôi <b>-s/-es</b> của động từ trên được phát âm thế nào? Chọn nhanh:</div>
+                        <div class="game-buckets">
+                            <button class="bucket-btn" onclick="checkSoundGameAnswer('s')">
+                                <span class="bucket-sound">/s/</span>
+                                <span class="bucket-desc">Vô thanh</span>
+                            </button>
+                            <button class="bucket-btn" onclick="checkSoundGameAnswer('z')">
+                                <span class="bucket-sound">/z/</span>
+                                <span class="bucket-desc">Hữu thanh</span>
+                            </button>
+                            <button class="bucket-btn" onclick="checkSoundGameAnswer('iz')">
+                                <span class="bucket-sound">/ɪz/</span>
+                                <span class="bucket-desc">Âm xuýt</span>
+                            </button>
+                        </div>
+                        <div class="game-feedback hidden" id="game-feedback">
+                            <!-- correct/incorrect message -->
+                        </div>
+                    </div>
+
                     <!-- Feedback Box -->
                     <div class="feedback-box hidden" id="feedback-box">
                         <div class="feedback-status" id="feedback-status"></div>
@@ -353,7 +534,7 @@
                 </div>
             </section>
 
-            <!-- TAB 3: PROGRESS (TIẾN TRÌNH) -->
+            <!-- TAB 4: PROGRESS (TIẾN TRÌNH & SỔ TAY) -->
             <section id="tab-progress" class="tab-content">
                 <div class="grid-layout">
                     <!-- PROGRESS STATS -->
@@ -393,14 +574,36 @@
                                     <p>Hoàn thành 5 câu đúng liên tiếp</p>
                                 </div>
                             </div>
+                            <div class="badge-item locked" id="badge-pronunciation">
+                                <div class="badge-icon">🗣️</div>
+                                <div class="badge-info">
+                                    <h5>Phát Âm Chuẩn Pro</h5>
+                                    <p>Đạt 5 câu đúng phần phát âm IPA</p>
+                                </div>
+                            </div>
                             <div class="badge-item locked" id="badge-master">
                                 <div class="badge-icon">⚡</div>
                                 <div class="badge-info">
-                                    <h5>Bậc Thầy Thì Hiện Tại</h5>
+                                    <h5>Bậc Thầy Tiếng Anh</h5>
                                     <p>Đạt 100% độ chính xác sau 10 câu</p>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- VOCABULARY NOTEBOOK -->
+                <div class="card vocabulary-card" style="margin-bottom: 2rem;">
+                    <div class="vocab-header-layout">
+                        <div>
+                            <h4>Sổ tay Từ Vựng của Tôi ⭐</h4>
+                            <p class="info-small">Những từ vựng bạn nhấp vào dịch hoặc tự tra cứu được lưu trữ tại đây để ôn tập và nghe phát âm.</p>
+                        </div>
+                        <button class="btn btn-secondary btn-sm" onclick="clearVocabularyNotebook()">Xóa tất cả từ</button>
+                    </div>
+                    <div class="vocab-notebook-list" id="vocab-notebook-list">
+                        <!-- Dynamic list of saved vocabulary words -->
+                        <div class="empty-state">Chưa lưu từ vựng nào. Hãy gõ tra từ hoặc nhấp trực tiếp vào từ có sẵn trong bài học để thêm vào sổ tay!</div>
                     </div>
                 </div>
 
@@ -414,7 +617,79 @@
             </section>
         </main>
     </div>
-    
+
+    <!-- FLOATING TRANSLATOR PANEL -->
+    <div class="floating-translator-container" id="floating-translator-container">
+        <!-- Floating Trigger Button -->
+        <button class="translator-trigger" id="translator-trigger-btn" onclick="toggleTranslatorPanel()">
+            <span class="trigger-icon">💬</span>
+            <span class="trigger-text">Dịch & Tra Từ</span>
+        </button>
+
+        <!-- Translator Panel Box -->
+        <div class="translator-panel card hidden" id="translator-panel">
+            <div class="translator-header">
+                <h5>Hộp Dịch & Từ Điển Anh-Việt</h5>
+                <button class="btn-close-panel" onclick="toggleTranslatorPanel()">×</button>
+            </div>
+            
+            <div class="translator-input-area">
+                <textarea id="translator-input" placeholder="Nhập từ đơn (để tra từ điển) hoặc câu tiếng Anh (để dịch nghĩa)..."></textarea>
+                <div class="translator-actions">
+                    <button class="btn btn-primary btn-sm" id="btn-action-translate" onclick="handleTranslateAction()">Tra cứu / Dịch ➔</button>
+                </div>
+            </div>
+
+            <div class="translator-result-area hidden" id="translator-result-area">
+                <!-- Result heading -->
+                <div class="result-word-info" id="result-word-info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="result-word" id="result-word">hello</span>
+                        <button class="btn-star-vocab" id="btn-save-vocab" onclick="saveActiveWordToVocab()" title="Lưu vào sổ tay từ vựng">⭐</button>
+                    </div>
+                    <div class="result-phonetics" id="result-phonetics">
+                        <div class="phonetic-group">
+                            <span class="accent-flag">🇬🇧 UK:</span> <span class="phonetic-text" id="phonetic-uk">/həˈləʊ/</span>
+                            <button class="btn-tts" id="btn-play-uk" onclick="playWordAudio('uk')">🔊</button>
+                        </div>
+                        <div class="phonetic-group">
+                            <span class="accent-flag">🇺🇸 US:</span> <span class="phonetic-text" id="phonetic-us">/həˈloʊ/</span>
+                            <button class="btn-tts" id="btn-play-us" onclick="playWordAudio('us')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Translated Text Box -->
+                <div class="result-translation-box">
+                    <div class="result-label">Ý Nghĩa tiếng Việt:</div>
+                    <div class="result-translated-text" id="result-translated-text">Xin chào</div>
+                </div>
+
+                <!-- Word Meanings / Definitions (for single words) -->
+                <div class="result-definitions-box hidden" id="result-definitions-box">
+                    <div class="result-label">Chi tiết định nghĩa:</div>
+                    <div class="definitions-list" id="definitions-list">
+                        <!-- Dynamic list -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ONE-CLICK TRANSLATE POPUP BUBBLE -->
+    <div class="translate-bubble hidden" id="translate-bubble">
+        <div class="bubble-header">
+            <span class="bubble-word" id="bubble-word">word</span>
+            <button class="btn-star-vocab-sm" id="bubble-save-btn" onclick="saveBubbleWordToVocab()">⭐</button>
+            <button class="bubble-close" onclick="closeTranslateBubble()">×</button>
+        </div>
+        <div class="bubble-translation" id="bubble-translation">Nghĩa tiếng Việt</div>
+        <div class="bubble-phonetics">
+            <span id="bubble-ipa-uk">/uk/</span> <button class="btn-tts-xs" onclick="playBubbleAudio('uk')">🔊 UK</button>
+            <span id="bubble-ipa-us">/us/</span> <button class="btn-tts-xs" onclick="playBubbleAudio('us')">🔊 US</button>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
