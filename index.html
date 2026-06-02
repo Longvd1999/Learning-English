@@ -1107,10 +1107,222 @@
 
             <!-- TAB 4: PROGRESS (TIẾN TRÌNH & SỔ TAY) -->
             <section id="tab-progress" class="tab-content">
-                <div class="grid-layout">
+
+                <!-- ===== DAILY ACTIVITY LOGGER ===== -->
+                <div class="tracker-hero-card">
+                    <div class="tracker-hero-left">
+                        <div class="tracker-streak-badge" id="tracker-streak-badge">
+                            <span class="streak-fire">🔥</span>
+                            <span class="streak-count" id="tracker-streak-count">0</span>
+                            <span class="streak-label">ngày liên tiếp</span>
+                        </div>
+                        <h2>Nhật Ký Học Hôm Nay</h2>
+                        <p class="tracker-date-display" id="tracker-today-label">--</p>
+                    </div>
+                    <div class="tracker-hero-right">
+                        <div class="tracker-total-today">
+                            <span class="tracker-total-num" id="tracker-total-today">0</span>
+                            <span class="tracker-total-unit">phút hôm nay</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== SKILL LOG INPUTS ===== -->
+                <div class="card skill-log-card">
+                    <div class="skill-log-header">
+                        <h4>📝 Ghi lại hoạt động hôm nay</h4>
+                        <p class="info-small">Nhập số phút bạn đã luyện tập mỗi kỹ năng, sau đó nhấn Lưu.</p>
+                    </div>
+                    <div class="skill-inputs-grid">
+                        <div class="skill-input-item skill-listening">
+                            <div class="skill-input-icon">🎧</div>
+                            <div class="skill-input-label">Nghe (Listening)</div>
+                            <div class="skill-input-wrap">
+                                <input type="number" id="log-listening" min="0" max="480" placeholder="0" class="skill-minute-input">
+                                <span class="minute-unit">phút</span>
+                            </div>
+                            <div class="skill-quick-btns">
+                                <button onclick="addMinutes('log-listening', 10)">+10</button>
+                                <button onclick="addMinutes('log-listening', 20)">+20</button>
+                                <button onclick="addMinutes('log-listening', 30)">+30</button>
+                            </div>
+                        </div>
+                        <div class="skill-input-item skill-speaking">
+                            <div class="skill-input-icon">🗣️</div>
+                            <div class="skill-input-label">Nói (Speaking)</div>
+                            <div class="skill-input-wrap">
+                                <input type="number" id="log-speaking" min="0" max="480" placeholder="0" class="skill-minute-input">
+                                <span class="minute-unit">phút</span>
+                            </div>
+                            <div class="skill-quick-btns">
+                                <button onclick="addMinutes('log-speaking', 10)">+10</button>
+                                <button onclick="addMinutes('log-speaking', 20)">+20</button>
+                                <button onclick="addMinutes('log-speaking', 30)">+30</button>
+                            </div>
+                        </div>
+                        <div class="skill-input-item skill-reading">
+                            <div class="skill-input-icon">📖</div>
+                            <div class="skill-input-label">Đọc (Reading)</div>
+                            <div class="skill-input-wrap">
+                                <input type="number" id="log-reading" min="0" max="480" placeholder="0" class="skill-minute-input">
+                                <span class="minute-unit">phút</span>
+                            </div>
+                            <div class="skill-quick-btns">
+                                <button onclick="addMinutes('log-reading', 10)">+10</button>
+                                <button onclick="addMinutes('log-reading', 20)">+20</button>
+                                <button onclick="addMinutes('log-reading', 30)">+30</button>
+                            </div>
+                        </div>
+                        <div class="skill-input-item skill-writing">
+                            <div class="skill-input-icon">✍️</div>
+                            <div class="skill-input-label">Viết (Writing)</div>
+                            <div class="skill-input-wrap">
+                                <input type="number" id="log-writing" min="0" max="480" placeholder="0" class="skill-minute-input">
+                                <span class="minute-unit">phút</span>
+                            </div>
+                            <div class="skill-quick-btns">
+                                <button onclick="addMinutes('log-writing', 10)">+10</button>
+                                <button onclick="addMinutes('log-writing', 20)">+20</button>
+                                <button onclick="addMinutes('log-writing', 30)">+30</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-log-actions">
+                        <div class="log-note-wrap">
+                            <input type="text" id="log-note" placeholder="Ghi chú hôm nay (tuỳ chọn)... ví dụ: Học Episode 1 Friends 😊" class="log-note-input">
+                        </div>
+                        <button class="btn btn-primary btn-save-log" id="btn-save-log" onclick="saveTrackerLog()">
+                            <span>💾</span> Lưu nhật ký hôm nay
+                        </button>
+                    </div>
+                    <div class="save-success-msg hidden" id="save-success-msg">
+                        ✅ Đã lưu! Tiếp tục cố gắng nhé! 💪
+                    </div>
+                </div>
+
+                <!-- ===== STATS ROW ===== -->
+                <div class="tracker-stats-row">
+                    <div class="card tracker-stat-card stat-listening">
+                        <div class="tstat-icon">🎧</div>
+                        <div class="tstat-info">
+                            <div class="tstat-val" id="tstat-listening">0</div>
+                            <div class="tstat-lbl">phút Nghe tuần này</div>
+                        </div>
+                    </div>
+                    <div class="card tracker-stat-card stat-speaking">
+                        <div class="tstat-icon">🗣️</div>
+                        <div class="tstat-info">
+                            <div class="tstat-val" id="tstat-speaking">0</div>
+                            <div class="tstat-lbl">phút Nói tuần này</div>
+                        </div>
+                    </div>
+                    <div class="card tracker-stat-card stat-reading">
+                        <div class="tstat-icon">📖</div>
+                        <div class="tstat-info">
+                            <div class="tstat-val" id="tstat-reading">0</div>
+                            <div class="tstat-lbl">phút Đọc tuần này</div>
+                        </div>
+                    </div>
+                    <div class="card tracker-stat-card stat-writing">
+                        <div class="tstat-icon">✍️</div>
+                        <div class="tstat-info">
+                            <div class="tstat-val" id="tstat-writing">0</div>
+                            <div class="tstat-lbl">phút Viết tuần này</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== CHARTS ROW ===== -->
+                <div class="tracker-charts-row">
+                    <!-- Weekly bar chart -->
+                    <div class="card tracker-chart-card">
+                        <h4>📊 Lịch sử 7 ngày gần nhất</h4>
+                        <div class="week-chart" id="week-chart">
+                            <!-- Generated by JS -->
+                        </div>
+                        <div class="week-chart-legend">
+                            <span class="legend-item"><span class="legend-dot dot-listening"></span>Nghe</span>
+                            <span class="legend-item"><span class="legend-dot dot-speaking"></span>Nói</span>
+                            <span class="legend-item"><span class="legend-dot dot-reading"></span>Đọc</span>
+                            <span class="legend-item"><span class="legend-dot dot-writing"></span>Viết</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill donut + Goals -->
+                    <div class="tracker-right-col">
+                        <!-- Skill balance donut -->
+                        <div class="card tracker-donut-card">
+                            <h4>🎯 Phân bổ kỹ năng tuần này</h4>
+                            <div class="donut-wrapper">
+                                <svg class="donut-svg" viewBox="0 0 120 120" id="donut-svg">
+                                    <circle class="donut-ring" cx="60" cy="60" r="45" fill="none" stroke="#1e293b" stroke-width="18"/>
+                                    <circle class="donut-seg seg-listening" id="donut-listening" cx="60" cy="60" r="45" fill="none" stroke="#22d3ee" stroke-width="18" stroke-dasharray="0 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                                    <circle class="donut-seg seg-speaking" id="donut-speaking" cx="60" cy="60" r="45" fill="none" stroke="#a78bfa" stroke-width="18" stroke-dasharray="0 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                                    <circle class="donut-seg seg-reading" id="donut-reading" cx="60" cy="60" r="45" fill="none" stroke="#34d399" stroke-width="18" stroke-dasharray="0 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                                    <circle class="donut-seg seg-writing" id="donut-writing" cx="60" cy="60" r="45" fill="none" stroke="#fb923c" stroke-width="18" stroke-dasharray="0 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                                    <text x="60" y="56" class="donut-center-text" text-anchor="middle" dominant-baseline="middle" id="donut-center-val">0</text>
+                                    <text x="60" y="70" class="donut-center-sub" text-anchor="middle" dominant-baseline="middle">phút</text>
+                                </svg>
+                                <div class="donut-legend">
+                                    <div class="donut-legend-item"><span class="donut-dot" style="background:#22d3ee"></span><span>Nghe</span><strong id="donut-pct-listening">0%</strong></div>
+                                    <div class="donut-legend-item"><span class="donut-dot" style="background:#a78bfa"></span><span>Nói</span><strong id="donut-pct-speaking">0%</strong></div>
+                                    <div class="donut-legend-item"><span class="donut-dot" style="background:#34d399"></span><span>Đọc</span><strong id="donut-pct-reading">0%</strong></div>
+                                    <div class="donut-legend-item"><span class="donut-dot" style="background:#fb923c"></span><span>Viết</span><strong id="donut-pct-writing">0%</strong></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Weekly goals -->
+                        <div class="card tracker-goals-card">
+                            <div class="goals-header">
+                                <h4>🏆 Mục tiêu tuần</h4>
+                                <button class="btn-edit-goals" id="btn-edit-goals" onclick="toggleGoalsEdit()">Chỉnh sửa</button>
+                            </div>
+                            <div class="goals-display" id="goals-display">
+                                <div class="goal-progress-item">
+                                    <div class="goal-label"><span>🎧 Nghe</span><span id="goal-listening-progress">0 / 60 phút</span></div>
+                                    <div class="goal-bar-track"><div class="goal-bar-fill fill-listening" id="goal-bar-listening" style="width:0%"></div></div>
+                                </div>
+                                <div class="goal-progress-item">
+                                    <div class="goal-label"><span>🗣️ Nói</span><span id="goal-speaking-progress">0 / 30 phút</span></div>
+                                    <div class="goal-bar-track"><div class="goal-bar-fill fill-speaking" id="goal-bar-speaking" style="width:0%"></div></div>
+                                </div>
+                                <div class="goal-progress-item">
+                                    <div class="goal-label"><span>📖 Đọc</span><span id="goal-reading-progress">0 / 60 phút</span></div>
+                                    <div class="goal-bar-track"><div class="goal-bar-fill fill-reading" id="goal-bar-reading" style="width:0%"></div></div>
+                                </div>
+                                <div class="goal-progress-item">
+                                    <div class="goal-label"><span>✍️ Viết</span><span id="goal-writing-progress">0 / 30 phút</span></div>
+                                    <div class="goal-bar-track"><div class="goal-bar-fill fill-writing" id="goal-bar-writing" style="width:0%"></div></div>
+                                </div>
+                            </div>
+                            <div class="goals-edit hidden" id="goals-edit">
+                                <div class="goal-edit-row"><label>🎧 Nghe (phút/tuần)</label><input type="number" id="goal-input-listening" value="60" min="0" max="1000"></div>
+                                <div class="goal-edit-row"><label>🗣️ Nói (phút/tuần)</label><input type="number" id="goal-input-speaking" value="30" min="0" max="1000"></div>
+                                <div class="goal-edit-row"><label>📖 Đọc (phút/tuần)</label><input type="number" id="goal-input-reading" value="60" min="0" max="1000"></div>
+                                <div class="goal-edit-row"><label>✍️ Viết (phút/tuần)</label><input type="number" id="goal-input-writing" value="30" min="0" max="1000"></div>
+                                <button class="btn btn-primary btn-sm" onclick="saveGoals()" style="margin-top:0.5rem;width:100%">Lưu mục tiêu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== HISTORY LOG ===== -->
+                <div class="card tracker-history-card">
+                    <div class="history-header-row">
+                        <h4>📅 Lịch sử nhật ký học tập</h4>
+                        <button class="btn btn-secondary btn-sm" onclick="clearTrackerHistory()" style="font-size:0.75rem">Xóa tất cả</button>
+                    </div>
+                    <div class="history-log-list" id="history-log-list">
+                        <div class="empty-state">Chưa có nhật ký nào. Hãy ghi lại hoạt động học tập hôm nay ở trên! 📝</div>
+                    </div>
+                </div>
+
+                <!-- ===== EXISTING STATS / BADGES / VOCAB ===== -->
+                <div class="grid-layout" style="margin-top:2rem">
                     <!-- PROGRESS STATS -->
                     <div class="card stats-card">
-                        <h4>Thống Kê Học Tập 📊</h4>
+                        <h4>Thống Kê Luyện Tập 📊</h4>
                         <div class="stats-grid">
                             <div class="stat-box">
                                 <span class="stat-num" id="stat-completed">0</span>
@@ -1164,7 +1376,7 @@
                 </div>
 
                 <!-- VOCABULARY NOTEBOOK -->
-                <div class="card vocabulary-card" style="margin-bottom: 2rem;">
+                <div class="card vocabulary-card" style="margin-bottom: 2rem; margin-top: 1.5rem;">
                     <div class="vocab-header-layout">
                         <div>
                             <h4>Sổ tay Từ Vựng của Tôi ⭐</h4>
@@ -1173,7 +1385,6 @@
                         <button class="btn btn-secondary btn-sm" onclick="clearVocabularyNotebook()">Xóa tất cả từ</button>
                     </div>
                     <div class="vocab-notebook-list" id="vocab-notebook-list">
-                        <!-- Dynamic list of saved vocabulary words -->
                         <div class="empty-state">Chưa lưu từ vựng nào. Hãy gõ tra từ hoặc nhấp trực tiếp vào từ có sẵn trong bài học để thêm vào sổ tay!</div>
                     </div>
                 </div>

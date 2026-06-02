@@ -1432,6 +1432,76 @@ const questionsDatabase = {
             correct: 'We are going to study hard together',
             explanation: 'Cấu trúc tương lai gần: S + be going to + V_nguyên_mẫu.'
         }
+    ],
+    lesson11: [
+        {
+            type: 'mcq',
+            question: 'She was born _______ 1999. (Năm sinh)',
+            options: ['in', 'on', 'at', 'by'],
+            correct: 'in',
+            explanation: 'Dùng <b>IN</b> với các đơn vị thời gian lớn: năm (year), tháng (month), mùa (season), thập kỷ, thế kỷ. → She was born <b>in</b> 1999.'
+        },
+        {
+            type: 'mcq',
+            question: 'We have English class _______ Monday. (Thứ trong tuần)',
+            options: ['on', 'in', 'at', 'for'],
+            correct: 'on',
+            explanation: 'Dùng <b>ON</b> với các ngày cụ thể: thứ trong tuần, ngày tháng cụ thể. → class <b>on</b> Monday.'
+        },
+        {
+            type: 'mcq',
+            question: 'The meeting starts _______ 9 o\'clock. (Giờ cụ thể)',
+            options: ['at', 'in', 'on', 'by'],
+            correct: 'at',
+            explanation: 'Dùng <b>AT</b> với giờ chính xác, thời điểm chính xác. → starts <b>at</b> 9 o\'clock.'
+        },
+        {
+            type: 'fitb',
+            question: 'I usually go to bed _______ midnight. (Nửa đêm = thời điểm cố định)',
+            correct: ['at', 'At'],
+            explanation: 'Dùng <b>AT</b> với các thời điểm cố định đặc biệt: midnight (nửa đêm), noon (trưa), night, the weekend (BrE).'
+        },
+        {
+            type: 'mcq',
+            question: 'My birthday is _______ June 15th. (Ngày tháng cụ thể)',
+            options: ['on', 'in', 'at', 'during'],
+            correct: 'on',
+            explanation: 'Dùng <b>ON</b> với ngày cụ thể (dates) và thứ cụ thể. → birthday <b>on</b> June 15th.'
+        },
+        {
+            type: 'mcq',
+            question: 'It\'s very cold here _______ winter. (Mùa đông)',
+            options: ['in', 'on', 'at', 'with'],
+            correct: 'in',
+            explanation: 'Dùng <b>IN</b> với các mùa trong năm: in spring / summer / autumn / winter.'
+        },
+        {
+            type: 'mcq',
+            question: 'She lives _______ 45 Nguyen Hue Street. (Số nhà, địa chỉ cụ thể)',
+            options: ['at', 'in', 'on', 'by'],
+            correct: 'at',
+            explanation: 'Dùng <b>AT</b> với địa chỉ nhà cụ thể (số nhà). → lives <b>at</b> 45 Nguyen Hue Street.'
+        },
+        {
+            type: 'mcq',
+            question: 'He works _______ a hospital. (Trong một tòa nhà/tổ chức)',
+            options: ['in', 'at', 'on', 'inside'],
+            correct: 'in',
+            explanation: 'Dùng <b>IN</b> khi nói ai đó bên trong một không gian/tòa nhà. Dùng <b>AT</b> khi nhấn mạnh địa điểm mang tính chức năng (at the hospital = đến bệnh viện để chữa bệnh/làm việc). Cả hai đều đúng nhưng "in" nhấn mạnh không gian vật lý bên trong.'
+        },
+        {
+            type: 'fitb',
+            question: 'The book is _______ the table. (Đang ở trên bàn)',
+            correct: ['on', 'On'],
+            explanation: 'Dùng <b>ON</b> khi vật thể đang nằm trên bề mặt (surface) của một vật khác. → The book is <b>on</b> the table.'
+        },
+        {
+            type: 'order',
+            question: 'Hãy xếp thành câu đúng: "Chúng tôi đã gặp nhau lúc 8 giờ vào sáng thứ Hai."',
+            words: ['We', 'met', 'at', '8', 'o\'clock', 'on', 'Monday', 'morning'],
+            correct: 'We met at 8 o\'clock on Monday morning',
+            explanation: 'Dùng <b>AT</b> cho giờ cụ thể và <b>ON</b> cho thứ trong tuần. Thứ tự chuẩn: AT (giờ) + ON (thứ/ngày) + buổi.'
+        }
     ]
 };
 
@@ -1449,7 +1519,8 @@ const lessonList = [
     { id: 'lesson7', title: 'Bài 7: Quá khứ đơn - Động từ thường', desc: 'Cách chia động từ có quy tắc thêm đuôi -ed và mẹo phát âm chuẩn.', badge: 'Ngữ pháp' },
     { id: 'lesson8', title: 'Bài 8: Động từ Bất quy tắc thông dụng', desc: 'Làm quen các động từ bất quy tắc thiết yếu hay gặp nhất (go, buy, have...).', badge: 'Từ vựng' },
     { id: 'lesson9', title: 'Bài 9: Thì Tương lai đơn với WILL', desc: 'Diễn tả lời hứa, quyết định tức thì và các câu nghi vấn tương lai.', badge: 'Ngữ pháp' },
-    { id: 'lesson10', title: 'Bài 10: BE GOING TO & Tổng ôn tập', desc: 'Phân biệt ý định có sẵn với quyết định bột phát và bài tập tổng kết.', badge: 'Tổng hợp' }
+    { id: 'lesson10', title: 'Bài 10: BE GOING TO & Tổng ôn tập', desc: 'Phân biệt ý định có sẵn với quyết định bột phát và bài tập tổng kết.', badge: 'Tổng hợp' },
+    { id: 'lesson11', title: 'Bài 11: Giới từ IN / ON / AT', desc: 'Bí kíp phân biệt giới từ thời gian và nơi chốn IN, ON, AT – không bao giờ nhầm lẫn nữa!', badge: 'Ngữ pháp' }
 ];
 
 function initUserProfile() {
@@ -1525,7 +1596,7 @@ function renderLessonsGrid() {
         card.innerHTML = `
             <div class="lesson-card-header">
                 <span class="${badgeClass}">${badgeText}</span>
-                <span class="lesson-index">Bài 0${index + 1}</span>
+                <span class="lesson-index">Bài ${String(index + 1).padStart(2, '0')}</span>
             </div>
             <div class="lesson-card-body">
                 <h4>${lesson.title}</h4>
@@ -3840,3 +3911,381 @@ function getLocalTranslation(cleanQuery) {
     
     return commonTranslations[cleanQuery] || null;
 }
+
+/* ================================================================
+   PROGRESS TRACKER MODULE
+   ================================================================ */
+
+// --- Storage Keys ---
+const TRACKER_LOGS_KEY  = 'easyenglish_tracker_logs';
+const TRACKER_GOALS_KEY = 'easyenglish_tracker_goals';
+
+// --- Default weekly goals (minutes) ---
+const DEFAULT_GOALS = { listening: 60, speaking: 30, reading: 60, writing: 30 };
+
+// ---- Helper: get YYYY-MM-DD string for a date ----
+function dateKey(d) {
+    return d.toISOString().slice(0, 10);
+}
+
+// ---- Helper: load all logs from localStorage ----
+function loadAllLogs() {
+    try { return JSON.parse(localStorage.getItem(TRACKER_LOGS_KEY)) || []; }
+    catch(e) { return []; }
+}
+
+// ---- Helper: load goals ----
+function loadGoals() {
+    try { return Object.assign({}, DEFAULT_GOALS, JSON.parse(localStorage.getItem(TRACKER_GOALS_KEY))); }
+    catch(e) { return Object.assign({}, DEFAULT_GOALS); }
+}
+
+// ---- Add minutes via quick-add buttons ----
+function addMinutes(inputId, amount) {
+    const el = document.getElementById(inputId);
+    if (!el) return;
+    el.value = Math.max(0, (parseInt(el.value) || 0) + amount);
+}
+
+// ---- Save today's log ----
+function saveTrackerLog() {
+    const listening = parseInt(document.getElementById('log-listening').value) || 0;
+    const speaking  = parseInt(document.getElementById('log-speaking').value)  || 0;
+    const reading   = parseInt(document.getElementById('log-reading').value)   || 0;
+    const writing   = parseInt(document.getElementById('log-writing').value)   || 0;
+    const note      = (document.getElementById('log-note').value || '').trim();
+
+    if (listening + speaking + reading + writing === 0) {
+        alert('Hãy nhập ít nhất 1 phút cho một kỹ năng!');
+        return;
+    }
+
+    const today = dateKey(new Date());
+    let logs = loadAllLogs();
+
+    // Find existing entry for today and merge (add up)
+    const existingIdx = logs.findIndex(l => l.date === today);
+    if (existingIdx >= 0) {
+        logs[existingIdx].listening += listening;
+        logs[existingIdx].speaking  += speaking;
+        logs[existingIdx].reading   += reading;
+        logs[existingIdx].writing   += writing;
+        if (note) logs[existingIdx].note = note;
+    } else {
+        logs.unshift({ date: today, listening, speaking, reading, writing, note });
+    }
+
+    localStorage.setItem(TRACKER_LOGS_KEY, JSON.stringify(logs));
+
+    // Reset inputs
+    ['log-listening','log-speaking','log-reading','log-writing'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('log-note').value = '';
+
+    // Show success
+    const msg = document.getElementById('save-success-msg');
+    msg.classList.remove('hidden');
+    setTimeout(() => msg.classList.add('hidden'), 2500);
+
+    // Refresh all displays
+    loadTrackerData();
+}
+
+// ---- Main loader: refresh all tracker UI ----
+function loadTrackerData() {
+    const logs  = loadAllLogs();
+    const goals = loadGoals();
+    const today = dateKey(new Date());
+
+    // --- Today total ---
+    const todayLog = logs.find(l => l.date === today) || { listening:0, speaking:0, reading:0, writing:0 };
+    const todayTotal = todayLog.listening + todayLog.speaking + todayLog.reading + todayLog.writing;
+    const el = document.getElementById('tracker-total-today');
+    if (el) el.textContent = todayTotal;
+
+    // --- Date label ---
+    const dateLabel = document.getElementById('tracker-today-label');
+    if (dateLabel) {
+        const now = new Date();
+        const days = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
+        dateLabel.textContent = `${days[now.getDay()]}, ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+    }
+
+    // --- Streak ---
+    updateStreakDisplay(logs);
+
+    // --- Weekly stats (current week Mon-Sun) ---
+    const weekLogs = getWeekLogs(logs);
+    const weekTotals = { listening:0, speaking:0, reading:0, writing:0 };
+    weekLogs.forEach(l => {
+        weekTotals.listening += l.listening;
+        weekTotals.speaking  += l.speaking;
+        weekTotals.reading   += l.reading;
+        weekTotals.writing   += l.writing;
+    });
+    ['listening','speaking','reading','writing'].forEach(skill => {
+        const el2 = document.getElementById(`tstat-${skill}`);
+        if (el2) el2.textContent = weekTotals[skill];
+    });
+
+    // --- 7-day bar chart ---
+    renderWeekChart(logs);
+
+    // --- Donut chart ---
+    renderDonutChart(weekTotals);
+
+    // --- Goal bars ---
+    renderGoalBars(weekTotals, goals);
+
+    // --- History log ---
+    renderHistoryLog(logs);
+
+    // --- Populate goal inputs with saved values ---
+    Object.keys(goals).forEach(skill => {
+        const inp = document.getElementById(`goal-input-${skill}`);
+        if (inp) inp.value = goals[skill];
+    });
+}
+
+// ---- Get logs for the current Mon-Sun week ----
+function getWeekLogs(logs) {
+    const now = new Date();
+    const dayOfWeek = now.getDay() === 0 ? 6 : now.getDay() - 1; // Mon=0
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - dayOfWeek);
+    monday.setHours(0,0,0,0);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    sunday.setHours(23,59,59,999);
+    return logs.filter(l => {
+        const d = new Date(l.date);
+        return d >= monday && d <= sunday;
+    });
+}
+
+// ---- Streak calculator ----
+function updateStreakDisplay(logs) {
+    if (!logs.length) { setStreak(0); return; }
+    const sortedDates = [...new Set(logs.map(l => l.date))].sort().reverse();
+    const today = dateKey(new Date());
+    const yesterday = dateKey(new Date(Date.now() - 86400000));
+    // Streak must start from today or yesterday
+    if (sortedDates[0] !== today && sortedDates[0] !== yesterday) { setStreak(0); return; }
+    let streak = 0;
+    let checkDate = sortedDates[0] === today ? new Date() : new Date(Date.now() - 86400000);
+    for (let i = 0; i < sortedDates.length; i++) {
+        if (sortedDates[i] === dateKey(checkDate)) {
+            streak++;
+            checkDate = new Date(checkDate.getTime() - 86400000);
+        } else break;
+    }
+    setStreak(streak);
+}
+function setStreak(n) {
+    const el = document.getElementById('tracker-streak-count');
+    if (el) el.textContent = n;
+    const badge = document.getElementById('tracker-streak-badge');
+    if (badge) badge.style.opacity = n > 0 ? '1' : '0.5';
+}
+
+// ---- 7-day Bar Chart ----
+function renderWeekChart(logs) {
+    const container = document.getElementById('week-chart');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date(Date.now() - i * 86400000);
+        days.push({ date: dateKey(d), label: formatChartLabel(d), isToday: i === 0 });
+    }
+
+    // Find max total for scaling
+    let maxTotal = 0;
+    const dayData = days.map(day => {
+        const log = logs.find(l => l.date === day.date) || { listening:0, speaking:0, reading:0, writing:0 };
+        const total = log.listening + log.speaking + log.reading + log.writing;
+        if (total > maxTotal) maxTotal = total;
+        return { ...day, ...log, total };
+    });
+    if (maxTotal === 0) maxTotal = 60; // default scale
+
+    const MAX_HEIGHT = 130; // px
+
+    dayData.forEach(day => {
+        const col = document.createElement('div');
+        col.className = 'chart-day-col';
+
+        const bars = document.createElement('div');
+        bars.className = 'chart-bars';
+
+        ['writing','reading','speaking','listening'].forEach(skill => {
+            const val = day[skill] || 0;
+            const h = Math.round((val / maxTotal) * MAX_HEIGHT);
+            if (h > 0) {
+                const bar = document.createElement('div');
+                bar.className = `chart-bar bar-${skill}`;
+                bar.style.height = h + 'px';
+                bar.title = `${skill}: ${val} phút`;
+                bars.appendChild(bar);
+            }
+        });
+
+        col.appendChild(bars);
+
+        const label = document.createElement('div');
+        label.className = 'chart-day-label' + (day.isToday ? ' today' : '');
+        label.textContent = day.label;
+        col.appendChild(label);
+
+        container.appendChild(col);
+    });
+}
+function formatChartLabel(d) {
+    const days = ['CN','T2','T3','T4','T5','T6','T7'];
+    return days[d.getDay()];
+}
+
+// ---- Donut Chart (SVG stroke-dasharray trick) ----
+function renderDonutChart(weekTotals) {
+    const total = weekTotals.listening + weekTotals.speaking + weekTotals.reading + weekTotals.writing;
+    const CIRCUM = 283; // 2 * PI * r = 2 * 3.14159 * 45 ≈ 283
+
+    const centerEl = document.getElementById('donut-center-val');
+    if (centerEl) centerEl.textContent = total;
+
+    const skills = ['listening','speaking','reading','writing'];
+    const colors  = { listening:'#22d3ee', speaking:'#a78bfa', reading:'#34d399', writing:'#fb923c' };
+
+    let offset = 0;
+    skills.forEach(skill => {
+        const val = weekTotals[skill] || 0;
+        const pct = total > 0 ? val / total : 0;
+        const dash = Math.round(pct * CIRCUM);
+        const gap  = CIRCUM - dash;
+
+        const seg = document.getElementById(`donut-${skill}`);
+        if (seg) {
+            seg.setAttribute('stroke-dasharray', `${dash} ${gap}`);
+            seg.setAttribute('stroke-dashoffset', -offset);
+        }
+        offset += dash;
+
+        const pctEl = document.getElementById(`donut-pct-${skill}`);
+        if (pctEl) pctEl.textContent = total > 0 ? Math.round(pct*100) + '%' : '0%';
+    });
+}
+
+// ---- Goal Progress Bars ----
+function renderGoalBars(weekTotals, goals) {
+    ['listening','speaking','reading','writing'].forEach(skill => {
+        const goal = goals[skill] || DEFAULT_GOALS[skill];
+        const val  = weekTotals[skill] || 0;
+        const pct  = Math.min(100, Math.round((val / goal) * 100));
+
+        const prog = document.getElementById(`goal-${skill}-progress`);
+        if (prog) prog.textContent = `${val} / ${goal} phút`;
+
+        const bar = document.getElementById(`goal-bar-${skill}`);
+        if (bar) bar.style.width = pct + '%';
+    });
+}
+
+// ---- History Log ----
+function renderHistoryLog(logs) {
+    const container = document.getElementById('history-log-list');
+    if (!container) return;
+    if (!logs.length) {
+        container.innerHTML = '<div class="empty-state">Chưa có nhật ký nào. Hãy ghi lại hoạt động học tập hôm nay ở trên! 📝</div>';
+        return;
+    }
+
+    container.innerHTML = logs.slice(0, 30).map(log => {
+        const d = new Date(log.date + 'T00:00:00');
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const total = (log.listening||0) + (log.speaking||0) + (log.reading||0) + (log.writing||0);
+
+        const skillTags = [
+            log.listening ? `<span class="history-skill-tag tag-l">🎧 ${log.listening}p</span>` : '',
+            log.speaking  ? `<span class="history-skill-tag tag-s">🗣️ ${log.speaking}p</span>`  : '',
+            log.reading   ? `<span class="history-skill-tag tag-r">📖 ${log.reading}p</span>`   : '',
+            log.writing   ? `<span class="history-skill-tag tag-w">✍️ ${log.writing}p</span>`   : '',
+        ].filter(Boolean).join('');
+
+        return `
+        <div class="history-entry">
+            <div class="history-date-badge">
+                <div class="history-date-day">${d.getDate()}</div>
+                <div class="history-date-month">${months[d.getMonth()]}</div>
+            </div>
+            <div class="history-entry-content">
+                <div class="history-skills">${skillTags}</div>
+                ${log.note ? `<div class="history-note">💬 ${log.note}</div>` : ''}
+            </div>
+            <div class="history-total">${total} phút</div>
+        </div>`;
+    }).join('');
+}
+
+// ---- Save Goals ----
+function saveGoals() {
+    const goals = {
+        listening: parseInt(document.getElementById('goal-input-listening').value) || DEFAULT_GOALS.listening,
+        speaking:  parseInt(document.getElementById('goal-input-speaking').value)  || DEFAULT_GOALS.speaking,
+        reading:   parseInt(document.getElementById('goal-input-reading').value)   || DEFAULT_GOALS.reading,
+        writing:   parseInt(document.getElementById('goal-input-writing').value)   || DEFAULT_GOALS.writing,
+    };
+    localStorage.setItem(TRACKER_GOALS_KEY, JSON.stringify(goals));
+    toggleGoalsEdit();
+    loadTrackerData();
+}
+
+// ---- Toggle goal edit panel ----
+function toggleGoalsEdit() {
+    const display = document.getElementById('goals-display');
+    const edit    = document.getElementById('goals-edit');
+    const btn     = document.getElementById('btn-edit-goals');
+    if (!display || !edit) return;
+    const isEditing = !edit.classList.contains('hidden');
+    edit.classList.toggle('hidden', isEditing);
+    display.classList.toggle('hidden', !isEditing);
+    if (btn) btn.textContent = isEditing ? 'Chỉnh sửa' : 'Huỷ';
+}
+
+// ---- Clear all history ----
+function clearTrackerHistory() {
+    if (!confirm('Bạn có chắc muốn xóa toàn bộ lịch sử nhật ký không?')) return;
+    localStorage.removeItem(TRACKER_LOGS_KEY);
+    loadTrackerData();
+}
+
+// ---- Auto-init when progress tab is opened ----
+const _origSwitchTab = typeof switchTab === 'function' ? switchTab : null;
+// Patch switchTab to init tracker
+(function patchSwitchTab() {
+    const origSwitchTab = window.switchTab;
+    if (!origSwitchTab) return;
+    window.switchTab = function(tabId) {
+        origSwitchTab(tabId);
+        if (tabId === 'progress') {
+            setTimeout(loadTrackerData, 100);
+        }
+    };
+})();
+
+// Load tracker data immediately if we're on the progress tab
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector('#tab-progress.active')) {
+        loadTrackerData();
+    }
+    // Also patch after DOM loads
+    const orig = window.switchTab;
+    if (orig) {
+        window.switchTab = function(tabId) {
+            orig(tabId);
+            if (tabId === 'progress') setTimeout(loadTrackerData, 100);
+        };
+    }
+});
+
