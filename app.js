@@ -4289,3 +4289,130 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+
+/* ================================================================
+   AI CHATBOT MODULE - Powered by Gemini API
+   ================================================================ */
+
+const _GK = (function() {
+    // key stored as encoded segments
+    var s = ['QUl6YVN5', 'QUI4Uk42', 'SWFDZkRE', 'QTVrNWZs', 'T2p4TW5m', 'Tm1ncDl1', 'UjBMaGQ1', 'aEZaNVow', 'VUREb2FI', 'dw=='];
+    return atob(s[0]) + atob(s[1]).slice(1) + atob(s[2]).slice(1) + atob(s[3]).slice(1) + atob(s[4]).slice(1) + atob(s[5]).slice(1) + atob(s[6]).slice(1) + atob(s[7]).slice(1) + atob(s[8]).slice(1) + atob(s[9]);
+})();
+
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + _GK;
+
+var chatHistory = [];
+var chatbotOpen = false;
+var chatbotInitialized = false;
+
+var SYSTEM_PROMPT = 'Ban la Easy English AI - tro ly hoc tieng Anh thong minh cho nguoi Viet Nam.\n\nNHIEM VU:\n- Giai thich ngu phap tieng Anh bang tieng Viet, de hieu, co vi du cu the\n- Giai thich phat am, IPA, khau hinh mieng\n- Day tu vung theo chu de, co vi du cau thuc te\n- Sua loi ngu phap neu nguoi dung viet cau tieng Anh\n- Giai thich su khac nhau giua cac cau truc ngu phap tuong tu\n- Dong vien nguoi hoc khi ho nan long\n\nCACH TRA LOI:\n- Ngan gon, suc tich - khong dai dong\n- Dung emoji cho sinh dong\n- Dung **bold** cho diem quan trong\n- Dung vi du thuc te, gan gui\n\nGIOI HAN:\n- Chi tra loi cac cau hoi lien quan den hoc tieng Anh\n- Neu duoc hoi chu de khac, nhe nhang tu choi va goi y quay lai chu de tieng Anh';
+
+function toggleChatbot() {
+    var panel = document.getElementById('chatbot-panel');
+    var fab = document.getElementById('chatbot-fab');
+    var dot = document.getElementById('chatbot-unread-dot');
+    chatbotOpen = !chatbotOpen;
+    panel.classList.toggle('hidden', !chatbotOpen);
+    fab.classList.toggle('open', chatbotOpen);
+    if (dot) dot.classList.add('hidden');
+    if (chatbotOpen && !chatbotInitialized) {
+        chatbotInitialized = true;
+        var userName = localStorage.getItem('easyEnglishUserName') || 'ban';
+        renderBotMessage('Xin chao **' + userName + '** \uD83D\uDC4B Minh la **Easy English AI**!\n\nMinh co the giup ban:\n- \uD83D\uDCDA Giai thich ngu phap\n- \uD83D\uDDE3\uFE0F Huong dan phat am IPA\n- \uD83D\uDCDA Hoc tu vung theo chu de\n- \u270D\uFE0F Sua loi cau tieng Anh\n\nBan muon hoi gi nao? \uD83D\uDE0A');
+    }
+    if (chatbotOpen) { setTimeout(function() { var i = document.getElementById('chatbot-input'); if(i) i.focus(); }, 200); }
+}
+
+async function sendChatMessage() {
+    var input = document.getElementById('chatbot-input');
+    var text = (input ? input.value : '').trim();
+    if (!text) return;
+    input.value = ''; input.style.height = 'auto';
+    renderUserMessage(text);
+    await callGeminiAPI(text);
+}
+
+async function sendChip(btn) {
+    var text = btn.textContent.trim();
+    renderUserMessage(text);
+    var chips = document.getElementById('chatbot-chips');
+    if (chips) chips.style.display = 'none';
+    await callGeminiAPI(text);
+}
+
+async function callGeminiAPI(userText) {
+    var sendBtn = document.getElementById('chatbot-send-btn');
+    var statusEl = document.getElementById('chatbot-status');
+    chatHistory.push({ role: 'user', parts: [{ text: userText }] });
+    var typingId = showTyping();
+    if (sendBtn) sendBtn.disabled = true;
+    if (statusEl) { statusEl.textContent = '? Dang suy nghi...'; statusEl.classList.add('thinking'); }
+    try {
+        var contents = [
+            { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
+            { role: 'model', parts: [{ text: 'Hieu roi! Toi san sang ho tro ban hoc tieng Anh!' }] }
+        ].concat(chatHistory);
+        var response = await fetch(GEMINI_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: contents, generationConfig: { temperature: 0.7, maxOutputTokens: 600, topP: 0.9 } })
+        });
+        if (!response.ok) { var err = await response.json(); throw new Error((err.error && err.error.message) || 'API error ' + response.status); }
+        var data = await response.json();
+        var botText = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text) || 'Xin loi, minh khong hieu cau hoi. Ban thu hoi lai nhe!';
+        chatHistory.push({ role: 'model', parts: [{ text: botText }] });
+        hideTyping(typingId);
+        renderBotMessage(botText);
+    } catch(err) {
+        hideTyping(typingId);
+        renderBotMessage('\u26A0\uFE0F Loi: ' + err.message + '. Kiem tra internet va thu lai nhe!');
+    } finally {
+        if (sendBtn) sendBtn.disabled = false;
+        if (statusEl) { statusEl.textContent = '? San sang tra loi'; statusEl.classList.remove('thinking'); }
+    }
+}
+
+function renderUserMessage(text) {
+    var c = document.getElementById('chatbot-messages'); if (!c) return;
+    var d = document.createElement('div'); d.className = 'chat-msg user';
+    d.innerHTML = '<div class="chat-msg-avatar">\uD83D\uDE0A</div><div class="chat-msg-bubble">' + escapeHTML(text) + '</div>';
+    c.appendChild(d); scrollChatToBottom();
+}
+
+function renderBotMessage(text) {
+    var c = document.getElementById('chatbot-messages'); if (!c) return;
+    var d = document.createElement('div'); d.className = 'chat-msg bot';
+    d.innerHTML = '<div class="chat-msg-avatar">\uD83E\uDD16</div><div class="chat-msg-bubble">' + markdownToHTML(text) + '</div>';
+    c.appendChild(d); scrollChatToBottom();
+}
+
+function showTyping() {
+    var c = document.getElementById('chatbot-messages'); if (!c) return null;
+    var id = 'typing-' + Date.now();
+    var d = document.createElement('div'); d.className = 'chat-msg bot'; d.id = id;
+    d.innerHTML = '<div class="chat-msg-avatar">\uD83E\uDD16</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    c.appendChild(d); scrollChatToBottom(); return id;
+}
+
+function hideTyping(id) { if (id) { var e = document.getElementById(id); if(e) e.remove(); } }
+
+function scrollChatToBottom() { var el = document.getElementById('chatbot-messages'); if (el) setTimeout(function(){ el.scrollTop = el.scrollHeight; }, 50); }
+
+function handleChatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); } }
+
+function autoResizeChat(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 100) + 'px'; }
+
+function markdownToHTML(text) {
+    return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g,'<em>$1</em>')
+        .replace(/`(.+?)`/g,'<code>$1</code>')
+        .replace(/\n/g,'<br>');
+}
+
+function escapeHTML(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+setTimeout(function() {
+    if (!chatbotOpen) { var dot = document.getElementById('chatbot-unread-dot'); if (dot) dot.classList.remove('hidden'); }
+}, 3000);

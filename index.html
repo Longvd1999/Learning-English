@@ -1435,6 +1435,61 @@
         </div>
     </div>
 
+    <!-- ===== AI CHATBOT WIDGET ===== -->
+    <!-- Floating Toggle Button -->
+    <button class="chatbot-fab" id="chatbot-fab" onclick="toggleChatbot()" title="Hỏi AI về tiếng Anh">
+        <span class="chatbot-fab-icon" id="chatbot-fab-icon">🤖</span>
+        <span class="chatbot-fab-label">AI Trợ lý</span>
+        <span class="chatbot-unread-dot hidden" id="chatbot-unread-dot"></span>
+    </button>
+
+    <!-- Chat Panel -->
+    <div class="chatbot-panel hidden" id="chatbot-panel">
+        <!-- Header -->
+        <div class="chatbot-header">
+            <div class="chatbot-header-left">
+                <div class="chatbot-avatar">🤖</div>
+                <div>
+                    <div class="chatbot-name">Easy English AI</div>
+                    <div class="chatbot-status" id="chatbot-status">● Sẵn sàng trả lời</div>
+                </div>
+            </div>
+            <button class="chatbot-close-btn" onclick="toggleChatbot()">✕</button>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="chatbot-messages" id="chatbot-messages">
+            <!-- Welcome message injected by JS -->
+        </div>
+
+        <!-- Quick Suggestion Chips -->
+        <div class="chatbot-chips" id="chatbot-chips">
+            <button class="chat-chip" onclick="sendChip(this)">Thì hiện tại đơn dùng khi nào?</button>
+            <button class="chat-chip" onclick="sendChip(this)">Phân biệt 'a' và 'an'</button>
+            <button class="chat-chip" onclick="sendChip(this)">Cách phát âm 'ed' cuối từ</button>
+            <button class="chat-chip" onclick="sendChip(this)">Giải thích Present Perfect</button>
+            <button class="chat-chip" onclick="sendChip(this)">Từ vựng chủ đề công việc</button>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chatbot-input-area">
+            <textarea
+                id="chatbot-input"
+                class="chatbot-textarea"
+                placeholder="Hỏi về ngữ pháp, phát âm, từ vựng..."
+                rows="1"
+                onkeydown="handleChatKey(event)"
+                oninput="autoResizeChat(this)"
+            ></textarea>
+            <button class="chatbot-send-btn" id="chatbot-send-btn" onclick="sendChatMessage()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                    <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="chatbot-footer-note">Powered by Gemini AI · Chỉ tư vấn học tiếng Anh</div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
