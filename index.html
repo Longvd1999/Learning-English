@@ -37,17 +37,56 @@
                 </button>
 
                 <div class="nav-group-title">Mục 2: Các thì ngữ pháp</div>
+                <div class="nav-group-subtitle">⏰ Nhóm Hiện Tại</div>
                 <button class="nav-item" id="btn-tab-grammar" onclick="switchTab('grammar')">
                     <span class="nav-icon">📖</span>
                     <span>Thì Hiện Tại Đơn</span>
                 </button>
+                <button class="nav-item" id="btn-tab-present-continuous" onclick="switchTab('present-continuous')">
+                    <span class="nav-icon">🔄</span>
+                    <span>Thì Hiện Tại TDiễn</span>
+                </button>
+                <button class="nav-item" id="btn-tab-present-perfect" onclick="switchTab('present-perfect')">
+                    <span class="nav-icon">✅</span>
+                    <span>Thì Hiện Tại HThành</span>
+                </button>
+                <button class="nav-item" id="btn-tab-present-perfect-continuous" onclick="switchTab('present-perfect-continuous')">
+                    <span class="nav-icon">🔁</span>
+                    <span>HTTD Tiếp Diễn</span>
+                </button>
+                <div class="nav-group-subtitle">⏮️ Nhóm Quá Khứ</div>
                 <button class="nav-item" id="btn-tab-past" onclick="switchTab('past')">
                     <span class="nav-icon">⏮️</span>
                     <span>Thì Quá Khứ Đơn</span>
                 </button>
+                <button class="nav-item" id="btn-tab-past-continuous" onclick="switchTab('past-continuous')">
+                    <span class="nav-icon">🔙</span>
+                    <span>Thì Quá Khứ TDiễn</span>
+                </button>
+                <button class="nav-item" id="btn-tab-past-perfect" onclick="switchTab('past-perfect')">
+                    <span class="nav-icon">⬅️</span>
+                    <span>Thì Quá Khứ HThành</span>
+                </button>
+                <button class="nav-item" id="btn-tab-past-perfect-continuous" onclick="switchTab('past-perfect-continuous')">
+                    <span class="nav-icon">↩️</span>
+                    <span>QKTD Tiếp Diễn</span>
+                </button>
+                <div class="nav-group-subtitle">⏭️ Nhóm Tương Lai</div>
                 <button class="nav-item" id="btn-tab-future" onclick="switchTab('future')">
                     <span class="nav-icon">⏭️</span>
                     <span>Thì Tương Lai Đơn</span>
+                </button>
+                <button class="nav-item" id="btn-tab-future-continuous" onclick="switchTab('future-continuous')">
+                    <span class="nav-icon">⏩</span>
+                    <span>Thì Tương Lai TDiễn</span>
+                </button>
+                <button class="nav-item" id="btn-tab-future-perfect" onclick="switchTab('future-perfect')">
+                    <span class="nav-icon">🎯</span>
+                    <span>Thì Tương Lai HThành</span>
+                </button>
+                <button class="nav-item" id="btn-tab-future-perfect-continuous" onclick="switchTab('future-perfect-continuous')">
+                    <span class="nav-icon">🚀</span>
+                    <span>TLTD Tiếp Diễn</span>
                 </button>
 
                 <div class="nav-group-title">Luyện tập & Tiến trình</div>
@@ -981,6 +1020,400 @@
                     <p>Nắm chắc Tương Lai Đơn rồi? Hãy thử sức với bài tập!</p>
                     <button class="btn btn-primary" onclick="switchPracticeTopic('futureSimple'); switchTab('practice')">Luyện tập Tương Lai Đơn 🚀</button>
                 </div>
+            </section>
+
+            <!-- TAB: THÌ HIỆN TẠI TIẾP DIỄN -->
+            <section id="tab-present-continuous" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì Hiện Tại Tiếp Diễn <span class="badge">Present Continuous</span></h2>
+                        <p>Thì hiện tại tiếp diễn diễn tả hành động đang xảy ra ngay lúc nói, hoặc hành động tạm thời đang diễn ra trong giai đoạn hiện tại.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#pcon-grad)" fill-opacity="0.15"/>
+                            <path d="M60 100 Q100 60 140 100 Q100 140 60 100Z" stroke="url(#pcon-grad)" stroke-width="6" fill="none"/>
+                            <circle cx="100" cy="100" r="12" fill="url(#pcon-grad)" fill-opacity="0.8"/>
+                            <defs>
+                                <linearGradient id="pcon-grad" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#10B981"/>
+                                    <stop offset="1" stop-color="#06B6D4"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <h3>1. Công Thức (Formulas)</h3>
+                    <p>Cấu trúc dùng <strong>am/is/are + V-ing</strong> — động từ thêm đuôi <strong>-ing</strong>.</p>
+                </div>
+                <div class="grid-layout">
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag" style="background:rgba(16,185,129,0.15);color:#34d399;border-color:rgba(16,185,129,0.3)">Công thức</span>
+                            <h4>S + am / is / are + V-ing</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item">
+                                <span class="sign positive">+</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + am/is/are + V-ing + O</strong></div>
+                                    <div class="formula-example"><span>I <span class="highlight-word" onclick="translateWordClick('am studying')">am studying</span> English now.</span><button class="btn-tts" onclick="speakText('I am studying English now.')">🔊</button></div>
+                                    <div class="formula-example"><span>She <span class="highlight-word" onclick="translateWordClick('is cooking')">is cooking</span> dinner.</span><button class="btn-tts" onclick="speakText('She is cooking dinner.')">🔊</button></div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign negative">-</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>S + am/is/are + not + V-ing + O</strong></div>
+                                    <div class="formula-example"><span>They <span class="highlight-word" onclick="translateWordClick('are not')">are not</span> sleeping now.</span><button class="btn-tts" onclick="speakText('They are not sleeping now.')">🔊</button></div>
+                                </div>
+                            </div>
+                            <div class="formula-item">
+                                <span class="sign question">?</span>
+                                <div class="formula-details">
+                                    <div class="formula-text"><strong>Am/Is/Are + S + V-ing + O?</strong></div>
+                                    <div class="formula-example"><span><span class="highlight-word" onclick="translateWordClick('Is')">Is</span> he working right now?</span><button class="btn-tts" onclick="speakText('Is he working right now?')">🔊</button></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer"><p>💡 <strong>Ghi nhớ:</strong> <em>I + am | He/She/It + is | You/We/They + are</em> — luôn thêm <strong>-ing</strong> sau động từ chính!</p></div>
+                    </div>
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag" style="background:rgba(6,182,212,0.15);color:#22d3ee;border-color:rgba(6,182,212,0.3)">Quy tắc thêm -ing</span>
+                            <h4>Cách thêm đuôi -ing vào động từ</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">1</span><div class="formula-details"><div class="formula-text"><strong>Hầu hết: thêm -ing thẳng</strong></div><div class="formula-example"><span>work → working | play → playing</span></div></div></div>
+                            <div class="formula-item"><span class="sign positive">2</span><div class="formula-details"><div class="formula-text"><strong>Kết thúc bằng -e: bỏ e, thêm -ing</strong></div><div class="formula-example"><span>make → making | write → writing</span></div></div></div>
+                            <div class="formula-item"><span class="sign positive">3</span><div class="formula-details"><div class="formula-text"><strong>1 âm tiết, nguyên âm + phụ âm: gấp đôi phụ âm</strong></div><div class="formula-example"><span>run → running | sit → sitting</span></div></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title"><h3>2. Cách Dùng & Dấu Hiệu Nhận Biết 🔍</h3></div>
+                <div class="tab-sub-container">
+                    <div class="tabs-sub-buttons">
+                        <button class="tab-sub-btn active" onclick="switchSubTab(event, 'pcon-use')">Cách dùng</button>
+                        <button class="tab-sub-btn" onclick="switchSubTab(event, 'pcon-signals')">Dấu hiệu nhận biết</button>
+                    </div>
+                    <div id="pcon-use" class="tab-sub-content active">
+                        <ul class="styled-list">
+                            <li><div class="list-title">Hành động đang xảy ra ngay lúc nói</div><p>Dùng khi ai đó đang làm gì đó tại thời điểm nói chuyện.</p><div class="list-example">Look! The cat <strong>is sleeping</strong> on the sofa. <button class="btn-tts" onclick="speakText('Look! The cat is sleeping on the sofa.')">🔊</button></div></li>
+                            <li><div class="list-title">Hành động tạm thời trong giai đoạn này</div><p>Hành động đang xảy ra gần đây nhưng không nhất thiết phải lúc nói.</p><div class="list-example">I <strong>am reading</strong> a great book these days. <button class="btn-tts" onclick="speakText('I am reading a great book these days.')">🔊</button></div></li>
+                            <li><div class="list-title">Kế hoạch đã sắp xếp trong tương lai gần</div><p>Dùng khi kế hoạch đã có sắp xếp cụ thể.</p><div class="list-example">We <strong>are meeting</strong> them tomorrow at 3 PM. <button class="btn-tts" onclick="speakText('We are meeting them tomorrow at 3 PM.')">🔊</button></div></li>
+                        </ul>
+                    </div>
+                    <div id="pcon-signals" class="tab-sub-content">
+                        <div class="signals-grid">
+                            <div class="signal-item"><span class="sig-title">Dấu hiệu nhận biết:</span><p><em>now (bây giờ), right now (ngay lúc này), at the moment (lúc này), at present (hiện tại), currently (hiện tại), Look! Listen! (Nhìn kìa! Nghe kìa!), these days (dạo này)</em></p></div>
+                            <div class="signal-item"><div class="position-note">📍 <strong>Mẹo:</strong> Thấy "now", "Look!", "at the moment" → nghĩ ngay đến Hiện Tại Tiếp Diễn!</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="next-step-box"><p>Hiểu Hiện Tại Tiếp Diễn rồi? Tiếp tục với Hiện Tại Hoàn Thành!</p><button class="btn btn-primary" onclick="switchTab('present-perfect')">Thì tiếp theo ➡️</button></div>
+            </section>
+
+            <!-- TAB: THÌ HIỆN TẠI HOÀN THÀNH -->
+            <section id="tab-present-perfect" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì Hiện Tại Hoàn Thành <span class="badge">Present Perfect</span></h2>
+                        <p>Thì hiện tại hoàn thành diễn tả hành động đã xảy ra trong quá khứ nhưng có liên quan đến hiện tại — không xác định rõ thời điểm cụ thể.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#pp-grad)" fill-opacity="0.15"/>
+                            <path d="M60 120 L90 150 L160 70" stroke="url(#pp-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="pp-grad" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#8B5CF6"/>
+                                    <stop offset="1" stop-color="#EC4899"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="section-title"><h3>1. Công Thức (Formulas)</h3><p>Cấu trúc dùng <strong>have/has + V3 (Past Participle)</strong> — phân từ quá khứ của động từ.</p></div>
+                <div class="grid-layout">
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag" style="background:rgba(139,92,246,0.15);color:#a78bfa;border-color:rgba(139,92,246,0.3)">Công thức</span>
+                            <h4>S + have / has + V3 (Past Participle)</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">+</span><div class="formula-details"><div class="formula-text"><strong>S + have/has + V3 + O</strong></div><div class="formula-example"><span>I <span class="highlight-word" onclick="translateWordClick('have seen')">have seen</span> that movie.</span><button class="btn-tts" onclick="speakText('I have seen that movie.')">🔊</button></div><div class="formula-example"><span>She <span class="highlight-word" onclick="translateWordClick('has finished')">has finished</span> her homework.</span><button class="btn-tts" onclick="speakText('She has finished her homework.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign negative">-</span><div class="formula-details"><div class="formula-text"><strong>S + have/has + not + V3 + O</strong></div><div class="formula-example"><span>They <span class="highlight-word" onclick="translateWordClick('haven\'t')">haven't</span> eaten yet.</span><button class="btn-tts" onclick="speakText('They have not eaten yet.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign question">?</span><div class="formula-details"><div class="formula-text"><strong>Have/Has + S + V3 + O?</strong></div><div class="formula-example"><span><span class="highlight-word" onclick="translateWordClick('Have')">Have</span> you ever been to London?</span><button class="btn-tts" onclick="speakText('Have you ever been to London?')">🔊</button></div></div></div>
+                        </div>
+                        <div class="card-footer"><p>💡 <strong>Ghi nhớ:</strong> <em>I/You/We/They + have | He/She/It + has</em></p></div>
+                    </div>
+                    <div class="card formula-card">
+                        <div class="card-header">
+                            <span class="card-tag" style="background:rgba(236,72,153,0.15);color:#f472b6;border-color:rgba(236,72,153,0.3)">Từ khóa quan trọng</span>
+                            <h4>Already / Yet / Ever / Never / Just</h4>
+                        </div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">✓</span><div class="formula-details"><div class="formula-text"><strong>already</strong> (rồi) — câu khẳng định</div><div class="formula-example"><span>I have <strong>already</strong> done it. <button class="btn-tts" onclick="speakText('I have already done it.')">🔊</button></span></div></div></div>
+                            <div class="formula-item"><span class="sign positive">✓</span><div class="formula-details"><div class="formula-text"><strong>yet</strong> (chưa/rồi) — câu phủ định & hỏi</div><div class="formula-example"><span>Have you finished <strong>yet</strong>? <button class="btn-tts" onclick="speakText('Have you finished yet?')">🔊</button></span></div></div></div>
+                            <div class="formula-item"><span class="sign positive">✓</span><div class="formula-details"><div class="formula-text"><strong>ever/never</strong> — hỏi & phủ định kinh nghiệm</div><div class="formula-example"><span>I've <strong>never</strong> eaten sushi. <button class="btn-tts" onclick="speakText('I have never eaten sushi.')">🔊</button></span></div></div></div>
+                            <div class="formula-item"><span class="sign positive">✓</span><div class="formula-details"><div class="formula-text"><strong>just</strong> (vừa mới)</div><div class="formula-example"><span>She has <strong>just</strong> left. <button class="btn-tts" onclick="speakText('She has just left.')">🔊</button></span></div></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-title"><h3>2. Cách Dùng & Dấu Hiệu Nhận Biết 🔍</h3></div>
+                <div class="tab-sub-container">
+                    <div class="tabs-sub-buttons">
+                        <button class="tab-sub-btn active" onclick="switchSubTab(event, 'pp-use')">Cách dùng</button>
+                        <button class="tab-sub-btn" onclick="switchSubTab(event, 'pp-signals')">Dấu hiệu nhận biết</button>
+                    </div>
+                    <div id="pp-use" class="tab-sub-content active">
+                        <ul class="styled-list">
+                            <li><div class="list-title">Kinh nghiệm trong cuộc sống (Life Experience)</div><p>Diễn tả điều đã từng trải qua, không rõ thời điểm cụ thể.</p><div class="list-example">I <strong>have visited</strong> Paris twice. <button class="btn-tts" onclick="speakText('I have visited Paris twice.')">🔊</button></div></li>
+                            <li><div class="list-title">Hành động vừa xảy ra, ảnh hưởng đến hiện tại</div><p>Việc đã xảy ra trong quá khứ nhưng kết quả còn ở hiện tại.</p><div class="list-example">I <strong>have lost</strong> my keys. (→ Bây giờ không có chìa khóa) <button class="btn-tts" onclick="speakText('I have lost my keys.')">🔊</button></div></li>
+                            <li><div class="list-title">Hành động bắt đầu từ quá khứ, còn tiếp diễn</div><p>Dùng với <em>for</em> và <em>since</em>.</p><div class="list-example">She <strong>has worked</strong> here for 5 years. <button class="btn-tts" onclick="speakText('She has worked here for 5 years.')">🔊</button></div></li>
+                        </ul>
+                    </div>
+                    <div id="pp-signals" class="tab-sub-content">
+                        <div class="signals-grid">
+                            <div class="signal-item"><span class="sig-title">Dấu hiệu nhận biết:</span><p><em>already (rồi), yet (chưa/rồi), just (vừa mới), ever (đã từng), never (chưa bao giờ), for + khoảng thời gian, since + mốc thời gian, recently (gần đây), lately (dạo gần đây), so far (cho đến nay)</em></p></div>
+                            <div class="signal-item"><div class="position-note">📍 <strong>for vs since:</strong> <em>for 3 years</em> (khoảng thời gian) | <em>since 2020</em> (mốc thời gian cụ thể)</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="next-step-box"><p>Giỏi rồi! Tiếp tục với Hiện Tại Hoàn Thành Tiếp Diễn!</p><button class="btn btn-primary" onclick="switchTab('present-perfect-continuous')">Thì tiếp theo ➡️</button></div>
+            </section>
+
+            <!-- TAB: THÌ HIỆN TẠI HOÀN THÀNH TIẾP DIỄN -->
+            <section id="tab-present-perfect-continuous" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì HTTD Tiếp Diễn <span class="badge">Present Perfect Continuous</span></h2>
+                        <p>Diễn tả hành động bắt đầu từ quá khứ, vẫn đang tiếp diễn hoặc vừa mới dừng lại và có kết quả rõ ràng ở hiện tại.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#ppc-grad)" fill-opacity="0.15"/>
+                            <path d="M50 130 Q75 70 100 100 Q125 130 150 70" stroke="url(#ppc-grad)" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <defs><linearGradient id="ppc-grad" x1="50" y1="70" x2="150" y2="130" gradientUnits="userSpaceOnUse"><stop stop-color="#F59E0B"/><stop offset="1" stop-color="#10B981"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-title"><h3>1. Công Thức (Formulas)</h3><p>Cấu trúc: <strong>have/has + been + V-ing</strong></p></div>
+                <div class="grid-layout">
+                    <div class="card formula-card">
+                        <div class="card-header"><span class="card-tag" style="background:rgba(245,158,11,0.15);color:#fbbf24;border-color:rgba(245,158,11,0.3)">Công thức</span><h4>S + have/has + been + V-ing</h4></div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">+</span><div class="formula-details"><div class="formula-text"><strong>S + have/has + been + V-ing + O</strong></div><div class="formula-example"><span>I <span class="highlight-word" onclick="translateWordClick('have been working')">have been working</span> all day.</span><button class="btn-tts" onclick="speakText('I have been working all day.')">🔊</button></div><div class="formula-example"><span>She <span class="highlight-word" onclick="translateWordClick('has been studying')">has been studying</span> for 3 hours.</span><button class="btn-tts" onclick="speakText('She has been studying for 3 hours.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign negative">-</span><div class="formula-details"><div class="formula-text"><strong>S + have/has + not + been + V-ing</strong></div><div class="formula-example"><span>He hasn't been sleeping well lately.</span><button class="btn-tts" onclick="speakText('He has not been sleeping well lately.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign question">?</span><div class="formula-details"><div class="formula-text"><strong>Have/Has + S + been + V-ing?</strong></div><div class="formula-example"><span>How long have you been waiting?</span><button class="btn-tts" onclick="speakText('How long have you been waiting?')">🔊</button></div></div></div>
+                        </div>
+                        <div class="card-footer"><p>💡 <strong>Phân biệt với HTTL:</strong> HTTD Tiếp diễn nhấn mạnh <em>thời gian diễn ra</em> của hành động, HTTL nhấn mạnh <em>kết quả</em>.</p></div>
+                    </div>
+                </div>
+                <div class="section-title"><h3>2. Dấu Hiệu Nhận Biết 🔍</h3></div>
+                <div class="signals-grid"><div class="signal-item"><span class="sig-title">Dấu hiệu:</span><p><em>for + khoảng thời gian (for 2 hours), since + mốc (since morning), all day/week/month (cả ngày/tuần/tháng), recently, lately, How long...?</em></p></div></div>
+                <div class="next-step-box"><p>Xuất sắc! Tiếp tục nhóm Quá Khứ!</p><button class="btn btn-primary" onclick="switchTab('past-continuous')">Thì Quá Khứ Tiếp Diễn ➡️</button></div>
+            </section>
+
+            <!-- TAB: THÌ QUÁ KHỨ TIẾP DIỄN -->
+            <section id="tab-past-continuous" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì Quá Khứ Tiếp Diễn <span class="badge">Past Continuous</span></h2>
+                        <p>Diễn tả hành động đang diễn ra tại một thời điểm cụ thể trong quá khứ, hoặc hành động đang diễn ra thì bị gián đoạn bởi hành động khác.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#pc-grad)" fill-opacity="0.15"/>
+                            <path d="M50 100 Q100 60 150 100" stroke="url(#pc-grad)" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <path d="M100 130 L100 90" stroke="url(#pc-grad)" stroke-width="4" stroke-dasharray="5 4" stroke-linecap="round"/>
+                            <defs><linearGradient id="pc-grad" x1="50" y1="60" x2="150" y2="140" gradientUnits="userSpaceOnUse"><stop stop-color="#F97316"/><stop offset="1" stop-color="#EF4444"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-title"><h3>1. Công Thức (Formulas)</h3><p>Cấu trúc: <strong>was/were + V-ing</strong></p></div>
+                <div class="grid-layout">
+                    <div class="card formula-card">
+                        <div class="card-header"><span class="card-tag" style="background:rgba(249,115,22,0.15);color:#fb923c;border-color:rgba(249,115,22,0.3)">Công thức</span><h4>S + was / were + V-ing</h4></div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">+</span><div class="formula-details"><div class="formula-text"><strong>S + was/were + V-ing + O</strong></div><div class="formula-example"><span>I <span class="highlight-word" onclick="translateWordClick('was reading')">was reading</span> at 8 PM yesterday.</span><button class="btn-tts" onclick="speakText('I was reading at 8 PM yesterday.')">🔊</button></div><div class="formula-example"><span>They <span class="highlight-word" onclick="translateWordClick('were playing')">were playing</span> football when it rained.</span><button class="btn-tts" onclick="speakText('They were playing football when it rained.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign negative">-</span><div class="formula-details"><div class="formula-text"><strong>S + was/were + not + V-ing</strong></div><div class="formula-example"><span>She wasn't listening to the teacher.</span><button class="btn-tts" onclick="speakText('She was not listening to the teacher.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign question">?</span><div class="formula-details"><div class="formula-text"><strong>Was/Were + S + V-ing?</strong></div><div class="formula-example"><span>Were you sleeping at that time?</span><button class="btn-tts" onclick="speakText('Were you sleeping at that time?')">🔊</button></div></div></div>
+                        </div>
+                        <div class="card-footer"><p>💡 <strong>Mẹo dùng với Past Simple:</strong> <em>While/When + Past Continuous</em> → <em>Past Simple</em>: "I was cooking <strong>when</strong> he called."</p></div>
+                    </div>
+                </div>
+                <div class="section-title"><h3>2. Dấu Hiệu Nhận Biết 🔍</h3></div>
+                <div class="signals-grid"><div class="signal-item"><span class="sig-title">Dấu hiệu:</span><p><em>at + giờ cụ thể trong quá khứ (at 8 PM yesterday), while (trong khi), when (khi), at that time (lúc đó)</em></p></div></div>
+                <div class="next-step-box"><p>Tốt lắm! Tiếp tục với Quá Khứ Hoàn Thành!</p><button class="btn btn-primary" onclick="switchTab('past-perfect')">Thì tiếp theo ➡️</button></div>
+            </section>
+
+            <!-- TAB: THÌ QUÁ KHỨ HOÀN THÀNH -->
+            <section id="tab-past-perfect" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì Quá Khứ Hoàn Thành <span class="badge">Past Perfect</span></h2>
+                        <p>Diễn tả hành động xảy ra và hoàn thành <em>trước</em> một hành động khác trong quá khứ. Đây là "quá khứ của quá khứ".</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#ppast-grad)" fill-opacity="0.15"/>
+                            <path d="M50 110 L90 70 L130 110 L170 70" stroke="url(#ppast-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            <defs><linearGradient id="ppast-grad" x1="50" y1="70" x2="170" y2="110" gradientUnits="userSpaceOnUse"><stop stop-color="#6366F1"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-title"><h3>1. Công Thức (Formulas)</h3><p>Cấu trúc: <strong>had + V3 (Past Participle)</strong> — dùng <em>had</em> cho tất cả chủ ngữ.</p></div>
+                <div class="grid-layout">
+                    <div class="card formula-card">
+                        <div class="card-header"><span class="card-tag" style="background:rgba(99,102,241,0.15);color:#818cf8;border-color:rgba(99,102,241,0.3)">Công thức</span><h4>S + had + V3 (Past Participle)</h4></div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">+</span><div class="formula-details"><div class="formula-text"><strong>S + had + V3 + O</strong></div><div class="formula-example"><span>When I arrived, she <span class="highlight-word" onclick="translateWordClick('had already left')">had already left</span>.</span><button class="btn-tts" onclick="speakText('When I arrived, she had already left.')">🔊</button></div><div class="formula-example"><span>He <span class="highlight-word" onclick="translateWordClick('had finished')">had finished</span> the report before the meeting.</span><button class="btn-tts" onclick="speakText('He had finished the report before the meeting.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign negative">-</span><div class="formula-details"><div class="formula-text"><strong>S + had + not (hadn't) + V3</strong></div><div class="formula-example"><span>I hadn't seen that movie before last night.</span><button class="btn-tts" onclick="speakText('I had not seen that movie before last night.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign question">?</span><div class="formula-details"><div class="formula-text"><strong>Had + S + V3?</strong></div><div class="formula-example"><span>Had you eaten before you came?</span><button class="btn-tts" onclick="speakText('Had you eaten before you came?')">🔊</button></div></div></div>
+                        </div>
+                        <div class="card-footer"><p>💡 <strong>Ghi nhớ:</strong> QK Hoàn Thành = hành động <em>xảy ra trước</em> trong quá khứ. Dùng cùng với QK Đơn: "After she <strong>had cooked</strong>, they <strong>ate</strong>."</p></div>
+                    </div>
+                </div>
+                <div class="section-title"><h3>2. Dấu Hiệu Nhận Biết 🔍</h3></div>
+                <div class="signals-grid"><div class="signal-item"><span class="sig-title">Dấu hiệu:</span><p><em>before (trước khi), after (sau khi), when (khi), by the time (vào lúc), already, just, never, until (cho đến khi), as soon as (ngay khi)</em></p></div></div>
+                <div class="next-step-box"><p>Xuất sắc! Tiếp tục với Quá Khứ Hoàn Thành Tiếp Diễn!</p><button class="btn btn-primary" onclick="switchTab('past-perfect-continuous')">Thì tiếp theo ➡️</button></div>
+            </section>
+
+            <!-- TAB: THÌ QUÁ KHỨ HOÀN THÀNH TIẾP DIỄN -->
+            <section id="tab-past-perfect-continuous" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì QKTD Tiếp Diễn <span class="badge">Past Perfect Continuous</span></h2>
+                        <p>Diễn tả hành động đã diễn ra liên tục trong một khoảng thời gian trước một sự kiện khác trong quá khứ. Nhấn mạnh <em>thời gian</em> của hành động.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#ppc2-grad)" fill-opacity="0.15"/>
+                            <path d="M40 120 Q70 80 100 100 Q130 120 160 80" stroke="url(#ppc2-grad)" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <circle cx="160" cy="80" r="8" fill="url(#ppc2-grad)" fill-opacity="0.8"/>
+                            <defs><linearGradient id="ppc2-grad" x1="40" y1="80" x2="160" y2="120" gradientUnits="userSpaceOnUse"><stop stop-color="#EC4899"/><stop offset="1" stop-color="#F59E0B"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-title"><h3>1. Công Thức (Formulas)</h3><p>Cấu trúc: <strong>had + been + V-ing</strong></p></div>
+                <div class="grid-layout">
+                    <div class="card formula-card">
+                        <div class="card-header"><span class="card-tag" style="background:rgba(236,72,153,0.15);color:#f472b6;border-color:rgba(236,72,153,0.3)">Công thức</span><h4>S + had + been + V-ing</h4></div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">+</span><div class="formula-details"><div class="formula-text"><strong>S + had + been + V-ing + O</strong></div><div class="formula-example"><span>I <span class="highlight-word" onclick="translateWordClick('had been waiting')">had been waiting</span> for 2 hours when he arrived.</span><button class="btn-tts" onclick="speakText('I had been waiting for 2 hours when he arrived.')">🔊</button></div><div class="formula-example"><span>She <span class="highlight-word" onclick="translateWordClick('had been crying')">had been crying</span> before we got there.</span><button class="btn-tts" onclick="speakText('She had been crying before we got there.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign negative">-</span><div class="formula-details"><div class="formula-text"><strong>S + had + not + been + V-ing</strong></div><div class="formula-example"><span>He hadn't been feeling well for days.</span><button class="btn-tts" onclick="speakText('He had not been feeling well for days.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign question">?</span><div class="formula-details"><div class="formula-text"><strong>Had + S + been + V-ing?</strong></div><div class="formula-example"><span>Had they been working all night?</span><button class="btn-tts" onclick="speakText('Had they been working all night?')">🔊</button></div></div></div>
+                        </div>
+                        <div class="card-footer"><p>💡 <strong>Phân biệt:</strong> QKHT = nhấn mạnh kết quả | QKHTD Tiếp Diễn = nhấn mạnh <em>khoảng thời gian</em> diễn ra hành động.</p></div>
+                    </div>
+                </div>
+                <div class="section-title"><h3>2. Dấu Hiệu Nhận Biết 🔍</h3></div>
+                <div class="signals-grid"><div class="signal-item"><span class="sig-title">Dấu hiệu:</span><p><em>for + khoảng thời gian, since, when, before, until, How long...? — kèm theo một mốc thời gian QK khác</em></p></div></div>
+                <div class="next-step-box"><p>Tuyệt vời! Bắt đầu nhóm Tương Lai nhé!</p><button class="btn btn-primary" onclick="switchTab('future-continuous')">Thì Tương Lai Tiếp Diễn ➡️</button></div>
+            </section>
+
+            <!-- TAB: THÌ TƯƠNG LAI TIẾP DIỄN -->
+            <section id="tab-future-continuous" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì Tương Lai Tiếp Diễn <span class="badge">Future Continuous</span></h2>
+                        <p>Diễn tả hành động sẽ đang diễn ra tại một thời điểm cụ thể trong tương lai, hoặc hành động dự kiến sẽ xảy ra trong quá trình diễn biến tương lai.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#fcon-grad)" fill-opacity="0.15"/>
+                            <path d="M50 100 Q100 50 150 100" stroke="url(#fcon-grad)" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <path d="M130 100 L150 85 L150 115Z" fill="url(#fcon-grad)" fill-opacity="0.8"/>
+                            <defs><linearGradient id="fcon-grad" x1="50" y1="50" x2="150" y2="150" gradientUnits="userSpaceOnUse"><stop stop-color="#06B6D4"/><stop offset="1" stop-color="#3B82F6"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-title"><h3>1. Công Thức (Formulas)</h3><p>Cấu trúc: <strong>will + be + V-ing</strong></p></div>
+                <div class="grid-layout">
+                    <div class="card formula-card">
+                        <div class="card-header"><span class="card-tag" style="background:rgba(6,182,212,0.15);color:#22d3ee;border-color:rgba(6,182,212,0.3)">Công thức</span><h4>S + will + be + V-ing</h4></div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">+</span><div class="formula-details"><div class="formula-text"><strong>S + will + be + V-ing + O</strong></div><div class="formula-example"><span>At 8 PM tomorrow, I <span class="highlight-word" onclick="translateWordClick('will be studying')">will be studying</span>.</span><button class="btn-tts" onclick="speakText('At 8 PM tomorrow, I will be studying.')">🔊</button></div><div class="formula-example"><span>They <span class="highlight-word" onclick="translateWordClick('will be traveling')">will be traveling</span> to Japan next week.</span><button class="btn-tts" onclick="speakText('They will be traveling to Japan next week.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign negative">-</span><div class="formula-details"><div class="formula-text"><strong>S + will + not + be + V-ing</strong></div><div class="formula-example"><span>She won't be working this Sunday.</span><button class="btn-tts" onclick="speakText('She will not be working this Sunday.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign question">?</span><div class="formula-details"><div class="formula-text"><strong>Will + S + be + V-ing?</strong></div><div class="formula-example"><span>Will you be joining us for dinner?</span><button class="btn-tts" onclick="speakText('Will you be joining us for dinner?')">🔊</button></div></div></div>
+                        </div>
+                        <div class="card-footer"><p>💡 <strong>Dùng khi:</strong> Hỏi lịch trình một cách lịch sự, hoặc dự đoán hành động đang diễn ra ở một thời điểm TL cụ thể.</p></div>
+                    </div>
+                </div>
+                <div class="section-title"><h3>2. Dấu Hiệu Nhận Biết 🔍</h3></div>
+                <div class="signals-grid"><div class="signal-item"><span class="sig-title">Dấu hiệu:</span><p><em>at + giờ cụ thể trong tương lai (at this time tomorrow), this time next week/year, in two hours, all day tomorrow</em></p></div></div>
+                <div class="next-step-box"><p>Tốt lắm! Tiếp tục với Tương Lai Hoàn Thành!</p><button class="btn btn-primary" onclick="switchTab('future-perfect')">Thì tiếp theo ➡️</button></div>
+            </section>
+
+            <!-- TAB: THÌ TƯƠNG LAI HOÀN THÀNH -->
+            <section id="tab-future-perfect" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì Tương Lai Hoàn Thành <span class="badge">Future Perfect</span></h2>
+                        <p>Diễn tả hành động sẽ hoàn thành trước một thời điểm cụ thể trong tương lai. Nhấn mạnh sự <em>hoàn tất</em> của hành động.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#fp-grad)" fill-opacity="0.15"/>
+                            <path d="M60 110 L90 140 L160 60" stroke="url(#fp-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="170" cy="50" r="10" fill="url(#fp-grad)" fill-opacity="0.6"/>
+                            <defs><linearGradient id="fp-grad" x1="60" y1="60" x2="170" y2="140" gradientUnits="userSpaceOnUse"><stop stop-color="#10B981"/><stop offset="1" stop-color="#06B6D4"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-title"><h3>1. Công Thức (Formulas)</h3><p>Cấu trúc: <strong>will + have + V3 (Past Participle)</strong></p></div>
+                <div class="grid-layout">
+                    <div class="card formula-card">
+                        <div class="card-header"><span class="card-tag" style="background:rgba(16,185,129,0.15);color:#34d399;border-color:rgba(16,185,129,0.3)">Công thức</span><h4>S + will + have + V3</h4></div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">+</span><div class="formula-details"><div class="formula-text"><strong>S + will + have + V3 + O</strong></div><div class="formula-example"><span>By next year, I <span class="highlight-word" onclick="translateWordClick('will have graduated')">will have graduated</span>.</span><button class="btn-tts" onclick="speakText('By next year, I will have graduated.')">🔊</button></div><div class="formula-example"><span>She <span class="highlight-word" onclick="translateWordClick('will have finished')">will have finished</span> the project by Friday.</span><button class="btn-tts" onclick="speakText('She will have finished the project by Friday.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign negative">-</span><div class="formula-details"><div class="formula-text"><strong>S + will + not + have + V3</strong></div><div class="formula-example"><span>They won't have arrived by 6 PM.</span><button class="btn-tts" onclick="speakText('They will not have arrived by 6 PM.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign question">?</span><div class="formula-details"><div class="formula-text"><strong>Will + S + have + V3?</strong></div><div class="formula-example"><span>Will you have finished by then?</span><button class="btn-tts" onclick="speakText('Will you have finished by then?')">🔊</button></div></div></div>
+                        </div>
+                        <div class="card-footer"><p>💡 <strong>Từ khóa then nhất:</strong> <em>"by + thời điểm TL"</em> — By 2030, by tomorrow morning, by the time...</p></div>
+                    </div>
+                </div>
+                <div class="section-title"><h3>2. Dấu Hiệu Nhận Biết 🔍</h3></div>
+                <div class="signals-grid"><div class="signal-item"><span class="sig-title">Dấu hiệu:</span><p><em>by (vào lúc/trước), by the time (vào lúc), before (trước), by + thời điểm TL cụ thể (by 2030, by next Monday, by the end of...)</em></p></div></div>
+                <div class="next-step-box"><p>Gần xong rồi! Thì cuối cùng — Tương Lai Hoàn Thành Tiếp Diễn!</p><button class="btn btn-primary" onclick="switchTab('future-perfect-continuous')">Thì cuối cùng ➡️</button></div>
+            </section>
+
+            <!-- TAB: THÌ TƯƠNG LAI HOÀN THÀNH TIẾP DIỄN -->
+            <section id="tab-future-perfect-continuous" class="tab-content">
+                <div class="hero-card">
+                    <div class="hero-text">
+                        <h2>Thì TLTD Tiếp Diễn <span class="badge">Future Perfect Continuous</span></h2>
+                        <p>Thì khó nhất trong 12 thì! Diễn tả hành động sẽ đang diễn ra liên tục cho đến một thời điểm nào đó trong tương lai, nhấn mạnh <em>khoảng thời gian</em> của hành động.</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#fpc-grad)" fill-opacity="0.15"/>
+                            <path d="M40 130 Q70 80 100 100 Q130 120 160 70" stroke="url(#fpc-grad)" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <path d="M155 70 L165 60 L165 80Z" fill="url(#fpc-grad)"/>
+                            <defs><linearGradient id="fpc-grad" x1="40" y1="70" x2="165" y2="130" gradientUnits="userSpaceOnUse"><stop stop-color="#6366F1"/><stop offset="1" stop-color="#EC4899"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-title"><h3>1. Công Thức (Formulas)</h3><p>Cấu trúc: <strong>will + have + been + V-ing</strong></p></div>
+                <div class="grid-layout">
+                    <div class="card formula-card">
+                        <div class="card-header"><span class="card-tag" style="background:rgba(99,102,241,0.15);color:#818cf8;border-color:rgba(99,102,241,0.3)">Công thức</span><h4>S + will + have + been + V-ing</h4></div>
+                        <div class="formula-list">
+                            <div class="formula-item"><span class="sign positive">+</span><div class="formula-details"><div class="formula-text"><strong>S + will + have + been + V-ing + O</strong></div><div class="formula-example"><span>By 2026, I <span class="highlight-word" onclick="translateWordClick('will have been studying')">will have been studying</span> English for 5 years.</span><button class="btn-tts" onclick="speakText('By 2026, I will have been studying English for 5 years.')">🔊</button></div><div class="formula-example"><span>She <span class="highlight-word" onclick="translateWordClick('will have been working')">will have been working</span> here for 10 years by December.</span><button class="btn-tts" onclick="speakText('She will have been working here for 10 years by December.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign negative">-</span><div class="formula-details"><div class="formula-text"><strong>S + will + not + have + been + V-ing</strong></div><div class="formula-example"><span>He won't have been sleeping long when we arrive.</span><button class="btn-tts" onclick="speakText('He will not have been sleeping long when we arrive.')">🔊</button></div></div></div>
+                            <div class="formula-item"><span class="sign question">?</span><div class="formula-details"><div class="formula-text"><strong>Will + S + have + been + V-ing?</strong></div><div class="formula-example"><span>Will you have been waiting long by the time I arrive?</span><button class="btn-tts" onclick="speakText('Will you have been waiting long by the time I arrive?')">🔊</button></div></div></div>
+                        </div>
+                        <div class="card-footer"><p>🏆 <strong>Chúc mừng!</strong> Bạn đã học đủ cả 12 thì trong tiếng Anh! <em>By + thời điểm TL + for + khoảng thời gian</em> là dấu hiệu đặc trưng của thì này.</p></div>
+                    </div>
+                </div>
+                <div class="section-title"><h3>2. Dấu Hiệu Nhận Biết 🔍</h3></div>
+                <div class="signals-grid"><div class="signal-item"><span class="sig-title">Dấu hiệu:</span><p><em>by + thời điểm TL (by next year) + for + khoảng thời gian (for 10 years) — hai yếu tố này thường đi cùng nhau!</em></p></div></div>
+                <div class="next-step-box"><p>🎉 Bạn đã hoàn thành toàn bộ 12 thì tiếng Anh! Hãy luyện tập để thuần thục hơn!</p><button class="btn btn-primary" onclick="switchTab('practice')">Luyện tập tổng hợp 🚀</button></div>
             </section>
 
             <!-- TAB 3: PRACTICE (LUYỆN TẬP TƯƠNG TÁC) -->

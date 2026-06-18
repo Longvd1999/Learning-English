@@ -1789,10 +1789,28 @@ function switchTab(tabName) {
         mainTitle.innerHTML = 'Mục 1: Phát âm & Khẩu hình <span class="badge">IPA Guide</span>';
     } else if (tabName === 'grammar') {
         mainTitle.innerHTML = 'Ngữ Pháp: Thì Hiện Tại Đơn <span class="badge">Present Simple</span>';
+    } else if (tabName === 'present-continuous') {
+        mainTitle.innerHTML = 'Ngữ Pháp: Thì Hiện Tại Tiếp Diễn <span class="badge">Present Continuous</span>';
+    } else if (tabName === 'present-perfect') {
+        mainTitle.innerHTML = 'Ngữ Pháp: Thì Hiện Tại Hoàn Thành <span class="badge">Present Perfect</span>';
+    } else if (tabName === 'present-perfect-continuous') {
+        mainTitle.innerHTML = 'Ngữ Pháp: HTTD Tiếp Diễn <span class="badge">Present Perfect Continuous</span>';
     } else if (tabName === 'past') {
         mainTitle.innerHTML = 'Ngữ Pháp: Thì Quá Khứ Đơn <span class="badge">Past Simple</span>';
+    } else if (tabName === 'past-continuous') {
+        mainTitle.innerHTML = 'Ngữ Pháp: Thì Quá Khứ Tiếp Diễn <span class="badge">Past Continuous</span>';
+    } else if (tabName === 'past-perfect') {
+        mainTitle.innerHTML = 'Ngữ Pháp: Thì Quá Khứ Hoàn Thành <span class="badge">Past Perfect</span>';
+    } else if (tabName === 'past-perfect-continuous') {
+        mainTitle.innerHTML = 'Ngữ Pháp: QKTD Tiếp Diễn <span class="badge">Past Perfect Continuous</span>';
     } else if (tabName === 'future') {
         mainTitle.innerHTML = 'Ngữ Pháp: Thì Tương Lai Đơn <span class="badge">Future Simple</span>';
+    } else if (tabName === 'future-continuous') {
+        mainTitle.innerHTML = 'Ngữ Pháp: Thì Tương Lai Tiếp Diễn <span class="badge">Future Continuous</span>';
+    } else if (tabName === 'future-perfect') {
+        mainTitle.innerHTML = 'Ngữ Pháp: Thì Tương Lai Hoàn Thành <span class="badge">Future Perfect</span>';
+    } else if (tabName === 'future-perfect-continuous') {
+        mainTitle.innerHTML = 'Ngữ Pháp: TLTD Tiếp Diễn <span class="badge">Future Perfect Continuous</span>';
     } else if (tabName === 'practice') {
         mainTitle.innerHTML = 'Luyện tập Tương tác <span class="badge">Interactive Quiz</span>';
         const selectorView = document.getElementById('lesson-selector-view');
