@@ -98,6 +98,12 @@
                     <span class="nav-icon">📊</span>
                     <span>Tiến trình & Sổ tay</span>
                 </button>
+
+                <div class="nav-group-title">Học Qua Bài Hát</div>
+                <button class="nav-item" id="btn-tab-songs" onclick="switchTab('songs')">
+                    <span class="nav-icon">🎵</span>
+                    <span>Bài hát yêu thích</span>
+                </button>
             </nav>
 
             <div class="user-profile" onclick="promptChangeName()" title="Nhấp để đổi tên" style="cursor: pointer;">
@@ -1830,7 +1836,119 @@
                     </div>
                 </div>
             </section>
+
+            <!-- TAB: HỌC QUA BÀI HÁT -->
+            <section id="tab-songs" class="tab-content">
+                <div class="hero-card songs-hero">
+                    <div class="hero-text">
+                        <h2>🎵 Học Tiếng Anh Qua Bài Hát</h2>
+                        <p>Đọc lyrics, xem phiên âm IPA, dịch nghĩa từng câu và học từ vựng theo cách thú vị nhất!</p>
+                    </div>
+                    <div class="hero-image">
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="floating-svg">
+                            <circle cx="100" cy="100" r="80" fill="url(#songs-grad)" fill-opacity="0.15"/>
+                            <path d="M80 60 L80 130 L140 115 L140 45 Z" fill="url(#songs-grad)" fill-opacity="0.4"/>
+                            <circle cx="70" cy="130" r="14" fill="url(#songs-grad)" fill-opacity="0.6"/>
+                            <circle cx="130" cy="115" r="14" fill="url(#songs-grad)" fill-opacity="0.6"/>
+                            <defs>
+                                <linearGradient id="songs-grad" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#ec4899"/>
+                                    <stop offset="1" stop-color="#8b5cf6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Song Library -->
+                <div class="song-library card">
+                    <h3 class="section-label">📀 Danh sách bài hát</h3>
+                    <div class="song-list" id="song-list">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Song Detail View -->
+                <div id="song-detail-view" class="hidden">
+                    <!-- Song Header -->
+                    <div class="song-header-card card">
+                        <div class="song-meta">
+                            <div class="song-cover" id="song-cover-icon">🎵</div>
+                            <div class="song-info-block">
+                                <h2 id="song-detail-title">Tên bài hát</h2>
+                                <p id="song-detail-artist">Ca sĩ</p>
+                                <div class="song-tags">
+                                    <span class="song-tag" id="song-detail-genre">Pop</span>
+                                    <span class="song-tag" id="song-detail-level">Intermediate</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="showSongLibrary()">← Danh sách</button>
+                            <button class="btn btn-primary btn-sm" onclick="startSongQuiz()" id="btn-song-quiz">🧠 Kiểm tra</button>
+                        </div>
+                    </div>
+
+                    <!-- How to Study -->
+                    <div class="card study-tips-card">
+                        <h4>💡 Cách học hiệu quả với bài hát này</h4>
+                        <div class="tips-grid" id="song-tips-grid">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Lyrics Display -->
+                    <div class="card lyrics-card">
+                        <div class="lyrics-header">
+                            <h3>📝 Lyrics & Phiên âm & Dịch nghĩa</h3>
+                            <div class="lyrics-controls">
+                                <button class="lyrics-toggle-btn active" id="toggle-en" onclick="toggleLyricsCol('en')">🇬🇧 English</button>
+                                <button class="lyrics-toggle-btn active" id="toggle-ipa" onclick="toggleLyricsCol('ipa')">🔤 IPA</button>
+                                <button class="lyrics-toggle-btn active" id="toggle-vi" onclick="toggleLyricsCol('vi')">🇻🇳 Tiếng Việt</button>
+                            </div>
+                        </div>
+                        <div class="lyrics-table-wrap">
+                            <table class="lyrics-table" id="lyrics-table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-en">🇬🇧 Lời tiếng Anh</th>
+                                        <th class="col-ipa">🔤 Phiên âm IPA</th>
+                                        <th class="col-vi">🇻🇳 Dịch tiếng Việt</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lyrics-tbody">
+                                    <!-- Rendered by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Vocabulary Highlight -->
+                    <div class="card vocab-highlight-card">
+                        <h3>📚 Từ vựng nổi bật trong bài</h3>
+                        <p class="info-small">Click vào từ để nghe phát âm. Nhấn ⭐ để lưu vào sổ tay từ vựng.</p>
+                        <div class="song-vocab-grid" id="song-vocab-grid">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Song Quiz -->
+                    <div class="card song-quiz-card hidden" id="song-quiz-section">
+                        <h3>🧠 Điền vào chỗ trống</h3>
+                        <p class="info-small">Nghe câu và điền từ còn thiếu vào ô trống:</p>
+                        <div id="song-quiz-content">
+                            <!-- Rendered by JS -->
+                        </div>
+                        <div class="song-quiz-actions">
+                            <button class="btn btn-primary" onclick="checkSongQuiz()">✅ Kiểm tra</button>
+                            <button class="btn btn-secondary" onclick="nextSongQuiz()">Câu tiếp ▶</button>
+                        </div>
+                        <div id="song-quiz-feedback" class="quiz-feedback hidden"></div>
+                    </div>
+                </div>
+            </section>
         </main>
+
     </div>
 
     <!-- Quick Access Floating Button (goes to Dict tab) -->

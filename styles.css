@@ -3754,7 +3754,6 @@ body {
     .skill-inputs-grid { grid-template-columns: repeat(2, 1fr); }
     .tracker-stats-row { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 600px) {
     .skill-inputs-grid { grid-template-columns: 1fr 1fr; }
     .tracker-stats-row { grid-template-columns: repeat(2, 1fr); }
     .tracker-hero-card { flex-direction: column; gap: 1rem; text-align: center; }
@@ -3762,3 +3761,383 @@ body {
     .tracker-right-col { flex-direction: column; }
 }
 
+/* ============================================================
+   SONGS TAB - HỌC QUA BÀI HÁT
+   ============================================================ */
+
+.songs-hero {
+    background: linear-gradient(135deg, rgba(236,72,153,0.15) 0%, rgba(139,92,246,0.15) 100%);
+    border-color: rgba(236,72,153,0.25);
+}
+
+/* Song Library */
+.song-library { margin-bottom: 1.5rem; }
+.song-library .section-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.song-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.song-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.song-card:hover {
+    border-color: rgba(236,72,153,0.4);
+    background: rgba(236,72,153,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(236,72,153,0.15);
+}
+.song-card-emoji {
+    font-size: 2.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, rgba(236,72,153,0.2), rgba(139,92,246,0.2));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.song-card-info { flex: 1; min-width: 0; }
+.song-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.song-card-artist {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+.song-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.song-card-tag {
+    font-size: 0.72rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(139,92,246,0.2);
+    color: #c4b5fd;
+    font-weight: 600;
+}
+.song-card-arrow {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
+.song-card:hover .song-card-arrow { transform: translateX(4px); color: #ec4899; }
+
+/* Song Detail Header */
+.song-header-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+.song-meta { display: flex; align-items: center; gap: 1.25rem; }
+.song-cover {
+    font-size: 3rem;
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, rgba(236,72,153,0.25), rgba(139,92,246,0.25));
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(236,72,153,0.3);
+    flex-shrink: 0;
+}
+.song-info-block h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+}
+.song-info-block p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+.song-tags { display: flex; gap: 0.5rem; }
+.song-tag {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(236,72,153,0.2);
+    color: #f9a8d4;
+    font-weight: 600;
+}
+.song-actions { display: flex; gap: 0.75rem; flex-shrink: 0; }
+
+/* Study Tips */
+.study-tips-card { margin-bottom: 1.5rem; }
+.study-tips-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+}
+.tip-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+}
+.tip-icon { font-size: 1.3rem; flex-shrink: 0; }
+.tip-text { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+.tip-text strong { color: var(--text-primary); display: block; margin-bottom: 0.2rem; }
+
+/* Lyrics Card */
+.lyrics-card { margin-bottom: 1.5rem; }
+.lyrics-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+.lyrics-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.lyrics-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.lyrics-toggle-btn {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+.lyrics-toggle-btn.active {
+    background: rgba(236,72,153,0.2);
+    border-color: rgba(236,72,153,0.5);
+    color: #f9a8d4;
+    font-weight: 600;
+}
+.lyrics-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+.lyrics-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+.lyrics-table thead {
+    background: rgba(236,72,153,0.1);
+}
+.lyrics-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #f9a8d4;
+    border-bottom: 1px solid rgba(236,72,153,0.2);
+    white-space: nowrap;
+}
+.lyrics-table td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+    line-height: 1.6;
+}
+.lyrics-table tbody tr:hover { background: rgba(236,72,153,0.06); }
+.lyrics-table tbody tr:last-child td { border-bottom: none; }
+.col-en { color: var(--text-primary); font-weight: 500; min-width: 200px; }
+.col-ipa { color: #a78bfa; font-family: monospace; font-size: 0.82rem; min-width: 180px; }
+.col-vi { color: var(--text-secondary); min-width: 180px; }
+.lyrics-section-label {
+    background: rgba(139,92,246,0.15);
+}
+.lyrics-section-label td {
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #c4b5fd;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.lyrics-table .speak-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.1rem 0.3rem;
+    border-radius: 4px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    margin-left: 0.3rem;
+}
+.lyrics-table .speak-btn:hover { opacity: 1; }
+
+/* Hide columns dynamically */
+.lyrics-table.hide-en .col-en { display: none; }
+.lyrics-table.hide-ipa .col-ipa { display: none; }
+.lyrics-table.hide-vi .col-vi { display: none; }
+
+/* Vocabulary Highlight */
+.vocab-highlight-card { margin-bottom: 1.5rem; }
+.vocab-highlight-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+}
+.song-vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 0.85rem;
+    margin-top: 1rem;
+}
+.song-vocab-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1rem;
+    transition: all 0.2s;
+}
+.song-vocab-item:hover {
+    border-color: rgba(139,92,246,0.4);
+    background: rgba(139,92,246,0.08);
+}
+.song-vocab-word {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+}
+.song-vocab-en {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.song-vocab-actions { display: flex; gap: 0.3rem; }
+.song-vocab-speak, .song-vocab-save {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+.song-vocab-speak:hover { background: rgba(139,92,246,0.2); }
+.song-vocab-save:hover { background: rgba(245,158,11,0.2); }
+.song-vocab-ipa {
+    font-family: monospace;
+    font-size: 0.78rem;
+    color: #a78bfa;
+    margin-bottom: 0.4rem;
+}
+.song-vocab-vi {
+    font-size: 0.83rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+}
+.song-vocab-example {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-style: italic;
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.35rem;
+    margin-top: 0.35rem;
+    line-height: 1.5;
+}
+
+/* Song Quiz */
+.song-quiz-card { margin-bottom: 1.5rem; }
+.song-quiz-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+}
+.song-quiz-sentence {
+    font-size: 1rem;
+    color: var(--text-primary);
+    line-height: 2;
+    margin: 1.25rem 0;
+    padding: 1rem 1.25rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+.song-quiz-input {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid #ec4899;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    width: 120px;
+    text-align: center;
+    padding: 0.1rem 0.3rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.song-quiz-input:focus { border-bottom-color: #a78bfa; }
+.song-quiz-input.correct { border-bottom-color: var(--success); }
+.song-quiz-input.wrong { border-bottom-color: var(--error); }
+.song-quiz-actions { display: flex; gap: 0.75rem; margin-top: 1rem; }
+.quiz-feedback {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.quiz-feedback.correct-fb { background: var(--success-glow); color: var(--success-light); border: 1px solid rgba(16,185,129,0.3); }
+.quiz-feedback.wrong-fb { background: var(--error-glow); color: var(--error-light); border: 1px solid rgba(244,63,94,0.3); }
+
+/* Responsive Songs */
+@media (max-width: 768px) {
+    .song-list { grid-template-columns: 1fr; }
+    .song-header-card { flex-direction: column; align-items: flex-start; }
+    .tips-grid { grid-template-columns: 1fr; }
+    .song-vocab-grid { grid-template-columns: 1fr 1fr; }
+    .lyrics-header { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+    .song-vocab-grid { grid-template-columns: 1fr; }
+    .song-actions { width: 100%; }
+}

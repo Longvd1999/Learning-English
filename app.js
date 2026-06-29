@@ -1828,6 +1828,8 @@ function switchTab(tabName) {
     } else if (tabName === 'progress') {
         mainTitle.innerHTML = 'Tiến trình & Sổ tay từ vựng <span class="badge">Progress & Vocab</span>';
         updateProgressTab();
+    } else if (tabName === 'songs') {
+        mainTitle.innerHTML = 'Học Tiếng Anh Qua Bài Hát <span class="badge">🎵 Song Learning</span>';
     }
 }
 
@@ -4303,8 +4305,340 @@ document.addEventListener('DOMContentLoaded', () => {
         window.switchTab = function(tabId) {
             orig(tabId);
             if (tabId === 'progress') setTimeout(loadTrackerData, 100);
+            if (tabId === 'songs') setTimeout(renderSongLibrary, 50);
         };
     }
 });
+
+/* ============================================================
+   SONGS MODULE - HỌC TIẾNG ANH QUA BÀI HÁT
+   ============================================================ */
+
+// ---- SONG DATABASE ----
+const songsData = [
+    {
+        id: 'not-snow-but-u',
+        title: 'Not Snow, But U',
+        artist: 'SevenY (七元)',
+        emoji: '❄️',
+        genre: 'Pop / Ballad',
+        level: 'Intermediate',
+        youtubeId: 'A3Pm_U1k_gw',
+        tips: [
+            { icon: '🔊', title: 'Shadowing', desc: 'Đọc to từng câu theo lyrics, bắt chước giọng và nhịp của ca sĩ.' },
+            { icon: '🙈', title: 'Che dịch', desc: 'Che cột tiếng Việt, thử dịch câu tiếng Anh bằng cách hiểu của mình.' },
+            { icon: '🔤', title: 'Học IPA', desc: 'Nhìn cột IPA và thử đọc mà không nhìn cột tiếng Anh.' },
+            { icon: '✍️', title: 'Chép tay', desc: 'Chép lại lyrics tiếng Anh 3 lần, giúp nhớ cấu trúc câu lâu hơn.' },
+        ],
+        lyrics: [
+            { section: '🎵 Chorus' },
+            { en: "What I want is not the snow", ipa: "/wɒt aɪ wɒnt ɪz nɒt ðə snəʊ/", vi: "Điều tôi muốn không phải là tuyết" },
+            { en: "But in winter we're both home", ipa: "/bʌt ɪn ˈwɪntər wɪər bəʊθ həʊm/", vi: "Mà là mùa đông, cả hai ta đều ở nhà" },
+            { en: "What I need is not the moon", ipa: "/wɒt aɪ niːd ɪz nɒt ðə muːn/", vi: "Điều tôi cần không phải là ánh trăng" },
+            { en: "But with you I'm not alone", ipa: "/bʌt wɪð juː aɪm nɒt əˈləʊn/", vi: "Mà là bên em, tôi không còn cô đơn" },
+            { en: "How I wish when the sparks fly", ipa: "/haʊ aɪ wɪʃ wen ðə spɑːks flaɪ/", vi: "Tôi ước khi những tia lửa bùng cháy" },
+            { en: "And your eyes forever look into mine", ipa: "/ænd jɔːr aɪz fərˈevər lʊk ˈɪntə maɪn/", vi: "Đôi mắt em mãi mãi nhìn vào mắt tôi" },
+            { en: "So why do you again leave me alone", ipa: "/səʊ waɪ duː juː əˈɡen liːv miː əˈləʊn/", vi: "Thì tại sao em lại một lần nữa rời bỏ tôi" },
+            { section: '🎵 Verse 1' },
+            { en: "Never thought we would end up this way", ipa: "/ˈnevər θɔːt wiː wʊd end ʌp ðɪs weɪ/", vi: "Chưa bao giờ nghĩ chúng ta sẽ kết thúc như vậy" },
+            { en: "Like you were born to leave me away", ipa: "/laɪk juː wər bɔːn tə liːv miː əˈweɪ/", vi: "Như thể em sinh ra là để rời xa tôi" },
+            { en: "But I still wish that one day", ipa: "/bʌt aɪ stɪl wɪʃ ðæt wʌn deɪ/", vi: "Nhưng tôi vẫn mong rằng một ngày nào đó" },
+            { en: "No longer have to wait", ipa: "/nəʊ ˈlɒŋɡər hæv tə weɪt/", vi: "Sẽ không còn phải chờ đợi nữa" },
+            { en: "Oh a fall of snow comes to blow sweet dreams away", ipa: "/əʊ ə fɔːl əv snəʊ kʌmz tə bləʊ swiːt driːmz əˈweɪ/", vi: "Ôi, một trận tuyết rơi đến và thổi bay những giấc mơ ngọt ngào" },
+            { section: '🎵 Verse 2' },
+            { en: "You say you have no more time to waste", ipa: "/juː seɪ juː hæv nəʊ mɔːr taɪm tə weɪst/", vi: "Em nói em không còn thời gian để lãng phí" },
+            { en: "Give me heartbreak and silence to face", ipa: "/ɡɪv miː ˈhɑːrtbreɪk ænd ˈsaɪləns tə feɪs/", vi: "Để lại cho tôi nỗi đau và sự im lặng phải đối mặt" },
+            { en: "Fall into endless heartache", ipa: "/fɔːl ˈɪntə ˈendləs ˈhɑːrteɪk/", vi: "Rơi vào nỗi đau lòng vô tận" },
+            { en: "With loneliness encased", ipa: "/wɪð ˈləʊnlinəs ɪnˈkeɪst/", vi: "Bị bao bọc bởi sự cô đơn" },
+            { en: "Oh to the snowflakes wish you by my side I pray", ipa: "/əʊ tə ðə ˈsnəʊfleɪks wɪʃ juː baɪ maɪ saɪd aɪ preɪ/", vi: "Ôi, tôi cầu xin những bông tuyết - ước em ở bên cạnh tôi" },
+            { section: '🎵 Bridge' },
+            { en: "What I want is not the snow", ipa: "/wɒt aɪ wɒnt ɪz nɒt ðə snəʊ/", vi: "Điều tôi muốn không phải là tuyết" },
+            { en: "But in winter we're both home", ipa: "/bʌt ɪn ˈwɪntər wɪər bəʊθ həʊm/", vi: "Mà là mùa đông, cả hai ta đều ở nhà" },
+            { en: "What I need is not the wind", ipa: "/wɒt aɪ niːd ɪz nɒt ðə wɪnd/", vi: "Điều tôi cần không phải là gió" },
+            { en: "But one day you'll come back home", ipa: "/bʌt wʌn deɪ juːl kʌm bæk həʊm/", vi: "Mà là một ngày nào đó em sẽ trở về nhà" },
+            { en: "How I wish when I turn old", ipa: "/haʊ aɪ wɪʃ wen aɪ tɜːrn əʊld/", vi: "Tôi ước khi tôi già đi" },
+            { en: "There are still your hands here for me to hold", ipa: "/ðer ər stɪl jɔːr hændz hɪər fər miː tə həʊld/", vi: "Vẫn còn đôi tay em đây để tôi nắm lấy" },
+            { en: "But that's just a perfect daydream I know", ipa: "/bʌt ðæts dʒʌst ə ˈpɜːrfɪkt ˈdeɪdriːm aɪ nəʊ/", vi: "Nhưng đó chỉ là một giấc mơ ban ngày hoàn hảo mà thôi" },
+            { section: '🎵 Outro' },
+            { en: "Missing you makes my sleep fly away", ipa: "/ˈmɪsɪŋ juː meɪks maɪ sliːp flaɪ əˈweɪ/", vi: "Nhớ em khiến giấc ngủ của tôi bay mất" },
+            { en: "But you say I'm your biggest mistake", ipa: "/bʌt juː seɪ aɪm jɔːr ˈbɪɡɪst mɪˈsteɪk/", vi: "Nhưng em nói tôi là sai lầm lớn nhất của em" },
+        ],
+        vocab: [
+            { word: 'sparks', ipa: '/spɑːrks/', vi: 'những tia lửa, đốm lửa', example: '"When the sparks fly" — khi những tia lửa bùng cháy (cảm xúc bùng lên).' },
+            { word: 'forever', ipa: '/fərˈevər/', vi: 'mãi mãi, vĩnh viễn', example: '"Your eyes forever look into mine" — mắt em mãi nhìn vào mắt tôi.' },
+            { word: 'heartbreak', ipa: '/ˈhɑːrtbreɪk/', vi: 'tan vỡ trái tim, nỗi đau', example: '"Give me heartbreak" — để lại cho tôi nỗi đau lòng.' },
+            { word: 'endless', ipa: '/ˈendləs/', vi: 'vô tận, không kết thúc', example: '"Endless heartache" — nỗi đau lòng vô tận.' },
+            { word: 'loneliness', ipa: '/ˈləʊnlinəs/', vi: 'sự cô đơn', example: '"With loneliness encased" — bị bao bọc bởi cô đơn.' },
+            { word: 'snowflakes', ipa: '/ˈsnəʊfleɪks/', vi: 'những bông tuyết', example: '"Oh to the snowflakes" — ôi những bông tuyết.' },
+            { word: 'daydream', ipa: '/ˈdeɪdriːm/', vi: 'giấc mơ ban ngày, mộng tưởng', example: '"A perfect daydream" — một giấc mộng tưởng hoàn hảo.' },
+            { word: 'encased', ipa: '/ɪnˈkeɪst/', vi: 'bị bao bọc, giam cầm', example: '"Loneliness encased" — bị cô đơn bao vây.' },
+            { word: 'mistake', ipa: '/mɪˈsteɪk/', vi: 'sai lầm, lỗi lầm', example: '"Your biggest mistake" — sai lầm lớn nhất của em.' },
+            { word: 'silence', ipa: '/ˈsaɪləns/', vi: 'sự im lặng', example: '"Give me silence to face" — để lại sự im lặng cho tôi đối mặt.' },
+        ]
+    }
+];
+
+// Current song quiz state
+let currentSongId = null;
+let songQuizLines = [];
+let currentSongQuizIndex = 0;
+let lyricsColState = { en: true, ipa: true, vi: true };
+
+// ---- RENDER SONG LIBRARY ----
+function renderSongLibrary() {
+    const list = document.getElementById('song-list');
+    if (!list) return;
+    list.innerHTML = songsData.map(song => `
+        <div class="song-card" onclick="loadSong('${song.id}')">
+            <div class="song-card-emoji">${song.emoji}</div>
+            <div class="song-card-info">
+                <div class="song-card-title">${song.title}</div>
+                <div class="song-card-artist">${song.artist}</div>
+                <div class="song-card-tags">
+                    <span class="song-card-tag">${song.genre}</span>
+                    <span class="song-card-tag">${song.level}</span>
+                </div>
+            </div>
+            <span class="song-card-arrow">›</span>
+        </div>
+    `).join('');
+}
+
+// ---- LOAD SONG DETAIL ----
+function loadSong(songId) {
+    const song = songsData.find(s => s.id === songId);
+    if (!song) return;
+    currentSongId = songId;
+
+    // Hide library, show detail
+    document.getElementById('song-list').closest('.song-library').classList.add('hidden');
+    const detail = document.getElementById('song-detail-view');
+    detail.classList.remove('hidden');
+
+    // Fill header
+    document.getElementById('song-cover-icon').textContent = song.emoji;
+    document.getElementById('song-detail-title').textContent = song.title;
+    document.getElementById('song-detail-artist').textContent = song.artist;
+    document.getElementById('song-detail-genre').textContent = song.genre;
+    document.getElementById('song-detail-level').textContent = song.level;
+
+    // Tips
+    const tipsGrid = document.getElementById('song-tips-grid');
+    tipsGrid.innerHTML = song.tips.map(t => `
+        <div class="tip-item">
+            <span class="tip-icon">${t.icon}</span>
+            <div class="tip-text"><strong>${t.title}</strong>${t.desc}</div>
+        </div>
+    `).join('');
+
+    // Lyrics table
+    renderLyricsTable(song);
+
+    // Vocab
+    renderSongVocab(song);
+
+    // Hide quiz
+    document.getElementById('song-quiz-section').classList.add('hidden');
+    document.getElementById('song-quiz-feedback').classList.add('hidden');
+
+    // Reset column toggles
+    lyricsColState = { en: true, ipa: true, vi: true };
+    ['en','ipa','vi'].forEach(col => {
+        const btn = document.getElementById('toggle-' + col);
+        if (btn) btn.classList.add('active');
+    });
+    const tbl = document.getElementById('lyrics-table');
+    if (tbl) tbl.className = 'lyrics-table';
+
+    // Scroll to top of detail
+    detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ---- RENDER LYRICS TABLE ----
+function renderLyricsTable(song) {
+    const tbody = document.getElementById('lyrics-tbody');
+    tbody.innerHTML = song.lyrics.map(row => {
+        if (row.section) {
+            return `<tr class="lyrics-section-label"><td colspan="3">${row.section}</td></tr>`;
+        }
+        return `
+            <tr>
+                <td class="col-en">${row.en} <button class="speak-btn" onclick="speakText('${row.en.replace(/'/g,"\\'")}','en')" title="Nghe phát âm">🔊</button></td>
+                <td class="col-ipa">${row.ipa}</td>
+                <td class="col-vi">${row.vi}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// ---- RENDER VOCAB ----
+function renderSongVocab(song) {
+    const grid = document.getElementById('song-vocab-grid');
+    grid.innerHTML = song.vocab.map((v, i) => `
+        <div class="song-vocab-item">
+            <div class="song-vocab-word">
+                <span class="song-vocab-en">${v.word}</span>
+                <div class="song-vocab-actions">
+                    <button class="song-vocab-speak" onclick="speakText('${v.word}','en')" title="Nghe phát âm">🔊</button>
+                    <button class="song-vocab-save" onclick="saveSongVocabToNotebook('${song.id}', ${i})" title="Lưu vào sổ tay">⭐</button>
+                </div>
+            </div>
+            <div class="song-vocab-ipa">${v.ipa}</div>
+            <div class="song-vocab-vi">${v.vi}</div>
+            <div class="song-vocab-example">${v.example}</div>
+        </div>
+    `).join('');
+}
+
+// ---- SHOW LIBRARY ----
+function showSongLibrary() {
+    document.getElementById('song-list').closest('.song-library').classList.remove('hidden');
+    document.getElementById('song-detail-view').classList.add('hidden');
+    currentSongId = null;
+}
+
+// ---- TTS: SPEAK TEXT ----
+function speakText(text, lang) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = lang === 'en' ? 'en-US' : 'vi-VN';
+    utt.rate = 0.85;
+    window.speechSynthesis.speak(utt);
+}
+
+// ---- TOGGLE LYRICS COLUMNS ----
+function toggleLyricsCol(col) {
+    lyricsColState[col] = !lyricsColState[col];
+    const btn = document.getElementById('toggle-' + col);
+    const tbl = document.getElementById('lyrics-table');
+    if (lyricsColState[col]) {
+        btn.classList.add('active');
+        tbl.classList.remove('hide-' + col);
+    } else {
+        btn.classList.remove('active');
+        tbl.classList.add('hide-' + col);
+    }
+}
+
+// ---- SONG QUIZ ----
+function startSongQuiz() {
+    const song = songsData.find(s => s.id === currentSongId);
+    if (!song) return;
+    // Pick lines that have text (not section headers)
+    songQuizLines = song.lyrics.filter(r => r.en).sort(() => Math.random() - 0.5).slice(0, 5);
+    currentSongQuizIndex = 0;
+
+    const section = document.getElementById('song-quiz-section');
+    section.classList.remove('hidden');
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    renderSongQuizQuestion();
+}
+
+function renderSongQuizQuestion() {
+    const line = songQuizLines[currentSongQuizIndex];
+    if (!line) return;
+
+    // Pick a random word to blank out (not short words)
+    const words = line.en.split(' ');
+    const candidates = words.map((w, i) => ({ w, i })).filter(x => x.w.replace(/[^a-zA-Z]/g,'').length >= 4);
+    const pick = candidates[Math.floor(Math.random() * candidates.length)] || { w: words[0], i: 0 };
+    const blankedWord = pick.w.replace(/[^a-zA-Z]/g,'');
+
+    const sentenceHtml = words.map((w, i) => {
+        if (i === pick.i) {
+            return `<input class="song-quiz-input" id="song-quiz-inp" type="text" placeholder="...?" autocomplete="off" data-answer="${blankedWord.toLowerCase()}">`;
+        }
+        return w;
+    }).join(' ');
+
+    document.getElementById('song-quiz-content').innerHTML = `
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;">Câu ${currentSongQuizIndex + 1} / ${songQuizLines.length}</div>
+        <div class="song-quiz-sentence">${sentenceHtml}</div>
+        <div style="font-size:0.82rem;color:var(--text-secondary);">🇻🇳 <em>${line.vi}</em></div>
+    `;
+    document.getElementById('song-quiz-feedback').classList.add('hidden');
+    document.getElementById('song-quiz-feedback').className = 'quiz-feedback hidden';
+    setTimeout(() => {
+        const inp = document.getElementById('song-quiz-inp');
+        if (inp) inp.focus();
+    }, 100);
+}
+
+function checkSongQuiz() {
+    const inp = document.getElementById('song-quiz-inp');
+    if (!inp) return;
+    const answer = inp.dataset.answer;
+    const userVal = inp.value.trim().toLowerCase().replace(/[^a-z]/g,'');
+    const fb = document.getElementById('song-quiz-feedback');
+
+    if (userVal === answer.toLowerCase()) {
+        inp.classList.add('correct');
+        fb.className = 'quiz-feedback correct-fb';
+        fb.textContent = `✅ Chính xác! Từ cần điền là "${answer}".`;
+    } else {
+        inp.classList.add('wrong');
+        fb.className = 'quiz-feedback wrong-fb';
+        fb.textContent = `❌ Chưa đúng. Đáp án: "${answer}". Bạn điền: "${inp.value.trim()}"`;
+    }
+    fb.classList.remove('hidden');
+}
+
+function nextSongQuiz() {
+    currentSongQuizIndex++;
+    if (currentSongQuizIndex >= songQuizLines.length) {
+        document.getElementById('song-quiz-content').innerHTML = `
+            <div style="text-align:center;padding:2rem 0;">
+                <div style="font-size:2.5rem;margin-bottom:0.75rem;">🎉</div>
+                <div style="font-size:1.1rem;font-weight:700;color:var(--text-primary);">Hoàn thành bài kiểm tra!</div>
+                <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.5rem;">Bạn đã luyện ${songQuizLines.length} câu. Làm lại để ghi nhớ sâu hơn!</div>
+            </div>`;
+        document.getElementById('song-quiz-feedback').classList.add('hidden');
+        return;
+    }
+    renderSongQuizQuestion();
+}
+
+// ---- SAVE VOCAB TO NOTEBOOK ----
+function saveSongVocabToNotebook(songId, vocabIndex) {
+    const song = songsData.find(s => s.id === songId);
+    if (!song) return;
+    const v = song.vocab[vocabIndex];
+    if (!v) return;
+
+    // Use existing savedVocabList from app
+    if (!Array.isArray(savedVocabList)) savedVocabList = [];
+    const alreadySaved = savedVocabList.some(item => item.word && item.word.toLowerCase() === v.word.toLowerCase());
+    if (alreadySaved) {
+        showToast(`"${v.word}" đã có trong sổ tay!`, 'info');
+        return;
+    }
+    savedVocabList.push({
+        word: v.word,
+        phonetic: v.ipa,
+        translation: v.vi,
+        addedAt: new Date().toISOString(),
+        source: `Bài hát: ${song.title}`
+    });
+    try { localStorage.setItem('vocabList', JSON.stringify(savedVocabList)); } catch(e) {}
+    showToast(`⭐ Đã lưu "${v.word}" vào sổ tay!`, 'success');
+}
+
+// ---- TOAST (fallback if not defined) ----
+if (typeof showToast === 'undefined') {
+    window.showToast = function(msg, type) {
+        const el = document.createElement('div');
+        el.style.cssText = `position:fixed;bottom:2rem;right:2rem;z-index:9999;padding:0.75rem 1.25rem;border-radius:12px;font-size:0.9rem;font-weight:600;color:#fff;background:${type==='success'?'#10b981':type==='info'?'#6366f1':'#f43f5e'};box-shadow:0 8px 24px rgba(0,0,0,0.3);animation:fadeInUp 0.3s ease;`;
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 3000);
+    };
+}
+
+// Init song library on first load if on songs tab
+document.addEventListener('DOMContentLoaded', () => {
+    if (currentTab === 'songs') renderSongLibrary();
+});
+
 
 
